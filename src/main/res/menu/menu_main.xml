@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:orderInCategory="1"
+        android:id="@+id/title_bar_left_menu_item"
+        android:layout_gravity="start"
+        android:icon="@drawable/title_bar_menu_on"
+        android:layout_marginStart="5dp"
+        app:showAsAction="ifRoom"
+        android:title="Back">
+        <!--<ImageView-->
+        <!--android:id="@+id/title_bar_left_menu"-->
+        <!--android:layout_gravity="left|center_vertical"-->
+        <!--android:background="@drawable/title_bar_menu_on"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--android:layout_marginStart="5dp"/>-->
+    </item>
+    <item
+        android:orderInCategory="4"
+        android:id="@+id/miCompose"
+        android:icon="@drawable/ic_group"
+        app:showAsAction="ifRoom"
+        android:title="Compose">
+    </item>
+    <item
+        android:orderInCategory="3"
+        android:id="@+id/miProfile"
+        android:icon="@drawable/paralog"
+        app:showAsAction="ifRoom|withText"
+        android:title="Profile">
+    </item>
+    <item
+        android:orderInCategory="2"
+        android:id="@+id/milogin"
+        android:icon="@drawable/flytrax_logo_alt_2_firehead"
+        app:showAsAction="ifRoom"
+        android:title="login status"
+        android:tooltipText="login status">
+    </item>
+    <item android:id="@+id/action_search"
+        android:orderInCategory="5"
+        android:title="Search"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />    //"android.support.v7.widget.SearchView" />
+</menu>

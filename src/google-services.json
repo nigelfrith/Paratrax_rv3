@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "554204782237",
+    "firebase_url": "https://paratrax.firebaseio.com",
+    "project_id": "paratrax",
+    "storage_bucket": "paratrax.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554204782237:android:af8e7d18ef258332",
+        "android_client_info": {
+          "package_name": "com.altitude.paratrax"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554204782237-vu10hi3d1se24umpp0k14gi0gd9qi1qo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.altitude.paratrax",
+            "certificate_hash": "fb6613fc8be13558a21da8b7b17ba4e60b998a3f"
+          }
+        },
+        {
+          "client_id": "554204782237-dhq3cesu7bodj3as5fpm0sfb7jluftbt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFMZ6OhUkWWZJSYlHUOczREPg12sNSGCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554204782237-dhq3cesu7bodj3as5fpm0sfb7jluftbt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

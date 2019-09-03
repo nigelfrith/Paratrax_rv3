@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FDFDFE"
+    tools:context=".Fragments.Quick_Log_Fragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Fragments.Quick_Log_Fragment"> <!-- usually the name of the Java file associated with this activity -->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <View
+                android:id="@+id/left_divider2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView5"
+                app:layout_constraintEnd_toStartOf="@+id/textView5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:paddingRight="2dp"
+                android:paddingLeft="2dp"
+                android:background="@drawable/rectangle_back_extended"
+                android:text="Pax"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/right_divider2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView5"
+                app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+            <EditText
+                android:id="@+id/txt_fname"
+                android:inputType="textPersonName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:completionHint="First Name"
+                android:hapticFeedbackEnabled="true"
+                android:hint="First Name"
+                android:maxLines="1"
+                android:nextFocusDown="@+id/txt_lname"
+                android:nextFocusForward="@+id/txt_lname"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5"
+                tools:hapticFeedbackEnabled="true" />
+
+            <EditText
+                android:id="@+id/txt_lname"
+                android:inputType="textPersonName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:completionHint="Last Name"
+                android:hint="Last Name"
+                android:nextFocusDown="@+id/txt_email"
+                android:nextFocusForward="@+id/txt_email"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_fname" />
+
+            <EditText
+                android:id="@+id/txt_email"
+                android:inputType="textEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:hint="Email"
+                android:maxLines="1"
+                android:nextFocusDown="@id/txt_phone"
+                android:nextFocusForward="@+id/txt_phone"
+                app:layout_constraintStart_toStartOf="@+id/txt_fname"
+                app:layout_constraintTop_toBottomOf="@+id/txt_lname" />
+
+            <EditText
+                android:id="@+id/txt_phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:hint="Phone"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:maxLength="20"
+                android:nextFocusDown="@id/txt_weight"
+                android:nextFocusForward="@+id/txt_weight"
+                app:layout_constraintStart_toStartOf="@+id/txt_lname"
+                app:layout_constraintTop_toBottomOf="@+id/txt_email" />
+
+            <EditText
+                android:id="@+id/txt_weight"
+                android:layout_width="74dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:hint="Weight"
+                android:inputType="number"
+                android:maxLines="1"
+                android:nextFocusDown="@id/txt_pax_age"
+                android:nextFocusForward="@+id/txt_pax_age"
+                app:layout_constraintStart_toStartOf="@+id/txt_phone"
+                app:layout_constraintTop_toBottomOf="@+id/txt_phone" />
+
+            <EditText
+                android:id="@+id/txt_pax_age"
+                android:layout_width="74dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:hint="Age"
+                android:inputType="number"
+                android:maxLines="1"
+                android:nextFocusDown="@id/txt_additional"
+                android:nextFocusForward="@+id/txt_additional"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_weight"
+                app:layout_constraintStart_toEndOf="@+id/txt_weight"
+                app:layout_constraintTop_toTopOf="@+id/txt_weight" />
+
+            <CheckBox
+                android:id="@+id/chk_medical"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rectangle_back"
+                android:focusable="auto"
+                android:hint="Medical condition"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_pax_age"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/txt_pax_age"
+                app:layout_constraintTop_toTopOf="@+id/txt_pax_age" />
+
+
+            <View
+                android:id="@+id/left_divider3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                app:layout_constraintEnd_toStartOf="@+id/textView6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView6" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="flight info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_pax_age" />
+
+            <View
+                android:id="@+id/right_divider3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView6"
+                app:layout_constraintTop_toTopOf="@+id/textView6" />
+
+            <Switch
+                android:id="@+id/chk_transport"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:checked="true"
+                android:focusable="auto"
+                android:hapticFeedbackEnabled="true"
+                android:background="@drawable/rectangle_back"
+                android:text="transp inclu"
+                app:layout_constraintEnd_toEndOf="@+id/chk_sherpa"
+                app:layout_constraintStart_toStartOf="@+id/chk_sherpa"
+                app:layout_constraintTop_toBottomOf="@+id/chk_sherpa" />
+
+            <Switch
+                android:id="@+id/chk_pics"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rectangle_back"
+                android:checked="true"
+                android:focusable="auto"
+                android:hapticFeedbackEnabled="true"
+                android:nextFocusForward="@+id/txt_additional"
+                android:soundEffectsEnabled="true"
+                android:switchMinWidth="60dp"
+                android:text="pictures"
+                app:layout_constraintStart_toStartOf="@+id/txt_weight"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <Switch
+                android:id="@+id/chk_sherpa"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rectangle_back"
+                android:checked="true"
+                android:clickable="true"
+                android:enabled="true"
+                android:hapticFeedbackEnabled="true"
+                android:switchMinWidth="60dp"
+                android:text="sherpa"
+                app:layout_constraintEnd_toEndOf="@+id/chk_pics"
+                app:layout_constraintTop_toBottomOf="@+id/chk_pics" />
+
+            <Switch
+                android:id="@+id/chk_packing"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rectangle_back"
+                android:text="pack inclu"
+                app:layout_constraintEnd_toEndOf="@+id/chk_transport"
+                app:layout_constraintStart_toStartOf="@+id/chk_transport"
+                app:layout_constraintTop_toBottomOf="@+id/chk_transport" />
+
+            <Switch
+                android:id="@+id/chk_sd_given"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rectangle_back"
+                android:text="sd given"
+                app:layout_constraintEnd_toEndOf="@+id/chk_packing"
+                app:layout_constraintStart_toStartOf="@+id/chk_transport"
+                app:layout_constraintTop_toBottomOf="@+id/chk_packing" />
+
+            <View
+                android:id="@+id/left_divider4"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                app:layout_constraintEnd_toStartOf="@+id/textView4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:text="Flight Info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chk_packing" />
+
+            <View
+                android:id="@+id/right_divider4"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+            <Spinner
+                android:id="@+id/spinner_companys_array"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="5dp"
+                android:entries="@array/companys_array"
+                android:prompt="@string/companys_prompt"
+                app:layout_constraintStart_toStartOf="@+id/chk_packing"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+            <Spinner
+                android:id="@+id/spinner_locations_array"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:entries="@array/locations_array"
+                android:prompt="@string/locations_prompt"
+                app:layout_constraintEnd_toEndOf="@+id/spinner_companys_array"
+                app:layout_constraintStart_toStartOf="@+id/spinner_companys_array"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_companys_array" />
+
+
+            <EditText
+                android:id="@+id/txt_additional"
+                android:layout_width="197dp"
+                android:layout_height="174dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/rectangle_back"
+                android:backgroundTintMode="screen"
+                android:hint=" Notes"
+                android:inputType="textMultiLine"
+                android:scrollbarFadeDuration="5"
+                android:scrollbarSize="10dp"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:selectAllOnFocus="false"
+                android:visibility="visible"
+                android:nextFocusDown="@+id/btn_Quick_Log_Post"
+                android:nextFocusForward="@+id/btn_Quick_Log_Post"
+                app:layout_constraintBottom_toTopOf="@+id/textView4"
+                app:layout_constraintStart_toEndOf="@+id/chk_transport"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                app:layout_constraintVertical_bias="0.633" />
+
+            <Button
+                android:id="@+id/btn_Quick_Log_Post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:text="Submit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.549"
+                app:layout_constraintStart_toEndOf="@+id/spinner_locations_array"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>
