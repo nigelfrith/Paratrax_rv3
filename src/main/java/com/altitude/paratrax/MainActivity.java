@@ -1,4 +1,5 @@
 package com.altitude.paratrax;
+
 import androidx.fragment.app.FragmentTransaction;
 
 import androidx.appcompat.widget.SearchView;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.altitude.paratrax.Firebase.Auth.EmailPasswordActivity;
 import com.altitude.paratrax.Fragments.Full_Logbook_Fragment;
@@ -28,21 +30,21 @@ import com.altitude.paratrax.ResideMenu.ResideMenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Stack;
+
 //import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {       //AppCompatActivity
 
     private FirebaseAuth mAuth;
-
+    public Stack<String> mFragmentStack;
     TextView txt_logon;
     Button btn_login;
 
     private String mUserId;
     private boolean mSignedIn = false;
 
-
     private ResideMenu resideMenu;
-
     private ResideMenuItem itemHome;
     private ResideMenuItem itemProfile;
     private ResideMenuItem itemCalendar;
@@ -52,8 +54,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ResideMenuItem itemLogbookFull;
     //my new additions here
     private ResideMenuItem itemLogbook;
-
     private MainActivity mContext;
+
     /////////////////////////title_bar_Ootions//////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,6 +87,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 searchView.clearFocus();
                 return true;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -93,6 +96,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         return super.onCreateOptionsMenu(menu);
     }
+
     /////////////////handling action bar click
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -115,10 +119,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 return super.onOptionsItemSelected(item);
         }
     }
-    public void composeMessage(){
+
+    public void composeMessage() {
 
     }
-    public  void showProfileView(){}
+
+    public void showProfileView() {
+    }
 
     ///////////////////////////////
     ////////////////////////Called when the activity is first created.
@@ -127,7 +134,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null)
+        if (currentUser != null)
             mAuth.updateCurrentUser(currentUser);
     }
 
@@ -135,10 +142,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setVisible(false);
+        setVisible(false);//TODO: set landing page fragment (maybe just transparent arrows for swipe) so backstack will work on top level
         mContext = this;
         hideSystemUI();//full screen mode initaialized //TODO: needs to be put in base to persist
-
+        mFragmentStack = new Stack<String>();
         //FireBase auth Instance
         mAuth = FirebaseAuth.getInstance();
         mSignedIn = mAuth.getCurrentUser() != null;
@@ -149,7 +156,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         ///Reside menu
         setUpMenu();
-        if( savedInstanceState == null )
+        if (savedInstanceState == null)
             resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
 
 
@@ -197,6 +204,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         resideMenu.addMenuItem(itemLogbook, ResideMenu.DIRECTION_LEFT);
 
         resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
+
     }
 
 
@@ -207,46 +215,74 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             changeFragment(new Quick_Log_Fragment());
 //            Intent intent = new Intent(this, Quick_Log.class);
 //            startActivity(intent);
-        }else if (view == itemProfile){
+        } else if (view == itemProfile) {
             changeFragment(new Profile_Fragment());
 //        }else if (view == itemMessage){
 //            changeFragment(new MessageFragment());
 //        }else if (view == itemFriends){
 //            changeFragment(new FriendsFragment());
-        }else if (view == itemLogbookFull){
+        } else if (view == itemLogbookFull) {
             changeFragment(new Full_Logbook_Fragment());
-        }else if (view == itemHome){
+        } else if (view == itemHome) {
             changeFragment(new Home_Fragment());
 
         }
 
-         resideMenu.closeMenu();
+        resideMenu.closeMenu();
     }
 
     private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
         @Override
         public void openMenu() {
-          //  Toast.makeText(mContext, "Menu is opened!", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(mContext, "Menu is opened!", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void closeMenu() {
-          //  Toast.makeText(mContext, "Menu is closed!", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(mContext, "Menu is closed!", Toast.LENGTH_SHORT).show();
         }
     };
-
-
-
-    private void changeFragment(Fragment targetFragment){
-        resideMenu.clearIgnoredViewList();
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_fragment, targetFragment, "fragment")
-                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                 .commit();
+    @Override
+    public void onBackPressed(){
+        // from the stack we can get the latest fragment
+        androidx.fragment.app.Fragment fragment = getSupportFragmentManager().findFragmentByTag(mFragmentStack.peek());
+        // If its an instance of Fragment1 I don't want to finish my activity, so I launch a Toast instead.
+        if (fragment instanceof Home_Fragment){
+            Toast.makeText(getApplicationContext(), "Swipe right to view menu", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            // Remove the framg
+            removeFragment();
+            super.onBackPressed();
+        }
+    }
+    private void removeFragment(){
+        // remove the current fragment from the stack.
+        mFragmentStack.pop();
+        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        // get fragment that is to be shown (in our case fragment1).
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(mFragmentStack.peek());
+        // This time I set an animation with no fade in, so the user doesn't wait for the animation in back press
+        transaction.setCustomAnimations(FragmentTransaction.TRANSIT_NONE, FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        // We must use the show() method.
+        transaction.show(fragment);
+        transaction.commit();
     }
 
+    private void changeFragment(Fragment targetFragment) {
+
+        resideMenu.clearIgnoredViewList();
+        Fragment fragment = new Home_Fragment();
+        String tag = fragment.toString();
+        mFragmentStack.add(tag);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_fragment, targetFragment, tag)
+                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .addToBackStack(tag)
+                .commit();
+
+    }
 
 
     // This method hides the system bars and resize the content
@@ -259,8 +295,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE
         );
     }
-
-
 
 
 }

@@ -5,10 +5,10 @@
         android:orderInCategory="1"
         android:id="@+id/title_bar_left_menu_item"
         android:layout_gravity="start"
-        android:icon="@drawable/title_bar_menu_on"
         android:layout_marginStart="5dp"
         app:showAsAction="ifRoom"
         android:title="Back">
+        <!--        android:icon="@drawable/title_bar_menu_on"-->
         <!--<ImageView-->
         <!--android:id="@+id/title_bar_left_menu"-->
         <!--android:layout_gravity="left|center_vertical"-->
@@ -43,5 +43,5 @@
         android:title="Search"
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="always|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />    //"android.support.v7.widget.SearchView" />
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

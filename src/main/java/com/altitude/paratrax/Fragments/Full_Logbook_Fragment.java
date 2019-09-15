@@ -3,6 +3,8 @@ package com.altitude.paratrax.Fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -47,15 +49,6 @@ public class Full_Logbook_Fragment extends Fragment {
     private FirebaseRecyclerAdapter adapter;
 
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
 
     public Full_Logbook_Fragment() {
         // Required empty public constructor
@@ -73,6 +66,15 @@ public class Full_Logbook_Fragment extends Fragment {
         adapter.stopListening();
     }
 
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -90,6 +92,9 @@ public class Full_Logbook_Fragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    public static Full_Logbook_Fragment newInstance() {
+        return new Full_Logbook_Fragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,11 +109,10 @@ public class Full_Logbook_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_logbook_full, container, false);
         mMainView = inflater.inflate(R.layout.fragment_logbook_full, container, false);
 
-        progressBar = mMainView.findViewById(R.id.progressBar);
-
+       // progressBar = mMainView.findViewById(R.id.progressBar);
+setupToolbar(mMainView);
 
         button = (Button)mMainView.findViewById(R.id.btn);
         button.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +120,8 @@ public class Full_Logbook_Fragment extends Fragment {
             public void onClick(View view) {
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.main_fragment, new Quick_Log_Fragment());
+                fragmentTransaction.replace(R.id.main_fragment, new Quick_Log_Fragment(), newInstance().toString());
+                fragmentTransaction.addToBackStack(newInstance().toString());
                 fragmentTransaction.commit();
             }
         });
@@ -162,7 +167,7 @@ public class Full_Logbook_Fragment extends Fragment {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                progressBar.setVisibility(View.GONE);
+            //    progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -172,6 +177,13 @@ public class Full_Logbook_Fragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
         return mMainView;
+    }
+
+    public void setupToolbar(View v) {
+        Toolbar toolbar = v.findViewById(R.id.app_bar);
+        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+        if(appCompatActivity != null)
+            appCompatActivity.setSupportActionBar(toolbar);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

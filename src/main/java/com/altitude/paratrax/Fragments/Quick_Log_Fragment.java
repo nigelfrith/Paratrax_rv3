@@ -12,10 +12,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,11 +40,12 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Quick_Log_Fragment extends Fragment  {
+public class Quick_Log_Fragment extends Fragment {
 
+    View view;
     FragmentManager fm;
 
-   // private ResideMenu resideMenu;
+    // private ResideMenu resideMenu;
 
     private FirebaseAuth mAuth;
     private String mUserId;
@@ -76,6 +79,33 @@ public class Quick_Log_Fragment extends Fragment  {
         // Required empty public constructor
     }
 
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment Full_Logbook_Fragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static Quick_Log_Fragment newInstance(String param1, String param2) {
+        Quick_Log_Fragment ql_fragment = new Quick_Log_Fragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        ql_fragment.setArguments(args);
+        return ql_fragment;
+    }
+
     private Quick_Log_ViewModel mViewModel;
 
     public static Quick_Log_Fragment newInstance() {
@@ -86,9 +116,19 @@ public class Quick_Log_Fragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_quick__log, container, false);
+          view = inflater.inflate(R.layout.fragment_quick__log, container, false);
+        setupToolbar(view);
+        return view;
     }
 
+    public void setupToolbar(View v) {
+        Toolbar toolbar = v.findViewById(R.id.app_bar);
+        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+        if(appCompatActivity != null)
+            appCompatActivity.setSupportActionBar(toolbar);
+
+
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -132,14 +172,14 @@ public class Quick_Log_Fragment extends Fragment  {
         btn_Quick_Log_Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Quick_Log_PostComment();
+                Quick_Log_Post_Entry();
             }
         });
 
     }
 
 
-    private void Quick_Log_PostComment() {
+    private void Quick_Log_Post_Entry() {
 
 
         //data fields to upload to db
@@ -165,7 +205,7 @@ public class Quick_Log_Fragment extends Fragment  {
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
 
 
-                   ////clear required fields
+                    ////clear required fields
 //                    txt_fname.setText("");
 //                    txt_lname.setText("");
 //                    txt_email.setText("");
@@ -178,12 +218,12 @@ public class Quick_Log_Fragment extends Fragment  {
                     Toast.makeText(getActivity(), "Quick log entry added.", Toast.LENGTH_SHORT).show();
 
 
-                   // //Restart the fragmant
+                    // //Restart the fragmant
                     ReplaceCurrentFragment();
 
 
                     ////Change to logbook fragment onComplete
-                   // changeFragment(new Full_Logbook_Fragment());
+                    // changeFragment(new Full_Logbook_Fragment());
 
 
                 }
@@ -214,7 +254,6 @@ public class Quick_Log_Fragment extends Fragment  {
     }
 
     public void ReplaceCurrentFragment() {
-
         Fragment fragment = new Full_Logbook_Fragment();
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -222,18 +261,10 @@ public class Quick_Log_Fragment extends Fragment  {
         if (Build.VERSION.SDK_INT >= 26) {
             ft.setReorderingAllowed(false);
         }
-        ft.replace(R.id.main_fragment, fragment);
+        ft.replace(R.id.main_fragment, fragment, newInstance().toString());
+        ft.addToBackStack(newInstance().toString());//TODO: backstack not working
         ft.commit();
     }
-//    public void changeFragment(Fragment targetFragment){
-//        resideMenu.clearIgnoredViewList();
-//
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.main_fragment, targetFragment, "fragment")
-//                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                .commit();
-//    }
 
 
 }
