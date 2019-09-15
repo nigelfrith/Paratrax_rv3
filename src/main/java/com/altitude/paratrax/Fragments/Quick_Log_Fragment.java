@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
@@ -27,7 +27,6 @@ import com.altitude.paratrax.Classes.Quick_Log;
 import com.altitude.paratrax.Quick_Log_RecyclerViewHolder;
 import com.altitude.paratrax.Models.Quick_Log_ViewModel;
 import com.altitude.paratrax.R;
-import com.altitude.paratrax.ResideMenu.ResideMenu;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.snackbar.Snackbar;
@@ -60,8 +59,8 @@ public class Quick_Log_Fragment extends Fragment {
     ArrayAdapter<CharSequence> adapter;
 
     private EditText txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional;
-    private CheckBox chk_medical, chk_disability; //, chk_pics, chk_sherpa, chk_transport, chk_sd_given;
-    private Switch chk_pics, chk_sherpa, chk_transport, chk_sd_given;
+    private CheckBox chk_medical, chk_disability, chk_baggage, chk_pics, chk_sherpa, chk_transport, chk_sd_given, chk_packing;
+    //  private Switch chk_pics, chk_sherpa, chk_transport, chk_sd_given;
     private Button btn_Quick_Log_Post;
     private Spinner comp_spinner, loc_spinner;
 
@@ -118,7 +117,7 @@ public class Quick_Log_Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-          view = inflater.inflate(R.layout.fragment_quick__log, container, false);
+        view = inflater.inflate(R.layout.fragment_quick__log, container, false);
         setupToolbar(view);
         return view;
     }
@@ -126,17 +125,18 @@ public class Quick_Log_Fragment extends Fragment {
     public void setupToolbar(View v) {
         Toolbar toolbar = v.findViewById(R.id.app_bar);
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-        if(appCompatActivity != null)
+        if (appCompatActivity != null)
             appCompatActivity.setSupportActionBar(toolbar);
 
 
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-      //  comp_spinner = (Spinner) view.findViewById(R.id.mv_spinner_company);
-      //  loc_spinner = (Spinner) view.findViewById(R.id.spinner_locations_array);
+        //  comp_spinner = (Spinner) view.findViewById(R.id.mv_spinner_company);
+        //  loc_spinner = (Spinner) view.findViewById(R.id.spinner_locations_array);
         txt_fname = (EditText) view.findViewById(R.id.txt_fname);
         txt_lname = (EditText) view.findViewById(R.id.txt_lname);
         txt_weight = (EditText) view.findViewById(R.id.txt_weight);
@@ -146,9 +146,12 @@ public class Quick_Log_Fragment extends Fragment {
         txt_additional = (EditText) view.findViewById(R.id.txt_additional);
         chk_medical = (CheckBox) view.findViewById(R.id.chk_medical);
         chk_disability = (CheckBox) view.findViewById(R.id.chk_disability);
-        chk_pics = (Switch) view.findViewById(R.id.chk_pics);
-        chk_sherpa = (Switch) view.findViewById(R.id.chk_sherpa);
-        chk_transport = (Switch) view.findViewById(R.id.chk_transport);
+        chk_baggage = (CheckBox) view.findViewById(R.id.chk_baggage);
+        chk_pics = (CheckBox) view.findViewById(R.id.chk_pics);
+        chk_sherpa = (CheckBox) view.findViewById(R.id.chk_sherpa);
+        chk_transport = (CheckBox) view.findViewById(R.id.chk_transport);
+        chk_packing = (CheckBox) view.findViewById(R.id.chk_packing);
+        chk_sd_given = (CheckBox) view.findViewById(R.id.chk_sd_given);
         btn_Quick_Log_Post = (Button) view.findViewById(R.id.btn_Quick_Log_Post);
 
         //Firebase db change listener
@@ -180,19 +183,21 @@ public class Quick_Log_Fragment extends Fragment {
         });
 
         MaterialSpinner co_spinner = (MaterialSpinner) view.findViewById(R.id.mv_spinner_company);
-        co_spinner.setItems("Parapax", "CTTP", "Fly Cape Town", "CTTA", "Tandem Flight Company","Hi-5","Paraglide South Africa","SkyWings","TITS",
-                "Para Taxi","Icarus");
+        co_spinner.setItems("Parapax", "CTTP", "Fly Cape Town", "CTTA", "Tandem Flight Company", "Hi-5", "Paraglide South Africa", "SkyWings", "TITS",
+                "Para Taxi", "Icarus");
         co_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
-            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 Snackbar.make(view, " " + item + " selected", Snackbar.LENGTH_LONG).show();
             }
         });
         MaterialSpinner loc_spinner = (MaterialSpinner) view.findViewById(R.id.mv_spinner_location);
-        loc_spinner.setItems("Signal Hill", "Lions Head");
+        loc_spinner.setItems("Signal Hill", "Lions Head", "Other");
         loc_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
-            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 Snackbar.make(view, " " + item + " selected", Snackbar.LENGTH_LONG).show();
             }
         });
@@ -210,28 +215,38 @@ public class Quick_Log_Fragment extends Fragment {
         String age = txt_pax_age.getText().toString();
         String email = txt_email.getText().toString();
         String phone = txt_phone.getText().toString();
-
-        boolean hasMedical = chk_medical.isChecked();
-        boolean hasDisability = chk_disability.isAccessibilityFocused();
-
         String additional = txt_additional.getText().toString();
-
+        boolean hasMedical = chk_medical.isChecked();
+        boolean hasDisability = chk_disability.isChecked();
+        boolean hasTransport = chk_transport.isChecked();
+        boolean hasBaggage = chk_baggage.isChecked();
+        boolean hasPics = chk_pics.isChecked();
+        boolean hasSherpa = chk_sherpa.isChecked();
+        boolean hasPacking = chk_packing.isChecked();
+        boolean hasSDGiven = chk_sd_given.isChecked();
 
         Long tsLong = System.currentTimeMillis() / 1000;
         String dateTime = tsLong.toString();
 
-        Quick_Log Quick_Log = new Quick_Log(fname, lname, weight, age, email, phone, additional, hasMedical, hasDisability, mUserId, dateTime);
+        Quick_Log Quick_Log = new Quick_Log(fname, lname, weight, age, email, phone, additional,
+                hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
+                mUserId, dateTime);
 
-        //adding the below !=0 to prevent blank entries. needed for update and delete
-        //but not sure that shouldnt be done on layout logic..think that should be the case.
         if (fname.length() != 0 && lname.length() != 0) {
 
-            //databaseReference.push().setValue(Quick_Log); //create unique id for content
-            databaseReference.child("Quick_log").child(mUserId).push().setValue(Quick_Log, new DatabaseReference.CompletionListener() {
+            databaseReference.child("Quick_log").child(mUserId).push();
+//            String key = databaseReference.getKey();
+//            if (key == null) {
+//
+//                SetDb();
+//                key = mUserId;
+//                databaseReference.child("Quick_log").child(key).push();
+//
+//            }
+
+            databaseReference.child("Quick_log").child(mUserId).setValue(Quick_Log, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-
-
                     ////clear required fields
 //                    txt_fname.setText("");
 //                    txt_lname.setText("");
@@ -240,25 +255,17 @@ public class Quick_Log_Fragment extends Fragment {
 //                    txt_phone.setText("");
 //                    txt_pax_age.setText("");
 //                    txt_weight.setText("");
-
-
-                    Toast.makeText(getActivity(), "Quick log entry added.", Toast.LENGTH_SHORT).show();
-
-
+                    Toast.makeText(getActivity(), "Logbook entry added.", Toast.LENGTH_LONG).show();
                     // //Restart the fragmant
                     ReplaceCurrentFragment();
-
-
                     ////Change to logbook fragment onComplete
                     // changeFragment(new Full_Logbook_Fragment());
-
-
                 }
             });
+
         }
 
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
