@@ -154,6 +154,7 @@
      <string name="txt_phone">Phone number</string>
      <string name="txt_age">Age</string>
      <string name="txt_weight">Weight</string>
+    <string name="txt_additional">Additional</string>
 
 
 

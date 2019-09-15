@@ -30,12 +30,14 @@ import com.altitude.paratrax.R;
 import com.altitude.paratrax.ResideMenu.ResideMenu;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -133,8 +135,8 @@ public class Quick_Log_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        comp_spinner = (Spinner) view.findViewById(R.id.spinner_companys_array);
-        loc_spinner = (Spinner) view.findViewById(R.id.spinner_locations_array);
+      //  comp_spinner = (Spinner) view.findViewById(R.id.mv_spinner_company);
+      //  loc_spinner = (Spinner) view.findViewById(R.id.spinner_locations_array);
         txt_fname = (EditText) view.findViewById(R.id.txt_fname);
         txt_lname = (EditText) view.findViewById(R.id.txt_lname);
         txt_weight = (EditText) view.findViewById(R.id.txt_weight);
@@ -173,6 +175,24 @@ public class Quick_Log_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Quick_Log_Post_Entry();
+            }
+        });
+
+        MaterialSpinner co_spinner = (MaterialSpinner) view.findViewById(R.id.mv_spinner_company);
+        co_spinner.setItems("Parapax", "CTTP", "Fly Cape Town", "CTTA", "Tandem Flight Company","Hi-5","Paraglide South Africa","SkyWings","TITS",
+                "Para Taxi","Icarus");
+        co_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                Snackbar.make(view, " " + item + " selected", Snackbar.LENGTH_LONG).show();
+            }
+        });
+        MaterialSpinner loc_spinner = (MaterialSpinner) view.findViewById(R.id.mv_spinner_location);
+        loc_spinner.setItems("Signal Hill", "Lions Head");
+        loc_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                Snackbar.make(view, " " + item + " selected", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -237,9 +257,9 @@ public class Quick_Log_Fragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.companys_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        comp_spinner.setAdapter(adapter);
+//        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.companys_array, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        comp_spinner.setAdapter(adapter);
 
         mViewModel = ViewModelProviders.of(this).get(Quick_Log_ViewModel.class);
         // TODO: Use the ViewModel`1

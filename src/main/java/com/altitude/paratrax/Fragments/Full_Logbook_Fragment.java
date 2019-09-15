@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -111,8 +113,17 @@ public class Full_Logbook_Fragment extends Fragment {
         // Inflate the layout for this fragment
         mMainView = inflater.inflate(R.layout.fragment_logbook_full, container, false);
 
-       // progressBar = mMainView.findViewById(R.id.progressBar);
-setupToolbar(mMainView);
+        progressBar = mMainView.findViewById(R.id.progressBar);
+
+        final View l1 = mMainView.findViewById(R.id.l1);
+        final View l2 = mMainView.findViewById(R.id.l2);
+
+        final Animation fadeOut = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
+        final Animation fadeIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+
+
+
+        setupToolbar(mMainView);
 
         button = (Button)mMainView.findViewById(R.id.btn);
         button.setOnClickListener(new View.OnClickListener() {
@@ -167,8 +178,24 @@ setupToolbar(mMainView);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-            //    progressBar.setVisibility(View.GONE);
-            }
+                progressBar.setVisibility(View.GONE);
+                fadeOut.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        l1.setVisibility(View.GONE);
+                    }
+                });
+                l1.startAnimation(fadeOut);
+                l2.setVisibility(View.VISIBLE);
+                l2.startAnimation(fadeIn);}
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

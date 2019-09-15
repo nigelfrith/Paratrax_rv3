@@ -21,56 +21,58 @@
             app:title="@string/app_name"
             app:navigationIcon="@drawable/ic_menu_1"/>
     </com.google.android.material.appbar.AppBarLayout>
-    <LinearLayout
+
+    <EditText
+        android:id="@+id/et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="8dp" />
+
+    <EditText
+        android:id="@+id/etd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="8dp" />
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add" />
+
+    <LinearLayout
+        android:id="@+id/l1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"/>
+    </LinearLayout>
 
-        <EditText
-            android:id="@+id/et"
+
+    <LinearLayout
+        android:id="@+id/l2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_logbook_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="8dp" />
-
-        <EditText
-            android:id="@+id/etd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="8dp" />
-
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add" />
-
-
+            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginTop="56dp"-->
-<!--        android:background="@color/grey_100"-->
-<!--        android:elevation="8dp"-->
-<!--        android:paddingStart="@dimen/shr_product_grid_spacing"-->
-<!--        android:paddingEnd="@dimen/shr_product_grid_spacing"-->
-<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_logbook_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
-
-<!--    </androidx.core.widget.NestedScrollView>-->
 
 
 </LinearLayout>
-    <!--<ProgressBar-->
-    <!--android:id="@+id/progressBar"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_centerInParent="true"-->
-        <!--android:gravity="center"/>-->
+

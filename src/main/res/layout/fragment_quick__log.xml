@@ -34,15 +34,45 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/mv_spinner_company"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/mv_spinner_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/txt_fname"
-                android:nextFocusDown="@+id/txt_lname"
+                android:nextFocusDown="@+id/txt_lname2"
                 android:nextFocusForward="@+id/txt_lname">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_fname"
@@ -55,9 +85,11 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/txt_lname"
                 android:nextFocusDown="@+id/txt_email"
@@ -73,9 +105,11 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/txt_email"
                 android:nextFocusDown="@+id/txt_phone"
@@ -91,13 +125,16 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/txt_phone"
                 android:nextFocusDown="@+id/txt_pax_age"
                 android:nextFocusForward="@+id/txt_pax_age">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_phone"
                     android:layout_width="match_parent"
@@ -108,9 +145,11 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/txt_age"
                 android:nextFocusDown="@+id/txt_weight"
@@ -128,10 +167,12 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
                 android:hint="@string/txt_weight"
                 android:nextFocusDown="@+id/txt_weight"
                 android:nextFocusForward="@+id/txt_weight">
@@ -143,6 +184,28 @@
                     android:maxLength="3"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:hint="@string/txt_additional"
+                android:textAlignment="textStart">
+                <MultiAutoCompleteTextView
+                    android:id="@+id/txt_additional"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:lines="5"></MultiAutoCompleteTextView>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
 
 
 
@@ -185,44 +248,28 @@
 
 
 
-            <EditText
-                android:id="@+id/txt_additional"
-                android:layout_width="197dp"
-                android:layout_height="174dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/rectangle_back"
-                android:backgroundTintMode="screen"
-                android:hint=" Notes"
-                android:inputType="textMultiLine"
-                android:nextFocusDown="@+id/btn_Quick_Log_Post"
-                android:nextFocusForward="@+id/btn_Quick_Log_Post"
-                android:scrollbarFadeDuration="5"
-                android:scrollbarSize="10dp"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                android:selectAllOnFocus="false"
-                android:visibility="visible"
-          />
+<!--            <EditText-->
+<!--                android:id="@+id/txt_additional"-->
+<!--                android:layout_width="197dp"-->
+<!--                android:layout_height="174dp"-->
+<!--                android:layout_marginStart="32dp"-->
+<!--                android:layout_marginTop="2dp"-->
+<!--                android:layout_marginBottom="8dp"-->
+<!--                android:background="@drawable/rectangle_back"-->
+<!--                android:backgroundTintMode="screen"-->
+<!--                android:hint=" Notes"-->
+<!--                android:inputType="textMultiLine"-->
+<!--                android:nextFocusDown="@+id/btn_Quick_Log_Post"-->
+<!--                android:nextFocusForward="@+id/btn_Quick_Log_Post"-->
+<!--                android:scrollbarFadeDuration="5"-->
+<!--                android:scrollbarSize="10dp"-->
+<!--                android:scrollbarStyle="insideInset"-->
+<!--                android:scrollbars="vertical"-->
+<!--                android:selectAllOnFocus="false"-->
+<!--                android:visibility="visible"-->
+<!--          />-->
 
-            <Spinner
-                android:id="@+id/spinner_companys_array"
-                android:layout_width="150dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="5dp"
-                android:entries="@array/companys_array"
-                android:prompt="@string/companys_prompt"
-             />
 
-            <Spinner
-                android:id="@+id/spinner_locations_array"
-                android:layout_width="150dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="8dp"
-                android:entries="@array/locations_array"
-                android:prompt="@string/locations_prompt"
-           />
 
             <Switch
                 android:id="@+id/chk_transport"
