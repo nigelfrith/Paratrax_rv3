@@ -151,7 +151,7 @@
     <string name="txt_fname">First name</string>
      <string name="txt_lname">Last name</string>
      <string name="txt_email">Email</string>
-     <string name="txt_phone">Phone number</string>
+     <string name="txt_phone">Phone</string>
      <string name="txt_age">Age</string>
      <string name="txt_weight">Weight</string>
     <string name="txt_additional">Additional</string>

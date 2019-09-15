@@ -70,16 +70,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:hint="@string/txt_fname"
                 android:nextFocusDown="@+id/txt_lname2"
                 android:nextFocusForward="@+id/txt_lname">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_fname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:fadingEdge="horizontal|vertical"
+                    android:fontFamily="Roboto-LightItalic"
                     android:inputType="textPersonName"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:textSize="26dp"
+                    android:textStyle="bold|italic"
+                    android:typeface="monospace" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -90,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="1dp"
                 android:hint="@string/txt_lname"
                 android:nextFocusDown="@+id/txt_email"
                 android:nextFocusForward="@+id/txt_email">
@@ -98,8 +105,15 @@
                     android:id="@+id/txt_lname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:fadingEdge="horizontal|vertical"
+                    android:fontFamily="Roboto-LightItalic"
+                    android:textSize="26dp"
+                    android:textStyle="bold|italic"
+                    android:typeface="monospace"
                     android:inputType="textPersonName"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                   />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -110,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="1dp"
                 android:hint="@string/txt_email"
                 android:nextFocusDown="@+id/txt_phone"
                 android:nextFocusForward="@+id/txt_phone">
@@ -118,6 +132,12 @@
                     android:id="@+id/txt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:fadingEdge="horizontal|vertical"
+                    android:fontFamily="Roboto-LightItalic"
+                    android:textSize="26dp"
+                    android:textStyle="bold|italic"
+                    android:typeface="monospace"
                     android:inputType="textEmailAddress"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -130,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="1dp"
                 android:hint="@string/txt_phone"
                 android:nextFocusDown="@+id/txt_pax_age"
                 android:nextFocusForward="@+id/txt_pax_age">
@@ -139,51 +159,101 @@
                     android:id="@+id/txt_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:fadingEdge="horizontal|vertical"
+                    android:fontFamily="Roboto-LightItalic"
+                    android:textSize="26dp"
+                    android:textStyle="bold|italic"
+                    android:typeface="monospace"
                     android:inputType="number"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:hint="@string/txt_age"
+        android:nextFocusDown="@+id/txt_weight"
+        android:nextFocusForward="@+id/txt_weight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayout2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_pax_age"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="50dp"
+            android:fadingEdge="horizontal|vertical"
+            android:fontFamily="Roboto-LightItalic"
+            android:inputType="number"
+            android:maxLength="3"
+            android:maxLines="1"
+            android:textSize="26dp"
+            android:textStyle="bold|italic"
+            android:typeface="monospace" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:hint="@string/txt_weight"
+        android:nextFocusDown="@+id/txt_additional"
+        android:nextFocusForward="@+id/txt_additional"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_weight"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="50dp"
+            android:fadingEdge="horizontal|vertical"
+            android:fontFamily="Roboto-LightItalic"
+            android:inputType="number"
+            android:maxLength="3"
+            android:maxLines="1"
+            android:textSize="26dp"
+            android:textStyle="bold|italic"
+            android:typeface="monospace" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chk_medical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="10dp"
-                android:hint="@string/txt_age"
-                android:nextFocusDown="@+id/txt_weight"
-                android:nextFocusForward="@+id/txt_weight">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_pax_age"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="3"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:focusable="auto"
+                android:hint="Medical condition">
+            </com.google.android.material.checkbox.MaterialCheckBox>
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chk_disability"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:hint="@string/txt_weight"
-                android:nextFocusDown="@+id/txt_weight"
-                android:nextFocusForward="@+id/txt_weight">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_weight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="3"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:focusable="auto"
+                android:hint="Disability">
+            </com.google.android.material.checkbox.MaterialCheckBox>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -194,11 +264,13 @@
                 android:layout_marginEnd="5dp"
                 android:hint="@string/txt_additional"
                 android:textAlignment="textStart">
+
                 <MultiAutoCompleteTextView
                     android:id="@+id/txt_additional"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:lines="5"></MultiAutoCompleteTextView>
+                    android:lines="5"
+                    android:textSize="14sp"></MultiAutoCompleteTextView>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -206,8 +278,14 @@
 
 
 
-
-
+<!--            <CheckBox-->
+<!--                android:id="@+id/chk_medical"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:background="@drawable/rectangle_back"-->
+<!--                android:focusable="auto"-->
+<!--                android:hint="Medical condition"-->
+<!--                />-->
 
 
 
@@ -231,14 +309,6 @@
                 android:text="Submit"
            />
 
-            <CheckBox
-                android:id="@+id/chk_medical"
-                android:layout_width="150dp"
-                android:layout_height="30dp"
-                android:background="@drawable/rectangle_back"
-                android:focusable="auto"
-                android:hint="Medical condition"
-            />
 
 
 

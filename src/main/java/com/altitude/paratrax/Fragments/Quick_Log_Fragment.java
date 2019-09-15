@@ -60,7 +60,7 @@ public class Quick_Log_Fragment extends Fragment {
     ArrayAdapter<CharSequence> adapter;
 
     private EditText txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional;
-    private CheckBox chk_medical;  //, chk_pics, chk_sherpa, chk_transport, chk_sd_given;
+    private CheckBox chk_medical, chk_disability; //, chk_pics, chk_sherpa, chk_transport, chk_sd_given;
     private Switch chk_pics, chk_sherpa, chk_transport, chk_sd_given;
     private Button btn_Quick_Log_Post;
     private Spinner comp_spinner, loc_spinner;
@@ -145,6 +145,7 @@ public class Quick_Log_Fragment extends Fragment {
         txt_phone = (EditText) view.findViewById(R.id.txt_phone);
         txt_additional = (EditText) view.findViewById(R.id.txt_additional);
         chk_medical = (CheckBox) view.findViewById(R.id.chk_medical);
+        chk_disability = (CheckBox) view.findViewById(R.id.chk_disability);
         chk_pics = (Switch) view.findViewById(R.id.chk_pics);
         chk_sherpa = (Switch) view.findViewById(R.id.chk_sherpa);
         chk_transport = (Switch) view.findViewById(R.id.chk_transport);
@@ -209,18 +210,24 @@ public class Quick_Log_Fragment extends Fragment {
         String age = txt_pax_age.getText().toString();
         String email = txt_email.getText().toString();
         String phone = txt_phone.getText().toString();
+
+        boolean hasMedical = chk_medical.isChecked();
+        boolean hasDisability = chk_disability.isAccessibilityFocused();
+
         String additional = txt_additional.getText().toString();
+
+
         Long tsLong = System.currentTimeMillis() / 1000;
         String dateTime = tsLong.toString();
 
-        Quick_Log Quick_Log = new Quick_Log(fname, lname, weight, age, email, phone, additional, mUserId, dateTime);
+        Quick_Log Quick_Log = new Quick_Log(fname, lname, weight, age, email, phone, additional, hasMedical, hasDisability, mUserId, dateTime);
 
         //adding the below !=0 to prevent blank entries. needed for update and delete
         //but not sure that shouldnt be done on layout logic..think that should be the case.
         if (fname.length() != 0 && lname.length() != 0) {
 
             //databaseReference.push().setValue(Quick_Log); //create unique id for content
-            databaseReference.child("Quick_log").push().setValue(Quick_Log, new DatabaseReference.CompletionListener() {
+            databaseReference.child("Quick_log").child(mUserId).push().setValue(Quick_Log, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
 
