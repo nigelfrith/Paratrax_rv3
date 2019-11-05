@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@android:color/transparent"
-    app:cardElevation="0dp"
+    app:cardElevation="5dp"
     app:cardPreventCornerOverlap="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    card_view:cardUseCompatPadding="true"
+    card_view:cardCornerRadius="8dp"
+    android:layout_marginBottom="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:checkable="true"
+    >
             <LinearLayout
                 android:id="@+id/list_root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
+                android:background="@drawable/background_selector"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="vertical"
                 android:padding="16dp">
-
+<!--                android:background="?attr/selectableItemBackground"-->
 
                 <TextView
                     android:id="@+id/fname"

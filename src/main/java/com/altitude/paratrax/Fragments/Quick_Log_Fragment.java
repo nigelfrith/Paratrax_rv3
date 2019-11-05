@@ -1,7 +1,10 @@
 package com.altitude.paratrax.Fragments;
 
+//import com.altitude.paratrax.Firebase.FirebaseDatabaseHelper.DataStatus;
+
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,23 +15,23 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.altitude.paratrax.Classes.Quick_Log;
-import com.altitude.paratrax.Quick_Log_RecyclerViewHolder;
 import com.altitude.paratrax.Models.Quick_Log_ViewModel;
+import com.altitude.paratrax.Quick_Log_RecyclerViewHolder;
 import com.altitude.paratrax.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -38,10 +41,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.firebase.ui.auth.AuthUI.TAG;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Quick_Log_Fragment extends Fragment {
+
+    public interface DataStatus {
+        void DataIsLoaded(List<Quick_Log> logs, List<String> keys);
+
+        void DataIsInserted();
+
+        void DataIsUpdated();
+
+        void DataIsDeleted();
+    }
+
+    private DataStatus iiDataStatus;
+
+    public void setiDataStatus(DataStatus iiDataStatus) {
+        this.iiDataStatus = iiDataStatus;
+    }
 
     View view;
     FragmentManager fm;
@@ -58,7 +82,7 @@ public class Quick_Log_Fragment extends Fragment {
 
     ArrayAdapter<CharSequence> adapter;
 
-    private EditText txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional;
+    private EditText txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional, txt_last_flight;
     private CheckBox chk_medical, chk_disability, chk_baggage, chk_pics, chk_sherpa, chk_transport, chk_sd_given, chk_packing;
     //  private Switch chk_pics, chk_sherpa, chk_transport, chk_sd_given;
     private Button btn_Quick_Log_Post;
@@ -66,6 +90,7 @@ public class Quick_Log_Fragment extends Fragment {
 
 
     //Firebase
+    private List<Quick_Log> logs = new ArrayList<>();
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -119,6 +144,7 @@ public class Quick_Log_Fragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_quick__log, container, false);
         setupToolbar(view);
+       // this.iiDataStatus = iiDataStatus;
         return view;
     }
 
@@ -130,6 +156,7 @@ public class Quick_Log_Fragment extends Fragment {
 
 
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -153,26 +180,38 @@ public class Quick_Log_Fragment extends Fragment {
         chk_packing = (CheckBox) view.findViewById(R.id.chk_packing);
         chk_sd_given = (CheckBox) view.findViewById(R.id.chk_sd_given);
         btn_Quick_Log_Post = (Button) view.findViewById(R.id.btn_Quick_Log_Post);
+        txt_last_flight = (EditText) view.findViewById(R.id.txt_last_flight);
+
 
         //Firebase db change listener
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
+        databaseReference = firebaseDatabase.getReference("logbooks");//.child("Quick_log");//.child(mUserId);
         //reading from the db
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                logs.clear();
+                List<String> keys = new ArrayList<>();
+                for (DataSnapshot keyNode : dataSnapshot.getChildren()) {
+                    keys.add(keyNode.getKey());
+                    Quick_Log quick_log = keyNode.getValue(Quick_Log.class);
+                    logs.add(quick_log);
+                }
+                if (iiDataStatus != null) {
+                    iiDataStatus.DataIsLoaded(logs, keys);
+                }
+                //TODO:
                 //adapter.notifyDataSetChanged();
-                //displayComment();
-                //   //  //
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-//                String value = dataSnapshot.getValue(String.class);
-//                Log.d(TAG, "Value is: " + value);
+
+                // String value = dataSnapshot.getValue(String.class);
+                // Log.d(TAG, "Value is: " + value);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
+
         });
 
         btn_Quick_Log_Post.setOnClickListener(new View.OnClickListener() {
@@ -216,6 +255,9 @@ public class Quick_Log_Fragment extends Fragment {
         String email = txt_email.getText().toString();
         String phone = txt_phone.getText().toString();
         String additional = txt_additional.getText().toString();
+
+        String lastFlight = txt_last_flight.getText().toString();
+
         boolean hasMedical = chk_medical.isChecked();
         boolean hasDisability = chk_disability.isChecked();
         boolean hasTransport = chk_transport.isChecked();
@@ -225,46 +267,49 @@ public class Quick_Log_Fragment extends Fragment {
         boolean hasPacking = chk_packing.isChecked();
         boolean hasSDGiven = chk_sd_given.isChecked();
 
+
         Long tsLong = System.currentTimeMillis() / 1000;
         String dateTime = tsLong.toString();
 
-        Quick_Log Quick_Log = new Quick_Log(fname, lname, weight, age, email, phone, additional,
+        Quick_Log ql = new Quick_Log(fname, lname, weight, age, email, phone, lastFlight, additional,
                 hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
                 mUserId, dateTime);
 
         if (fname.length() != 0 && lname.length() != 0) {
 
-            databaseReference.child("Quick_log").child(mUserId).push();
-//            String key = databaseReference.getKey();
-//            if (key == null) {
-//
-//                SetDb();
-//                key = mUserId;
-//                databaseReference.child("Quick_log").child(key).push();
-//
-//            }
+            String key = databaseReference.child("Quick_log").push().getKey();
+            databaseReference.child("Quick_log").child(key).setValue(ql)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            iiDataStatus = new DataStatus() {
+                                @Override
+                                public void DataIsLoaded(List<Quick_Log> logs, List<String> keys) {
 
-            databaseReference.child("Quick_log").child(mUserId).setValue(Quick_Log, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                    ////clear required fields
-//                    txt_fname.setText("");
-//                    txt_lname.setText("");
-//                    txt_email.setText("");
-//                    txt_additional.setText("");
-//                    txt_phone.setText("");
-//                    txt_pax_age.setText("");
-//                    txt_weight.setText("");
-                    Toast.makeText(getActivity(), "Logbook entry added.", Toast.LENGTH_LONG).show();
-                    // //Restart the fragmant
-                    ReplaceCurrentFragment();
-                    ////Change to logbook fragment onComplete
-                    // changeFragment(new Full_Logbook_Fragment());
-                }
-            });
+                                }
 
+                                @Override
+                                public void DataIsInserted() {
+                                    Toast.makeText(getActivity(), "Logbook entry added.", Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void DataIsUpdated() {
+
+                                }
+
+                                @Override
+                                public void DataIsDeleted() {
+
+                                }
+                            };
+
+
+
+                            ReplaceCurrentFragment();
+                        }
+                    });
         }
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -299,7 +344,5 @@ public class Quick_Log_Fragment extends Fragment {
         ft.addToBackStack(newInstance().toString());//TODO: backstack not working
         ft.commit();
     }
-
-
 }
 

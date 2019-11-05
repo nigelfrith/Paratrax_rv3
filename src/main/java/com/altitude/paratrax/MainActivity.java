@@ -1,5 +1,8 @@
 package com.altitude.paratrax;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import androidx.appcompat.widget.SearchView;
@@ -19,12 +22,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.altitude.paratrax.Classes.Sensors.Accelerometer;
+import com.altitude.paratrax.Classes.Sensors.Gyroscope;
 import com.altitude.paratrax.Firebase.Auth.EmailPasswordActivity;
 import com.altitude.paratrax.Fragments.Full_Logbook_Fragment;
 import com.altitude.paratrax.Fragments.Home_Fragment;
 import com.altitude.paratrax.Fragments.Profile_Fragment;
 import com.altitude.paratrax.Fragments.Quick_Log_Fragment;
-import com.altitude.paratrax.Firebase.Auth.ChooserActivity;
 import com.altitude.paratrax.ResideMenu.ResideMenu;
 import com.altitude.paratrax.ResideMenu.ResideMenuItem;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,9 +36,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Stack;
 
+import static android.os.Build.VERSION_CODES.M;
+
 //import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {       //AppCompatActivity
+
+    private Accelerometer accelerometer;
+    private Gyroscope gyroscope;
 
     private FirebaseAuth mAuth;
     public Stack<String> mFragmentStack;
@@ -120,6 +129,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    public void setupToolbar(View v) {
+        Toolbar toolbar = v.findViewById(R.id.app_bar);
+         setSupportActionBar(toolbar);
+    }
+
     public void composeMessage() {
 
     }
@@ -142,9 +156,44 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        accelerometer = new Accelerometer(this);
+        gyroscope = new Gyroscope(this);
+
+        accelerometer.setListener(new Accelerometer.Listener() {
+            @Override
+            @RequiresApi(M)
+            public void onTranslation(float tx, float ty, float tz) {
+                if (tx > 1.0f) {
+                    //TODO: //i.e. turn the screen red
+                    //getWindow().getDecorView().setBackgroundColor(Color.RED);
+                    changeFragment(new Home_Fragment());
+                } else if (tx < -1.0f) {
+                    //TODO: //i.e. turn the screen blue
+                    getWindow().getDecorView().setBackgroundColor(Color.BLUE);
+                }
+            }
+        });
+        gyroscope.setListener(new Gyroscope.Listener() {
+            @Override
+            public void onRotation(float rx, float ry, float rz) {
+                if (rx > 1.0f) {
+                    //TODO: //i.e. turn the screen red
+                    getWindow().getDecorView().setBackgroundColor(Color.GREEN);
+                } else if (rx < -1.0f) {
+                    //TODO: //i.e. turn the screen blue
+                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+                }
+            }
+        });
+
+
         setVisible(false);//TODO: set landing page fragment (maybe just transparent arrows for swipe) so backstack will work on top level
+
         mContext = this;
+
         hideSystemUI();//full screen mode initaialized //TODO: needs to be put in base to persist
+
         mFragmentStack = new Stack<String>();
         //FireBase auth Instance
         mAuth = FirebaseAuth.getInstance();
@@ -242,21 +291,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             //  Toast.makeText(mContext, "Menu is closed!", Toast.LENGTH_SHORT).show();
         }
     };
+
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         // from the stack we can get the latest fragment
         androidx.fragment.app.Fragment fragment = getSupportFragmentManager().findFragmentByTag(mFragmentStack.peek());
         // If its an instance of Fragment1 I don't want to finish my activity, so I launch a Toast instead.
-        if (fragment instanceof Home_Fragment){
+        if (fragment instanceof Home_Fragment) {
             Toast.makeText(getApplicationContext(), "Swipe right to view menu", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             // Remove the framg
             removeFragment();
             super.onBackPressed();
         }
     }
-    private void removeFragment(){
+
+    private void removeFragment() {
         // remove the current fragment from the stack.
         mFragmentStack.pop();
         androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -286,16 +336,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     // This method hides the system bars and resize the content
-    private void hideSystemUI() {
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        // remove the following flag for version < API 19
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE
-        );
+//    private void hideSystemUI() {
+//        getWindow().getDecorView().setSystemUiVisibility(
+//                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+//                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+//                        // remove the following flag for version < API 19
+//                        | View.SYSTEM_UI_FLAG_IMMERSIVE
+//        );
+//
+//    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        accelerometer.register();
+        gyroscope.register();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        accelerometer.unregister();
+        gyroscope.unregister();
+    }
 
 }
 

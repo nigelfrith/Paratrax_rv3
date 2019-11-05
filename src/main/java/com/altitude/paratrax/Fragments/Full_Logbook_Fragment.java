@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,10 +39,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Full_Logbook_Fragment extends Fragment {
 
+    private String mUserId;
+    private boolean mSignedIn = false;
+
     View mMainView;
+    private Toast mToastText;
     DatabaseReference mDatabase;
 
     private ProgressBar progressBar;
@@ -49,7 +60,6 @@ public class Full_Logbook_Fragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
-
 
 
     public Full_Logbook_Fragment() {
@@ -77,6 +87,7 @@ public class Full_Logbook_Fragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -94,6 +105,7 @@ public class Full_Logbook_Fragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public static Full_Logbook_Fragment newInstance() {
         return new Full_Logbook_Fragment();
     }
@@ -122,10 +134,9 @@ public class Full_Logbook_Fragment extends Fragment {
         final Animation fadeIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
 
 
-
         setupToolbar(mMainView);
 
-        button = (Button)mMainView.findViewById(R.id.btn);
+        button = (Button) mMainView.findViewById(R.id.btn_new);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,49 +147,90 @@ public class Full_Logbook_Fragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+        // TODO: query db for only logged on users results
+//        const nameToSearch = 'John';
+//        firebase.ref('users').once('value') //get all content from your node ref, it will return a promise
+//                .then(snapshot => { // then get the snapshot which contains an array of objects
+//                snapshot.val().filter(user => user.name === nameToSearch) // use ES6 filter method to return your array containing the values that match with the condition
+//})
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mSignedIn = mAuth.getCurrentUser() != null;
+        if (mSignedIn) {
+            mUserId = mAuth.getCurrentUser().getUid();
+        }
 
+        //reversing the layout so in descending order when viewed
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());//(getActivity());
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         //rv
         recyclerView = (RecyclerView) mMainView.findViewById(R.id.rv_logbook_list);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(layoutManager);       //(new LinearLayoutManager(getContext());
+
         //Get Logged On users info
         final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 //
         //get fb db ref for logbook.
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Quick_log");
+        //ToDO: make new list array of Quicklog hold filtered mUserId == loggedOn user.
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("logbooks").child("Quick_log");
         mDatabase.keepSynced(true);
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
-                .child("Quick_log").orderByKey();
+                .child("logbooks").child("Quick_log").orderByKey();//.orderByChild(mUserId);
+              //  .child("logbooks").child("Quick_log").orderByChild(mUserId)  ;     //.orderByKey();      //.orderByChild("dateTime");
 
 
         FirebaseRecyclerOptions<Quick_Log> options = new FirebaseRecyclerOptions.Builder<Quick_Log>()
                 .setQuery(query, Quick_Log.class).build();
 
         adapter = new FirebaseRecyclerAdapter<Quick_Log, ViewHolder>(options) {
+
             @Override
             protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Quick_Log model) {
 
-                    holder.settxtEmail(model.getEmail());
-                    holder.settxtfName(model.getFname());
-                    holder.settxtlName(model.getLname());
-                    holder.setPhone(model.getPhone());
+                holder.settxtEmail(model.getEmail());
+                holder.settxtfName(model.getFname());
+                holder.settxtlName(model.getLname());
+                holder.setPhone(model.getPhone());
+
             }
 
             @NonNull
             @Override
             public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.full_logbook_list_item, parent, false);
+
                 return new ViewHolder(view);
             }
+
+//            @Override
+//            public int getItemCount() {
+//                return this.model.size();
+//            }
+
         };
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                progressBar.setVisibility(View.GONE);
+                //   progressBar.setVisibility(View.GONE);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Quick_Log ql = snapshot.getValue(Quick_Log.class);
+                        if (ql.getmUserId() == mUserId){
+
+                            //TODO: Do something
+                            //
+
+                        }//////////////////////
+
+
+                    System.out.println(ql.email);
+                }
+                //animation
                 fadeOut.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -195,7 +247,8 @@ public class Full_Logbook_Fragment extends Fragment {
                 });
                 l1.startAnimation(fadeOut);
                 l2.setVisibility(View.VISIBLE);
-                l2.startAnimation(fadeIn);}
+                l2.startAnimation(fadeIn);
+            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -209,26 +262,46 @@ public class Full_Logbook_Fragment extends Fragment {
     public void setupToolbar(View v) {
         Toolbar toolbar = v.findViewById(R.id.app_bar);
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-        if(appCompatActivity != null)
+        if (appCompatActivity != null)
             appCompatActivity.setSupportActionBar(toolbar);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
         public LinearLayout root;
         public TextView txtfName;
         public TextView txtlName;
         public TextView txtEmail;
 
-        View mView;
+        private String key;
+        private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mView = itemView;
+            //itemView.setOnClickListener(this);
 
             root = itemView.findViewById(R.id.list_root);
             txtfName = itemView.findViewById(R.id.fname);
             txtlName = itemView.findViewById(R.id.lname);
             txtEmail = itemView.findViewById(R.id.email);
+
+            root.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (selectedItems.get(getAdapterPosition(), false)) {
+                selectedItems.delete(getAdapterPosition());
+                view.setSelected(false);
+                Toast.makeText(view.getContext(), "De-Selected log entry = " + getPosition(), Toast.LENGTH_SHORT).show();
+            } else {
+                selectedItems.put(getAdapterPosition(), true);
+                view.setSelected(true);
+                String text = "Selected log entry = " + getPosition();
+                customToast(getPosition(), text);
+                // Toast.makeText(view.getContext(), "Selected log entry = " + getPosition(), Toast.LENGTH_SHORT).show();
+
+            }
         }
 
         public void settxtfName(String fname) {
@@ -245,10 +318,31 @@ public class Full_Logbook_Fragment extends Fragment {
 
         public void setPhone(String phone) {
 
-            TextView txtPhone = (TextView) mView.findViewById(R.id.phone);
+            TextView txtPhone = (TextView) itemView.findViewById(R.id.phone);
             txtPhone.setText(phone);
         }
     }
+
+    private void customToast(int position, final String text) {
+        View toastView = getLayoutInflater().inflate(R.layout.custom_toastview_log_entry_selected, null);
+        Toast toast = Toast.makeText(this.getContext(), text, Toast.LENGTH_LONG);
+        toast.setView(toastView);
+        toast.setGravity(Gravity.BOTTOM, 0, 0);
+        toast.show();
+    }
+    private void displayText(final String message) {
+        mToastText.cancel();
+        mToastText.setText(message);
+        mToastText.show();
+    }
+//    @Override
+//    public void onBackPressed(){
+//        if(webView.canGoBack()){
+//            webView.goBack();
+//        }else{
+//            super.onBackPressed();
+//        }
+//    }
 
 
 }

@@ -21,15 +21,18 @@ import com.altitude.paratrax.R;
  */
 public class Profile_Fragment extends Fragment {
 
-View view;
+    View view;
+
     public Profile_Fragment() {
         // Required empty public constructor
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -56,6 +59,7 @@ View view;
         pro_fragment.setArguments(args);
         return pro_fragment;
     }
+
     public static Profile_Fragment newInstance() {
         return new Profile_Fragment();
     }
@@ -66,7 +70,7 @@ View view;
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-      setUpToolbar(view);
+        setUpToolbar(view);
         return view;
 
     }
@@ -76,6 +80,10 @@ View view;
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
             activity.setSupportActionBar(toolbar);
+            activity.getSupportActionBar();
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setLogo(R.drawable.my_great_logo);
+            toolbar.setLogoDescription("comTFI");
         }
     }
 

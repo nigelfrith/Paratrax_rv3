@@ -9,9 +9,10 @@ public class Quick_Log {
     private String lname;
     private String weight;
     private String age;
-    private String email;
+    public String email;
     private String phone;
     private String additional;
+    private String lastFlight;
     private boolean hasMedical;
     private boolean hasDisability;
     private boolean hasBaggage;
@@ -33,6 +34,7 @@ public class Quick_Log {
             String email,
             String phone,
             String additional,
+            String lastFlight,
             boolean hasMedical,
             boolean hasDisability,
             boolean hasTransport,
@@ -50,6 +52,7 @@ public class Quick_Log {
         this.email = email;
         this.phone = phone;
         this.additional = additional;
+        this.lastFlight = lastFlight;
         this.hasMedical = hasMedical;
         this.hasDisability = hasDisability;
         this.hasBaggage = hasBaggage;
@@ -170,10 +173,13 @@ public class Quick_Log {
     public String getAdditional() {
         return additional;
     }
-
     public void setAdditional(String additional) {
         this.additional = additional;
     }
+
+    public String lastFlight(){return lastFlight;}
+    public void setlastFlight(String lastFlight){this.lastFlight  = lastFlight;}
+
     public String getmUserId(){
         return mUserId;
     }

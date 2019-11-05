@@ -22,53 +22,60 @@
             app:navigationIcon="@drawable/ic_menu_1"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <EditText
-        android:id="@+id/et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="8dp" />
+<!--    <EditText-->
+<!--        android:id="@+id/et"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:padding="8dp" />-->
 
-    <EditText
-        android:id="@+id/etd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="8dp" />
+<!--    <EditText-->
+<!--        android:id="@+id/etd"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:padding="8dp" />-->
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/btn_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add" />
+        android:text="New Entry" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/l1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"/>
-    </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
         android:id="@+id/l2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
 
+<!--        android:visibility="gone"-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_logbook_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

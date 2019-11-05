@@ -13,19 +13,19 @@
     android:animateLayoutChanges="true"
     tools:context=".Fragments.Quick_Log_Fragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:elevation="0dp">-->
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/app_bar"
-            style="@style/ThemeOverlay.MyNoTitleActivity"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/app_name"
-            app:navigationIcon="@drawable/ic_menu_1"/>
-    </com.google.android.material.appbar.AppBarLayout>
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/app_bar"-->
+<!--            style="@style/ThemeOverlay.MyNoTitleActivity"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            app:title="@string/app_name"-->
+<!--            app:navigationIcon="@drawable/ic_menu_1"/>-->
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -281,18 +281,12 @@
                 android:hint="Baggage">
             </com.google.android.material.checkbox.MaterialCheckBox>
 
-
-
-
-
-
-
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/chk_transport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="auto"
-                android:hint="Transportationn included">
+                android:hint="Transportation included">
             </com.google.android.material.checkbox.MaterialCheckBox>
 
             <com.google.android.material.checkbox.MaterialCheckBox
@@ -302,7 +296,6 @@
                 android:focusable="auto"
                 android:hint="Pictures">
             </com.google.android.material.checkbox.MaterialCheckBox>
-
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/chk_sherpa"
@@ -327,7 +320,30 @@
             </com.google.android.material.checkbox.MaterialCheckBox>
 
 
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="2dp"
+                android:hint="Time since last flight"
+                android:nextFocusDown="@+id/txt_additional"
+                android:nextFocusForward="@+id/txt_additional">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_last_flight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:fadingEdge="horizontal|vertical"
+                    android:fontFamily="Roboto-LightItalic"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="26dp"
+                    android:textStyle="bold|italic"
+                    android:typeface="monospace" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
 
@@ -336,17 +352,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
-                android:hint="@string/txt_additional"
-                android:textAlignment="textStart">
-                <MultiAutoCompleteTextView
+                android:layout_marginTop="2dp"
+                android:hint="Additional Information"
+                android:nextFocusDown="@+id/btn_Quick_Log_Post"
+                android:nextFocusForward="@+id/btn_Quick_Log_Post">
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_additional"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:lines="5"
-                    android:textSize="14sp"></MultiAutoCompleteTextView>
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:fadingEdge="horizontal|vertical"
+                    android:fontFamily="Roboto-LightItalic"
+                    android:height="150dp"
+                    android:inputType="textMultiLine"
+                    android:textSize="26dp"
+                    android:textStyle="bold|italic"
+                    android:typeface="monospace" />
             </com.google.android.material.textfield.TextInputLayout>
+
 
 
 
