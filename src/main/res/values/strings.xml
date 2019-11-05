@@ -4,6 +4,8 @@
     <string name="search_hint">search hint</string>
 
     <string name="tool_humidity">rHumidity</string>
+    <string name="tool_temp">rTemp</string>
+    <string name="tool_cb">cB</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>

@@ -23,49 +23,34 @@
             app:navigationIcon="@drawable/ic_menu_1" >
 
             <TextView
-                android:id="@+id/toolbar_humidity"
+                android:id="@+id/relativehumiditytext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:hint="@string/tool_humidity"
                 android:textAlignment="textStart"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
-<!--            <com.google.android.material.Tetextfield.TextInputLayout-->
-<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                android:layout_marginTop="2dp"-->
-<!--                android:hint="@string/tool_humidity">-->
+            <TextView
+                android:id="@+id/absolutehumiditytext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:hint="@string/tool_temp"
+                android:textAlignment="textStart"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/dewpointtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:hint="@string/tool_cb"
+                android:textAlignment="textStart"
+                android:textSize="12sp" />
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/toolbar_humidity"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:fadingEdge="horizontal|vertical"-->
-<!--                    android:fontFamily="Roboto-LightItalic"-->
-<!--                    android:inputType="textPersonName"-->
-<!--                    android:maxLines="1"-->
-<!--                    android:textSize="26dp"-->
-<!--                    android:textStyle="bold|italic"-->
-<!--                    android:typeface="monospace" />-->
-<!--            </com.google.android.material.Tetextfield.TextInputLayout>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/toolbarTextView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:Text="humidity"-->
-<!--                android:textColor="@android:color/holo_red_light"-->
-<!--                android:textSize="12sp"-->
-<!--                android:textStyle="normal"-->
-<!--                />-->
 
 
         </androidx.appcompat.widget.Toolbar>
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
