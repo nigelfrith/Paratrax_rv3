@@ -8,13 +8,6 @@
         android:layout_marginStart="5dp"
         app:showAsAction="ifRoom"
         android:title="Back">
-        <!--        android:icon="@drawable/title_bar_menu_on"-->
-        <!--<ImageView-->
-        <!--android:id="@+id/title_bar_left_menu"-->
-        <!--android:layout_gravity="left|center_vertical"-->
-        <!--android:background="@drawable/title_bar_menu_on"-->
-        <!--app:showAsAction="ifRoom"-->
-        <!--android:layout_marginStart="5dp"/>-->
     </item>
     <item
         android:orderInCategory="4"
@@ -33,10 +26,8 @@
     <item
         android:orderInCategory="2"
         android:id="@+id/milogin"
-        android:icon="@drawable/flytrax_logo_alt_2_firehead"
         app:showAsAction="ifRoom"
-        android:title="login status"
-        android:tooltipText="login status">
+        android:title="Login">
     </item>
     <item android:id="@+id/action_search"
         android:orderInCategory="5"

@@ -143,18 +143,8 @@ public class Quick_Log_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_quick__log, container, false);
-        setupToolbar(view);
-       // this.iiDataStatus = iiDataStatus;
+
         return view;
-    }
-
-    public void setupToolbar(View v) {
-        Toolbar toolbar = v.findViewById(R.id.app_bar);
-        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-        if (appCompatActivity != null)
-            appCompatActivity.setSupportActionBar(toolbar);
-
-
     }
 
 

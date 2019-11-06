@@ -1,7 +1,6 @@
 package com.altitude.paratrax;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -9,9 +8,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
-//import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.hardware.Sensor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +23,8 @@ import android.widget.Toast;
 
 import com.altitude.paratrax.Classes.Sensors.Accelerometer;
 import com.altitude.paratrax.Classes.Sensors.Gyroscope;
+import com.altitude.paratrax.Classes.Sensors.Humidity;
+import com.altitude.paratrax.Classes.Sensors.Temperature;
 import com.altitude.paratrax.Firebase.Auth.EmailPasswordActivity;
 import com.altitude.paratrax.Fragments.Full_Logbook_Fragment;
 import com.altitude.paratrax.Fragments.Home_Fragment;
@@ -44,6 +45,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private Accelerometer accelerometer;
     private Gyroscope gyroscope;
+    private Humidity humidity;
+    private Temperature temperature;
+
+    private boolean isHumiditySensorPresent;
+    private boolean isTemperatureSensorPresent;
+    private TextView mRelativeHumidityValue;
+    private TextView mAbsoluteHumidityValue;
+    private TextView mDewPointValue;
+    private TextView mTemperatureValue;
+    private float mLastKnownRelativeHumidity = 0;
+    private float mLastKnownTemperature = 0;
 
     private FirebaseAuth mAuth;
     public Stack<String> mFragmentStack;
@@ -72,12 +84,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        ///////section expanding search view
-//        searchItem.expandActionView();
-//        searchView.requestFocus();
 
         ////////section customizing search view///////////////////////////
-        int searchImgId = androidx.appcompat.R.id.search_button; //android.support.v7.appcompat.R.id.search_button;
+        int searchImgId = androidx.appcompat.R.id.search_button;
         ImageView v = (ImageView) searchView.findViewById(searchImgId);
         v.setImageResource(R.drawable.ic_search_custom_swirl);
         // Customize searchview text and hint colors
@@ -121,17 +130,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Intent intent = new Intent(mContext, EmailPasswordActivity.class);//NB: MainActivity.this
                 startActivity(intent);
                 return true;
-            case R.id.title_bar_left_menu_item:
+//            case R.id.title_bar_left_menu_item:
+//                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+//                return true;
+            case R.id.app_bar:
                 resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void setupToolbar(View v) {
-        Toolbar toolbar = v.findViewById(R.id.app_bar);
-         setSupportActionBar(toolbar);
     }
 
     public void composeMessage() {
@@ -157,43 +164,81 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = this.findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);   //.setDisplayShowTitleEnabled(false);
+
         accelerometer = new Accelerometer(this);
         gyroscope = new Gyroscope(this);
+        humidity = new Humidity(this);
+        temperature = new Temperature(this);
+
+        mRelativeHumidityValue = toolbar.findViewById(R.id.relativehumiditytext);
+        mAbsoluteHumidityValue = toolbar.findViewById(R.id.absolutehumiditytext);
+        mDewPointValue = toolbar.findViewById(R.id.dewpointtext);
+        mTemperatureValue = toolbar.findViewById(R.id.temperaturetext);
 
         accelerometer.setListener(new Accelerometer.Listener() {
             @Override
             @RequiresApi(M)
             public void onTranslation(float tx, float ty, float tz) {
-                if (tx > 1.0f) {
-                    //TODO: //i.e. turn the screen red
-                    //getWindow().getDecorView().setBackgroundColor(Color.RED);
-                    changeFragment(new Home_Fragment());
-                } else if (tx < -1.0f) {
-                    //TODO: //i.e. turn the screen blue
-                    getWindow().getDecorView().setBackgroundColor(Color.BLUE);
-                }
+//                if (tx > 1.0f) {
+//                    //TODO: //i.e. turn the screen red
+//                    //getWindow().getDecorView().setBackgroundColor(Color.RED);
+//                    changeFragment(new Home_Fragment());
+//                } else if (tx < -1.0f) {
+//                    //TODO: //i.e. turn the screen blue
+//                    getWindow().getDecorView().setBackgroundColor(Color.BLUE);
+//                }
             }
         });
         gyroscope.setListener(new Gyroscope.Listener() {
             @Override
             public void onRotation(float rx, float ry, float rz) {
-                if (rx > 1.0f) {
-                    //TODO: //i.e. turn the screen red
-                    getWindow().getDecorView().setBackgroundColor(Color.GREEN);
-                } else if (rx < -1.0f) {
-                    //TODO: //i.e. turn the screen blue
-                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+//                if (rx > 1.0f) {
+//                    //TODO: //i.e. turn the screen red
+//                    getWindow().getDecorView().setBackgroundColor(Color.GREEN);
+//                } else if (rx < -1.0f) {
+//                    //TODO: //i.e. turn the screen blue
+//                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+//                }
+            }
+        });
+
+
+        humidity.setListener(new Humidity.Listener() {
+            @Override
+            public void onSweating(float hx) {
+                mRelativeHumidityValue.setText("rH " + hx);       //event.values[0]);
+                mLastKnownRelativeHumidity = hx;
+            }
+        });
+
+        temperature.setListener(new Temperature.Listener() {
+            @Override
+            public void onTempChange(float tc) {
+                mTemperatureValue.setText("rT:: " + tc);
+                mLastKnownTemperature = tc;
+                if(mLastKnownRelativeHumidity != 0)
+                {
+                    float temp = tc;
+                    float absoluteHumidity = calculateAbsoluteHumidity(temp, mLastKnownRelativeHumidity);
+                    mAbsoluteHumidityValue.setText("aH: " + absoluteHumidity);
+                    float dewPoint = calculateDewPoint(temp, mLastKnownRelativeHumidity);
+                    mDewPointValue.setText("cB: " + dewPoint);
+
                 }
             }
         });
+
 
 
         setVisible(false);//TODO: set landing page fragment (maybe just transparent arrows for swipe) so backstack will work on top level
 
         mContext = this;
 
-        hideSystemUI();//full screen mode initaialized //TODO: needs to be put in base to persist
+        //full screen mode initaialized
 
+        /////
         mFragmentStack = new Stack<String>();
         //FireBase auth Instance
         mAuth = FirebaseAuth.getInstance();
@@ -334,32 +379,84 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-
-    // This method hides the system bars and resize the content
-//    private void hideSystemUI() {
-//        getWindow().getDecorView().setSystemUiVisibility(
-//                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-//                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-//                        // remove the following flag for version < API 19
-//                        | View.SYSTEM_UI_FLAG_IMMERSIVE
-//        );
-//
-//    }
-
     @Override
     protected void onResume() {
         super.onResume();
+        humidity.register();
         accelerometer.register();
         gyroscope.register();
+        temperature.register();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        humidity.unregister();
         accelerometer.unregister();
         gyroscope.unregister();
+        temperature.unregister();
+    }
+
+    /* Meaning of the constants
+ Dv: Absolute humidity in grams/meter3
+ m: Mass constant
+ Tn: Temperature constant
+ Ta: Temperature constant
+ Rh: Actual relative humidity in percent (%) from phone’s sensor
+ Tc: Current temperature in degrees C from phone’ sensor
+ A: Pressure constant in hP
+ K: Temperature constant for converting to kelvin
+ */
+    public float calculateAbsoluteHumidity(float temperature, float relativeHumidity)
+    {
+        float Dv = 0;
+        float m = 17.62f;
+        float Tn = 243.12f;
+        float Ta = 216.7f;
+        float Rh = relativeHumidity;
+        float Tc = temperature;
+        float A = 6.112f;
+        float K = 273.15f;
+
+        Dv =   (float) (Ta * (Rh/100) * A * Math.exp(m*Tc/(Tn+Tc)) / (K + Tc));
+
+        return Dv;
+    }
+
+    /* Meaning of the constants
+    Td: Dew point temperature in degrees Celsius
+    m: Mass constant
+    Tn: Temperature constant
+    Rh: Actual relative humidity in percent (%) from phone’s sensor
+    Tc: Current temperature in degrees C from phone’ sensor
+    */
+    public float calculateDewPoint(float temperature, float relativeHumidity)
+    {
+        float Td = 0;
+        float m = 17.62f;
+        float Tn = 243.12f;
+        float Rh = relativeHumidity;
+        float Tc = temperature;
+
+        Td = (float) (Tn * ((Math.log(Rh/100) + m*Tc/(Tn+Tc))/(m - (Math.log(Rh/100) + m*Tc/(Tn+Tc)))));
+
+        return Td;
+    }
+
+//    @Override
+//    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+//
+//
+//    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // mSensorManager = null;
+        humidity = null;
+        temperature = null;
+        accelerometer = null;
+        gyroscope = null;
     }
 
 }
-

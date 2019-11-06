@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">paratrax</string>
+    <string name="app_name"></string>
     <string name="app_label">search</string>
     <string name="search_hint">search hint</string>
 

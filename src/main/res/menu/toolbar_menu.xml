@@ -3,7 +3,7 @@
 
     <item android:title="@string/shr_search_title" app:showAsAction="always" android:icon="@drawable/shr_search" android:id="@+id/search"/>
 
-    <item android:title="@string/shr_filter_title" app:showAsAction="always" android:icon="@drawable/shr_filter" android:id="@+id/filter"/>
+<!--    <item android:title="@string/shr_filter_title" app:showAsAction="always" android:icon="@drawable/shr_filter" android:id="@+id/filter"/>-->
 
 <!--    TODO: Add sensor readings: Altitude|pressure  Temp|Humidity|Cloudbase ( in future trending pressure chages etc can be added i.e. as a chart or line-->
 

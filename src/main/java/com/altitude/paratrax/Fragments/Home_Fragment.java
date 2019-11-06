@@ -23,16 +23,9 @@ public class Home_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parentView = inflater.inflate(R.layout.fragment_home, container, false);
-        setupToolbar(parentView);
         return parentView;
     }
 
-    public void setupToolbar(View v) {
-        Toolbar t = v.findViewById(R.id.app_bar);
-        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-        if (appCompatActivity != null)
-            appCompatActivity.setSupportActionBar(t);
 
-    }
 
 }

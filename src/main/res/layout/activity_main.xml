@@ -12,45 +12,59 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="0dp">
+        app:elevation="2dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/app_bar"
-            style="@style/ThemeOverlay.MyNoTitleActivity"
+            style="@style/Theme.MaterialComponents.Light.NoActionBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="@string/app_name"
             app:navigationIcon="@drawable/ic_menu_1" >
 
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
             <TextView
                 android:id="@+id/relativehumiditytext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:hint="@string/tool_humidity"
+                android:layout_marginTop="1dp"
                 android:textAlignment="textStart"
-                android:textSize="12sp" />
+                android:textSize="8sp" />
 
             <TextView
                 android:id="@+id/absolutehumiditytext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:hint="@string/tool_temp"
+                android:layout_marginTop="1dp"
                 android:textAlignment="textStart"
-                android:textSize="12sp" />
+                android:textSize="8sp" />
+            <TextView
+                android:id="@+id/temperaturetext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:textAlignment="textStart"
+                android:textSize="8sp"/>
             <TextView
                 android:id="@+id/dewpointtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:hint="@string/tool_cb"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:textAlignment="textStart"
-                android:textSize="12sp" />
+                android:textSize="8sp" />
 
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         </androidx.appcompat.widget.Toolbar>
+
     </com.google.android.material.appbar.AppBarLayout>
 
 

@@ -6,12 +6,11 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@android:color/transparent"
-    app:cardElevation="5dp"
-    app:cardPreventCornerOverlap="true"
+    card_view:cardMaxElevation="1dp"
+    card_view:cardElevation="1dp"
     card_view:cardUseCompatPadding="true"
     card_view:cardCornerRadius="8dp"
-    android:layout_marginBottom="16dp"
+    android:layout_marginBottom="10dp"
     android:clickable="true"
     android:focusable="true"
     android:checkable="true"
@@ -20,16 +19,15 @@
                 android:id="@+id/list_root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background_selector"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="vertical"
-                android:padding="16dp">
-<!--                android:background="?attr/selectableItemBackground"-->
+                android:background="@drawable/background_selector_gradient"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/fname"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="First Name"
                     android:textColor="@android:color/black"
@@ -38,7 +36,7 @@
 
                 <TextView
                     android:id="@+id/lname"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Last Name"
                     android:textAllCaps="true"
@@ -48,7 +46,7 @@
 
                 <TextView
                     android:id="@+id/email"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Email"
@@ -59,29 +57,42 @@
 
                 <TextView
                     android:id="@+id/phone"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Phone"
                     android:textAlignment="textStart"
-                    android:textAllCaps="true"
                     android:textAppearance="?attr/textAppearanceSubtitle2" />
 
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:layout_gravity="end|bottom">
 
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_Edit"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Edit Entry" />
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:text="Edit"
+                    />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_Delete"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Delete Entry" />
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:text="Delete"/>
+
+    </LinearLayout>
 
             </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
+
+<!--    app:cardPreventCornerOverlap="true"-->
 

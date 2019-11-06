@@ -7,17 +7,17 @@
     android:background="#FDFDFE"
     tools:context=".Fragments.Profile_Fragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:elevation="0dp">-->
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/app_bar"
-            style="@style/ThemeOverlay.MyNoTitleActivity"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/app_name"
-        app:navigationIcon="@drawable/ic_menu_1"/>
-    </com.google.android.material.appbar.AppBarLayout>
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/app_bar"-->
+<!--            style="@style/ThemeOverlay.MyNoTitleActivity"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            app:title="@string/app_name"-->
+<!--        app:navigationIcon="@drawable/ic_menu_1"/>-->
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 </FrameLayout>

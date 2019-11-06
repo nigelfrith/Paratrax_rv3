@@ -69,22 +69,20 @@ public class Profile_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        setUpToolbar(view);
         return view;
 
     }
 
-    private void setUpToolbar(View view) {
-        Toolbar toolbar = view.findViewById(R.id.app_bar);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            activity.setSupportActionBar(toolbar);
-            activity.getSupportActionBar();
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            toolbar.setLogo(R.drawable.my_great_logo);
-            toolbar.setLogoDescription("comTFI");
-        }
-    }
+//    private void setUpToolbar(View view) {
+//        Toolbar toolbar = view.findViewById(R.id.app_bar);
+//        AppCompatActivity activity = (AppCompatActivity) getActivity();
+//        if (activity != null) {
+//            activity.setSupportActionBar(toolbar);
+//            activity.getSupportActionBar();
+//            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            toolbar.setLogo(R.drawable.my_great_logo);
+//            toolbar.setLogoDescription("comTFI");
+//        }
+//    }
 
 }

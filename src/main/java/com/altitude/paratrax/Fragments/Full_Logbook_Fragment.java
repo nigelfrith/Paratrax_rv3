@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.util.SparseBooleanArray;
@@ -128,13 +129,11 @@ public class Full_Logbook_Fragment extends Fragment {
         progressBar = mMainView.findViewById(R.id.progressBar);
 
         final View l1 = mMainView.findViewById(R.id.l1);
-        final View l2 = mMainView.findViewById(R.id.l2);
+        final View l2 = mMainView.findViewById(R.id.LinearLayout);
 
         final Animation fadeOut = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
         final Animation fadeIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
 
-
-        setupToolbar(mMainView);
 
         button = (Button) mMainView.findViewById(R.id.btn_new);
         button.setOnClickListener(new View.OnClickListener() {
@@ -147,12 +146,7 @@ public class Full_Logbook_Fragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-        // TODO: query db for only logged on users results
-//        const nameToSearch = 'John';
-//        firebase.ref('users').once('value') //get all content from your node ref, it will return a promise
-//                .then(snapshot => { // then get the snapshot which contains an array of objects
-//                snapshot.val().filter(user => user.name === nameToSearch) // use ES6 filter method to return your array containing the values that match with the condition
-//})
+
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mSignedIn = mAuth.getCurrentUser() != null;
         if (mSignedIn) {
@@ -181,7 +175,7 @@ public class Full_Logbook_Fragment extends Fragment {
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("logbooks").child("Quick_log").orderByKey();//.orderByChild(mUserId);
-              //  .child("logbooks").child("Quick_log").orderByChild(mUserId)  ;     //.orderByKey();      //.orderByChild("dateTime");
+        //  .child("logbooks").child("Quick_log").orderByChild(mUserId)  ;     //.orderByKey();      //.orderByChild("dateTime");
 
 
         FirebaseRecyclerOptions<Quick_Log> options = new FirebaseRecyclerOptions.Builder<Quick_Log>()
@@ -220,12 +214,12 @@ public class Full_Logbook_Fragment extends Fragment {
                 //   progressBar.setVisibility(View.GONE);
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Quick_Log ql = snapshot.getValue(Quick_Log.class);
-                        if (ql.getmUserId() == mUserId){
+                    if (ql.getmUserId() == mUserId) {
 
-                            //TODO: Do something
-                            //
+                        //TODO: Do something
+                        //
 
-                        }//////////////////////
+                    }//////////////////////
 
 
                     System.out.println(ql.email);
@@ -257,13 +251,6 @@ public class Full_Logbook_Fragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
         return mMainView;
-    }
-
-    public void setupToolbar(View v) {
-        Toolbar toolbar = v.findViewById(R.id.app_bar);
-        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-        if (appCompatActivity != null)
-            appCompatActivity.setSupportActionBar(toolbar);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -330,19 +317,13 @@ public class Full_Logbook_Fragment extends Fragment {
         toast.setGravity(Gravity.BOTTOM, 0, 0);
         toast.show();
     }
+
     private void displayText(final String message) {
         mToastText.cancel();
         mToastText.setText(message);
         mToastText.show();
     }
-//    @Override
-//    public void onBackPressed(){
-//        if(webView.canGoBack()){
-//            webView.goBack();
-//        }else{
-//            super.onBackPressed();
-//        }
-//    }
+
 
 
 }
