@@ -208,7 +208,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         humidity.setListener(new Humidity.Listener() {
             @Override
             public void onSweating(float hx) {
-                mRelativeHumidityValue.setText("rH " + hx);       //event.values[0]);
+                mRelativeHumidityValue.setText("rH: " + Math.round(hx * 10) / 10.0 + " | ");
                 mLastKnownRelativeHumidity = hx;
             }
         });
@@ -216,15 +216,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         temperature.setListener(new Temperature.Listener() {
             @Override
             public void onTempChange(float tc) {
-                mTemperatureValue.setText("rT:: " + tc);
+                mTemperatureValue.setText("rT: " + Math.round(tc * 10) / 10.0 +" | ");
                 mLastKnownTemperature = tc;
                 if(mLastKnownRelativeHumidity != 0)
                 {
                     float temp = tc;
                     float absoluteHumidity = calculateAbsoluteHumidity(temp, mLastKnownRelativeHumidity);
-                    mAbsoluteHumidityValue.setText("aH: " + absoluteHumidity);
+                    mAbsoluteHumidityValue.setText("aH: " + Math.round(absoluteHumidity * 10) / 10.0 +" | ");
                     float dewPoint = calculateDewPoint(temp, mLastKnownRelativeHumidity);
-                    mDewPointValue.setText("cB: " + dewPoint);
+                    mDewPointValue.setText("cB: " + Math.round(dewPoint * 10) / 10.0);
 
                 }
             }

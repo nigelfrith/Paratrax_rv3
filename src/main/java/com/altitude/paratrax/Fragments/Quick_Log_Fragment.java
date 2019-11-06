@@ -172,11 +172,9 @@ public class Quick_Log_Fragment extends Fragment {
         btn_Quick_Log_Post = (Button) view.findViewById(R.id.btn_Quick_Log_Post);
         txt_last_flight = (EditText) view.findViewById(R.id.txt_last_flight);
 
-
         //Firebase db change listener
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("logbooks");//.child("Quick_log");//.child(mUserId);
-        //reading from the db
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

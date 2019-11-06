@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="10sp"
+    android:layout_marginEnd="10sp"
+    >
+<FrameLayout
+
+    android:layout_marginTop="15sp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 <com.google.android.material.card.MaterialCardView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -6,11 +18,14 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardMaxElevation="1dp"
-    card_view:cardElevation="1dp"
+    card_view:cardMaxElevation="7dp"
+    card_view:cardElevation="5dp"
+    card_view:cardPreventCornerOverlap="false"
+    app:contentPaddingBottom="0dp"
     card_view:cardUseCompatPadding="true"
-    card_view:cardCornerRadius="8dp"
+    card_view:cardCornerRadius="5dp"
     android:layout_marginBottom="10dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
     android:checkable="true"
@@ -22,6 +37,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="vertical"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@drawable/background_selector_gradient"
                 android:padding="10dp">
 
@@ -69,7 +85,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="2dp"
-        android:layout_gravity="end|bottom">
+        android:layout_gravity="end|bottom"
+        android:orientation="horizontal">
 
 
                 <com.google.android.material.button.MaterialButton
@@ -93,6 +110,17 @@
 
             </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
+</FrameLayout>
+<!--    imge on top of cardview with offset goes here-->
 
-<!--    app:cardPreventCornerOverlap="true"-->
+    <ImageView
+        android:fadingEdgeLength="5dp"
+        android:elevation="20dp"
+        android:layout_width="90sp"
+        android:layout_height="50sp"
+        android:layout_marginStart="20sp"
+        android:id="@+id/profileImg"
+        android:background="#9E9E9E"/>
+</FrameLayout>
+
 
