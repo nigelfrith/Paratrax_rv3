@@ -1,5 +1,6 @@
 package com.altitude.paratrax.Firebase.Auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,17 +12,28 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.altitude.paratrax.BaseActivity;
+import com.altitude.paratrax.Fragments.Home_Fragment;
 import com.altitude.paratrax.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 //import com.firebase.ui.auth.R;
 
 
 public class EmailPasswordActivity extends BaseActivity implements
         View.OnClickListener {
+
+
+    // [START declare_auth]
+    FirebaseAuth mAuth;
+    // [END declare_auth]
+    DatabaseReference rootReference;
+    FirebaseUser user;
+
 
     private static final String TAG = "EmailPassword";
 
@@ -30,9 +42,7 @@ public class EmailPasswordActivity extends BaseActivity implements
     private EditText mEmailField;
     private EditText mPasswordField;
 
-    // [START declare_auth]
-    private FirebaseAuth mAuth;
-    // [END declare_auth]
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +63,9 @@ public class EmailPasswordActivity extends BaseActivity implements
 
         // [START initialize_auth]
         // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();//.getCurrentUser().getUid();
+        user = mAuth.getCurrentUser();
+        rootReference = FirebaseDatabase.getInstance().getReference();
         // [END initialize_auth]
     }
 
@@ -208,6 +220,21 @@ public class EmailPasswordActivity extends BaseActivity implements
             findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
 
             findViewById(R.id.verifyEmailButton).setEnabled(!user.isEmailVerified());
+
+            String uid = user.getUid();
+            rootReference.setValue(uid)
+                    // rootReference.child(uid).setValue(this);
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getApplicationContext(), "FirebaseUser Activated", Toast.LENGTH_SHORT).show();
+                            finish();
+//                            Intent intent = new Intent(getApplicationContext(), Home_Fragment.class);
+//                            startActivity(intent);
+                        }
+                    });
+
+
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
@@ -216,6 +243,7 @@ public class EmailPasswordActivity extends BaseActivity implements
             findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
             findViewById(R.id.signedInButtons).setVisibility(View.GONE);
         }
+
     }
 
     @Override
@@ -228,6 +256,7 @@ public class EmailPasswordActivity extends BaseActivity implements
         } else if (i == R.id.signOutButton) {
             signOut();
         } else if (i == R.id.verifyEmailButton) {
+
             sendEmailVerification();
         }
     }

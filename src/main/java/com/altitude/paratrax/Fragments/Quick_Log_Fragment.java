@@ -34,6 +34,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,17 +71,18 @@ public class Quick_Log_Fragment extends Fragment {
     View view;
     FragmentManager fm;
 
-    // private ResideMenu resideMenu;
-
-    private FirebaseAuth mAuth;
-    private String mUserId;
+    //Firebase
+//Swapping Auth for User. 071119
+    //private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private String uid;
 
     private View rootView;
     private boolean mSignedIn = false;
 
     ///controls
-
-    ArrayAdapter<CharSequence> adapter;
+    ArrayAdapter<String> adapter;
+//    ArrayAdapter<CharSequence> adapter;
 
     private EditText txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional, txt_last_flight;
     private CheckBox chk_medical, chk_disability, chk_baggage, chk_pics, chk_sherpa, chk_transport, chk_sd_given, chk_packing;
@@ -172,9 +174,14 @@ public class Quick_Log_Fragment extends Fragment {
         btn_Quick_Log_Post = (Button) view.findViewById(R.id.btn_Quick_Log_Post);
         txt_last_flight = (EditText) view.findViewById(R.id.txt_last_flight);
 
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        uid = user.getUid();
+
         //Firebase db change listener
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("logbooks");//.child("Quick_log");//.child(mUserId);
+//        firebaseDatabase = FirebaseDatabase.getInstance();
+//        databaseReference = firebaseDatabase.getReference();          //("logbooks");//.child("Quick_log");//.child(uid);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -261,7 +268,7 @@ public class Quick_Log_Fragment extends Fragment {
 
         Quick_Log ql = new Quick_Log(fname, lname, weight, age, email, phone, lastFlight, additional,
                 hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
-                mUserId, dateTime);
+                uid, dateTime);
 
         if (fname.length() != 0 && lname.length() != 0) {
 
@@ -293,7 +300,6 @@ public class Quick_Log_Fragment extends Fragment {
                             };
 
 
-
                             ReplaceCurrentFragment();
                         }
                     });
@@ -311,13 +317,6 @@ public class Quick_Log_Fragment extends Fragment {
         mViewModel = ViewModelProviders.of(this).get(Quick_Log_ViewModel.class);
         // TODO: Use the ViewModel`1
         //TODO:/populate from/to viewmodel and firebase
-
-        //FireBase auth Instance
-        mAuth = FirebaseAuth.getInstance();
-        mSignedIn = mAuth.getCurrentUser() != null;
-        if (mSignedIn) {
-            mUserId = mAuth.getCurrentUser().getUid();
-        }
     }
 
     public void ReplaceCurrentFragment() {

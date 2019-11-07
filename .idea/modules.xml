@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../Paratrax.iml" filepath="$PROJECT_DIR$/../Paratrax.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Paratrax-app.iml" filepath="$PROJECT_DIR$/Paratrax-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" />
     </modules>
   </component>

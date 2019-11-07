@@ -41,12 +41,14 @@ import static android.os.Build.VERSION_CODES.M;
 
 //import com.google.firebase.FirebaseApp;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {       //AppCompatActivity
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private Accelerometer accelerometer;
     private Gyroscope gyroscope;
     private Humidity humidity;
     private Temperature temperature;
+
+    FirebaseUser user;
 
     private boolean isHumiditySensorPresent;
     private boolean isTemperatureSensorPresent;
@@ -154,9 +156,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null)
-            mAuth.updateCurrentUser(currentUser);
+
+
+        mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null) {
+            mUserId = mAuth.getCurrentUser().getUid();
+        } else {
+            finish();
+        }
+
+
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if (currentUser != null) {
+//            mAuth.updateCurrentUser(currentUser);
+//        } else {
+//            Intent intent = new Intent(this, EmailPasswordActivity.class);
+//            startActivity(intent);
+//        }
+
     }
 
     @Override
@@ -216,20 +234,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         temperature.setListener(new Temperature.Listener() {
             @Override
             public void onTempChange(float tc) {
-                mTemperatureValue.setText("rT: " + Math.round(tc * 10) / 10.0 +" | ");
+                mTemperatureValue.setText("rT: " + Math.round(tc * 10) / 10.0 + " | ");
                 mLastKnownTemperature = tc;
-                if(mLastKnownRelativeHumidity != 0)
-                {
+                if (mLastKnownRelativeHumidity != 0) {
                     float temp = tc;
                     float absoluteHumidity = calculateAbsoluteHumidity(temp, mLastKnownRelativeHumidity);
-                    mAbsoluteHumidityValue.setText("aH: " + Math.round(absoluteHumidity * 10) / 10.0 +" | ");
+                    mAbsoluteHumidityValue.setText("aH: " + Math.round(absoluteHumidity * 10) / 10.0 + " | ");
                     float dewPoint = calculateDewPoint(temp, mLastKnownRelativeHumidity);
                     mDewPointValue.setText("cB: " + Math.round(dewPoint * 10) / 10.0);
 
                 }
             }
         });
-
 
 
         setVisible(false);//TODO: set landing page fragment (maybe just transparent arrows for swipe) so backstack will work on top level
@@ -407,8 +423,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
  A: Pressure constant in hP
  K: Temperature constant for converting to kelvin
  */
-    public float calculateAbsoluteHumidity(float temperature, float relativeHumidity)
-    {
+    public float calculateAbsoluteHumidity(float temperature, float relativeHumidity) {
         float Dv = 0;
         float m = 17.62f;
         float Tn = 243.12f;
@@ -418,7 +433,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         float A = 6.112f;
         float K = 273.15f;
 
-        Dv =   (float) (Ta * (Rh/100) * A * Math.exp(m*Tc/(Tn+Tc)) / (K + Tc));
+        Dv = (float) (Ta * (Rh / 100) * A * Math.exp(m * Tc / (Tn + Tc)) / (K + Tc));
 
         return Dv;
     }
@@ -430,24 +445,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     Rh: Actual relative humidity in percent (%) from phone’s sensor
     Tc: Current temperature in degrees C from phone’ sensor
     */
-    public float calculateDewPoint(float temperature, float relativeHumidity)
-    {
+    public float calculateDewPoint(float temperature, float relativeHumidity) {
         float Td = 0;
         float m = 17.62f;
         float Tn = 243.12f;
         float Rh = relativeHumidity;
         float Tc = temperature;
 
-        Td = (float) (Tn * ((Math.log(Rh/100) + m*Tc/(Tn+Tc))/(m - (Math.log(Rh/100) + m*Tc/(Tn+Tc)))));
+        Td = (float) (Tn * ((Math.log(Rh / 100) + m * Tc / (Tn + Tc)) / (m - (Math.log(Rh / 100) + m * Tc / (Tn + Tc)))));
 
         return Td;
     }
 
-//    @Override
-//    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-//
-//
-//    }
 
     @Override
     protected void onDestroy() {
@@ -458,5 +467,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         accelerometer = null;
         gyroscope = null;
     }
+
 
 }

@@ -50,9 +50,9 @@ public class Full_Logbook_Fragment extends Fragment {
     private String mUserId;
     private boolean mSignedIn = false;
 
-    View mMainView;
+    private View mMainView;
     private Toast mToastText;
-    DatabaseReference mDatabase;
+    private DatabaseReference mDatabase;
 
     private ProgressBar progressBar;
 
@@ -147,35 +147,27 @@ public class Full_Logbook_Fragment extends Fragment {
             }
         });
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mSignedIn = mAuth.getCurrentUser() != null;
-        if (mSignedIn) {
-            mUserId = mAuth.getCurrentUser().getUid();
-        }
-
         //reversing the layout so in descending order when viewed
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());//(getActivity());
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
+         linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         //rv
         recyclerView = (RecyclerView) mMainView.findViewById(R.id.rv_logbook_list);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);       //(new LinearLayoutManager(getContext());
-
+        recyclerView.setLayoutManager(linearLayoutManager);
+        //firebase
         //Get Logged On users info
         final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 //
         //get fb db ref for logbook.
         //ToDO: make new list array of Quicklog hold filtered mUserId == loggedOn user.
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("logbooks").child("Quick_log");
+        mDatabase = FirebaseDatabase.getInstance().getReference();  //.child("logbooks").child("Quick_log");
         mDatabase.keepSynced(true);
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
-                .child("logbooks").child("Quick_log").orderByKey();//.orderByChild(mUserId);
-        //  .child("logbooks").child("Quick_log").orderByChild(mUserId)  ;     //.orderByKey();      //.orderByChild("dateTime");
+                .child("logbooks").child("Quick_log").orderByKey();
 
 
         FirebaseRecyclerOptions<Quick_Log> options = new FirebaseRecyclerOptions.Builder<Quick_Log>()
@@ -211,18 +203,20 @@ public class Full_Logbook_Fragment extends Fragment {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //   progressBar.setVisibility(View.GONE);
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Quick_Log ql = snapshot.getValue(Quick_Log.class);
-                    if (ql.getmUserId() == mUserId) {
-
-                        //TODO: Do something
-                        //
-
-                    }//////////////////////
 
 
-                    System.out.println(ql.email);
+
+
+
+                    //old 071119
+//                    Quick_Log ql = snapshot.getValue(Quick_Log.class);
+//                    if (ql.getmUserId() == mUserId) {
+//                        //TODO: Do something
+//                        //
+//                    }//////////////////////
+//                    System.out.println(ql.email);
                 }
                 //animation
                 fadeOut.setAnimationListener(new Animation.AnimationListener() {

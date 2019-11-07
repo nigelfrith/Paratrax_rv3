@@ -2,9 +2,12 @@ package com.altitude.paratrax.Firebase.Auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.altitude.paratrax.Fragments.Home_Fragment;
 import com.altitude.paratrax.R;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -12,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,6 +30,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firebase_ui);
+
     }
 
     public void createSignInIntent() {
@@ -41,7 +47,8 @@ public class FirebaseUIActivity extends AppCompatActivity {
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
                         .setLogo(R.drawable.my_great_logo)      // Set logo drawable
-                        .setTheme(R.style.MySuperAppTheme)      // Set theme
+                        .setTheme(R.style.MySuperAppTheme)
+                        // Set theme
                         .build(),
                 RC_SIGN_IN);
         // [END auth_fui_create_intent]
@@ -57,7 +64,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
