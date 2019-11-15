@@ -1,41 +1,33 @@
 package com.altitude.paratrax.Classes;
 
 public class User {
-    public String firstName;
-    public String lastName;
-    public String userName;
-    public String phone;
-    public String email;
-    public String gender;
-    public int age;
-    public int weight_kg;
-    public String licenceGrade;
-    public String licenceNumber;
 
-    public User() {}
+    public String username, password;
 
-    public User(
-            String firstName,
-            String lastName,
-            String userName,
-            String phone,
-            String email,
-            String gender,
-            int age,
-            int weight_kg,
-            String licenceGrade,
-            String licenceNumber
-    ) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.phone = phone;
-        this.email = email;
-        this.gender = gender;
-        this.age = age;
-        this.weight_kg = weight_kg;
-        this.licenceGrade = licenceGrade;
-        this.licenceNumber = licenceNumber;
+    public User(){}
+
+    public String getUsername() {
+        return username;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public User(String username, String password){
+     this.username = username;
+     this.password = password;
+    }
+
+
+
 
 }

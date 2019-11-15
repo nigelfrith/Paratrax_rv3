@@ -163,7 +163,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (mAuth.getCurrentUser() != null) {
             mUserId = mAuth.getCurrentUser().getUid();
         } else {
-            finish();
+            Intent intent = new Intent(mContext, EmailPasswordActivity.class);
+            startActivity(intent);
         }
 
 

@@ -180,8 +180,17 @@ public class Quick_Log_Fragment extends Fragment {
         //Firebase db change listener
 //        firebaseDatabase = FirebaseDatabase.getInstance();
 //        databaseReference = firebaseDatabase.getReference();          //("logbooks");//.child("Quick_log");//.child(uid);
-        databaseReference = FirebaseDatabase.getInstance().getReference();
 
+
+
+        //TODO: want to get a (new) reference to the child Quick_l/Log there we write the new data with the
+        //                      uid of the logged on user
+
+
+        //NB this is re-generating/creating the reference list to view
+        //Going to add a ref to "Quick_Log"   ...needs to be written to first to see anyhting. TODO: check for null errors
+        databaseReference = FirebaseDatabase.getInstance().getReference("Quick_Log");
+       // databaseReference = FirebaseDatabase.getInstance().getReference();
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -271,9 +280,9 @@ public class Quick_Log_Fragment extends Fragment {
                 uid, dateTime);
 
         if (fname.length() != 0 && lname.length() != 0) {
-
-            String key = databaseReference.child("Quick_log").push().getKey();
-            databaseReference.child("Quick_log").child(key).setValue(ql)
+//TODO: i think .getkey here has to be the uid . or uid is nested above it
+            String key = databaseReference.child("Quick_Log").push().getKey();
+            databaseReference.child("Quick_Log").child(key).setValue(ql)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

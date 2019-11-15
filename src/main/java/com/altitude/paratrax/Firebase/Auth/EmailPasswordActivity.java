@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.altitude.paratrax.BaseActivity;
+import com.altitude.paratrax.Classes.User;
 import com.altitude.paratrax.Fragments.Home_Fragment;
 import com.altitude.paratrax.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,10 +30,10 @@ public class EmailPasswordActivity extends BaseActivity implements
 
 
     // [START declare_auth]
-    FirebaseAuth mAuth;
+    FirebaseAuth auth;
     // [END declare_auth]
     DatabaseReference rootReference;
-    FirebaseUser user;
+    FirebaseUser firebaseUser;
 
 
     private static final String TAG = "EmailPassword";
@@ -41,7 +42,6 @@ public class EmailPasswordActivity extends BaseActivity implements
     private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
-
 
 
     @Override
@@ -62,9 +62,8 @@ public class EmailPasswordActivity extends BaseActivity implements
         findViewById(R.id.verifyEmailButton).setOnClickListener(this);
 
         // [START initialize_auth]
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();//.getCurrentUser().getUid();
-        user = mAuth.getCurrentUser();
+        auth = FirebaseAuth.getInstance();//.getCurrentUser().getUid();
+
         rootReference = FirebaseDatabase.getInstance().getReference();
         // [END initialize_auth]
     }
@@ -74,43 +73,62 @@ public class EmailPasswordActivity extends BaseActivity implements
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if (auth.getCurrentUser() != null) {
+            FirebaseUser currentUser = auth.getCurrentUser();
+            updateUI(currentUser);
+        }
     }
     // [END on_start_check_user]
 
-    private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
+    public void createAccount(View v) {      //(String email, final String password) {
         if (!validateForm()) {
             return;
+        } else {
+            final String email = mEmailField.getText().toString();
+            final String password = mPasswordField.getText().toString();
+            //showProgressDialog();
+            // Log.d(TAG, "createAccount:" + email);
+            auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                             //   Log.d(TAG, "createUserWithEmail:success");
+                                firebaseUser = auth.getCurrentUser();
+
+                                User nUser = new User(mEmailField.getText().toString(), mPasswordField.getText().toString());
+                                // TODO: trying to set (below) uid value under "users" .. so paratrax => users + uid
+                                //original (sets uid straight
+                               // rootReference.child(firebaseUser.getUid()).setValue(nUser)
+                                        //new
+                                rootReference.child("users").child(firebaseUser.getUid()).setValue(nUser)
+
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(getApplicationContext(), "firebase values updated", Toast.LENGTH_LONG).show();
+                                                  //  finish();
+
+                                                 //   Intent intent = new Intent(getApplicationContext(), Home_Fragment.class);//
+                                                  //   startActivity(intent);
+
+                                                    //updateUI(firebaseUser);
+                                                } else {
+                                                    // If sign in fails, display a message to the user.
+                                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                                    Toast.makeText(EmailPasswordActivity.this, "Authentication failed sorry.",
+                                                            Toast.LENGTH_SHORT).show();
+                                                    updateUI(null);
+                                                }
+                                            }
+                                        });
+                            }
+                        }
+                    });
         }
 
-        showProgressDialog();
-
-        // [START create_user_with_email]
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-
-                        // [START_EXCLUDE]
-                        hideProgressDialog();
-                        // [END_EXCLUDE]
-                    }
-                });
-        // [END create_user_with_email]
     }
 
     private void signIn(String email, String password) {
@@ -122,14 +140,14 @@ public class EmailPasswordActivity extends BaseActivity implements
         showProgressDialog();
 
         // [START sign_in_with_email]
-        mAuth.signInWithEmailAndPassword(email, password)
+        auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser user = auth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -151,7 +169,7 @@ public class EmailPasswordActivity extends BaseActivity implements
     }
 
     private void signOut() {
-        mAuth.signOut();
+        auth.signOut();
         updateUI(null);
     }
 
@@ -161,7 +179,7 @@ public class EmailPasswordActivity extends BaseActivity implements
 
         // Send verification email
         // [START send_email_verification]
-        final FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = auth.getCurrentUser();
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
@@ -221,19 +239,6 @@ public class EmailPasswordActivity extends BaseActivity implements
 
             findViewById(R.id.verifyEmailButton).setEnabled(!user.isEmailVerified());
 
-            String uid = user.getUid();
-            rootReference.setValue(uid)
-                    // rootReference.child(uid).setValue(this);
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(getApplicationContext(), "FirebaseUser Activated", Toast.LENGTH_SHORT).show();
-                            finish();
-//                            Intent intent = new Intent(getApplicationContext(), Home_Fragment.class);
-//                            startActivity(intent);
-                        }
-                    });
-
 
         } else {
             mStatusTextView.setText(R.string.signed_out);
@@ -250,7 +255,7 @@ public class EmailPasswordActivity extends BaseActivity implements
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.emailCreateAccountButton) {
-            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+            createAccount(v);       //(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.emailSignInButton) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.signOutButton) {
