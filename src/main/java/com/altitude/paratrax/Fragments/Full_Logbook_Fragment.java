@@ -48,11 +48,16 @@ import java.util.List;
 public class Full_Logbook_Fragment extends Fragment {
 
     private String mUserId;
+    String uid;
     private boolean mSignedIn = false;
 
     private View mMainView;
     private Toast mToastText;
-    private DatabaseReference mDatabase;
+
+
+    //firebase//
+    DatabaseReference mDatabase;
+    FirebaseAuth auth;
 
     private ProgressBar progressBar;
 
@@ -155,19 +160,16 @@ public class Full_Logbook_Fragment extends Fragment {
         recyclerView = (RecyclerView) mMainView.findViewById(R.id.rv_logbook_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        //firebase
-        //Get Logged On users info
-        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//
-        //get fb db ref for logbook.
-        //ToDO: make new list array of Quicklog hold filtered mUserId == loggedOn user.
+        //firebase////
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            uid = auth.getCurrentUser().getUid();
+        }
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();  //.child("logbooks").child("Quick_log");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("quick_log").child(uid);
         mDatabase.keepSynced(true);
 
-        Query query = FirebaseDatabase.getInstance()
-                .getReference()
-                .child("logbooks").child("Quick_log").orderByKey();
+        Query query = mDatabase.orderByKey();
 
 
         FirebaseRecyclerOptions<Quick_Log> options = new FirebaseRecyclerOptions.Builder<Quick_Log>()
@@ -205,18 +207,6 @@ public class Full_Logbook_Fragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-
-
-
-
-                    //old 071119
-//                    Quick_Log ql = snapshot.getValue(Quick_Log.class);
-//                    if (ql.getmUserId() == mUserId) {
-//                        //TODO: Do something
-//                        //
-//                    }//////////////////////
-//                    System.out.println(ql.email);
                 }
                 //animation
                 fadeOut.setAnimationListener(new Animation.AnimationListener() {

@@ -39,16 +39,17 @@ import java.util.Stack;
 
 import static android.os.Build.VERSION_CODES.M;
 
-//import com.google.firebase.FirebaseApp;
-
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
+
+    //TODO: SensorManager
     private Accelerometer accelerometer;
     private Gyroscope gyroscope;
     private Humidity humidity;
     private Temperature temperature;
 
     FirebaseUser user;
+    private FirebaseAuth mAuth;
 
     private boolean isHumiditySensorPresent;
     private boolean isTemperatureSensorPresent;
@@ -59,7 +60,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private float mLastKnownRelativeHumidity = 0;
     private float mLastKnownTemperature = 0;
 
-    private FirebaseAuth mAuth;
     public Stack<String> mFragmentStack;
     TextView txt_logon;
     Button btn_login;
@@ -155,9 +155,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-
-
         mAuth = FirebaseAuth.getInstance();
 
         if (mAuth.getCurrentUser() != null) {
@@ -166,16 +163,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Intent intent = new Intent(mContext, EmailPasswordActivity.class);
             startActivity(intent);
         }
-
-
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if (currentUser != null) {
-//            mAuth.updateCurrentUser(currentUser);
-//        } else {
-//            Intent intent = new Intent(this, EmailPasswordActivity.class);
-//            startActivity(intent);
-//        }
-
     }
 
     @Override
@@ -360,10 +347,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         androidx.fragment.app.Fragment fragment = getSupportFragmentManager().findFragmentByTag(mFragmentStack.peek());
         // If its an instance of Fragment1 I don't want to finish my activity, so I launch a Toast instead.
         if (fragment instanceof Home_Fragment) {
-            Toast.makeText(getApplicationContext(), "Swipe right to view menu", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Swipe right to view / left to close menu", Toast.LENGTH_SHORT).show();
         } else {
-            // Remove the framg
-            removeFragment();
+          //  finish();
+          //  removeFragment();
             super.onBackPressed();
         }
     }

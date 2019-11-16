@@ -31,7 +31,9 @@ import com.altitude.paratrax.Quick_Log_RecyclerViewHolder;
 import com.altitude.paratrax.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.firebase.ui.auth.AuthUI.TAG;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,16 +74,25 @@ public class Quick_Log_Fragment extends Fragment {
     View view;
     FragmentManager fm;
 
-    //Firebase
-//Swapping Auth for User. 071119
-    //private FirebaseAuth mAuth;
-    private FirebaseUser user;
+    private List<Quick_Log> logs = new ArrayList<>();
+
+    //Firebase//
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    FirebaseAuth auth;
+    FirebaseUser firebaseuser;
     private String uid;
 
+    FirebaseRecyclerOptions<Quick_Log> options;
+    FirebaseRecyclerAdapter<Quick_Log, Quick_Log_RecyclerViewHolder> fb_adapter;
+
+
+
+    //view//
     private View rootView;
     private boolean mSignedIn = false;
 
-    ///controls
+    //controls//
     ArrayAdapter<String> adapter;
 //    ArrayAdapter<CharSequence> adapter;
 
@@ -90,15 +102,6 @@ public class Quick_Log_Fragment extends Fragment {
     private Button btn_Quick_Log_Post;
     private Spinner comp_spinner, loc_spinner;
 
-
-    //Firebase
-    private List<Quick_Log> logs = new ArrayList<>();
-
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-
-    FirebaseRecyclerOptions<Quick_Log> options;
-    FirebaseRecyclerAdapter<Quick_Log, Quick_Log_RecyclerViewHolder> fb_adapter;
 
     Quick_Log selectedQuick_Log_;
     String selectedKey;
@@ -174,49 +177,41 @@ public class Quick_Log_Fragment extends Fragment {
         btn_Quick_Log_Post = (Button) view.findViewById(R.id.btn_Quick_Log_Post);
         txt_last_flight = (EditText) view.findViewById(R.id.txt_last_flight);
 
-        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        uid = user.getUid();
-
-        //Firebase db change listener
-//        firebaseDatabase = FirebaseDatabase.getInstance();
-//        databaseReference = firebaseDatabase.getReference();          //("logbooks");//.child("Quick_log");//.child(uid);
 
 
 
         //TODO: want to get a (new) reference to the child Quick_l/Log there we write the new data with the
         //                      uid of the logged on user
-
-
         //NB this is re-generating/creating the reference list to view
         //Going to add a ref to "Quick_Log"   ...needs to be written to first to see anyhting. TODO: check for null errors
-        databaseReference = FirebaseDatabase.getInstance().getReference("Quick_Log");
-       // databaseReference = FirebaseDatabase.getInstance().getReference();
+      //  databaseReference = FirebaseDatabase.getInstance().getReference("Quick_Log");
+        // databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                logs.clear();
-                List<String> keys = new ArrayList<>();
-                for (DataSnapshot keyNode : dataSnapshot.getChildren()) {
-                    keys.add(keyNode.getKey());
-                    Quick_Log quick_log = keyNode.getValue(Quick_Log.class);
-                    logs.add(quick_log);
-                }
-                if (iiDataStatus != null) {
-                    iiDataStatus.DataIsLoaded(logs, keys);
-                }
-                //TODO:
-                //adapter.notifyDataSetChanged();
-
-                // String value = dataSnapshot.getValue(String.class);
-                // Log.d(TAG, "Value is: " + value);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-
-        });
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                logs.clear();
+//                List<String> keys = new ArrayList<>();
+//                for (DataSnapshot keyNode : dataSnapshot.getChildren()) {
+//                    keys.add(keyNode.getKey());
+//                    Quick_Log quick_log = keyNode.getValue(Quick_Log.class);
+//                    logs.add(quick_log);
+//                }
+//                if (iiDataStatus != null) {
+//                    iiDataStatus.DataIsLoaded(logs, keys);
+//                }
+//                //TODO:
+//                //adapter.notifyDataSetChanged();
+//
+//                // String value = dataSnapshot.getValue(String.class);
+//                // Log.d(TAG, "Value is: " + value);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//
+//        });
 
         btn_Quick_Log_Post.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,8 +276,30 @@ public class Quick_Log_Fragment extends Fragment {
 
         if (fname.length() != 0 && lname.length() != 0) {
 //TODO: i think .getkey here has to be the uid . or uid is nested above it
-            String key = databaseReference.child("Quick_Log").push().getKey();
-            databaseReference.child("Quick_Log").child(key).setValue(ql)
+            //String key = databaseReference.child("Quick_Log").push().getKey();
+          //String key = databaseReference.child("quick_log").child(uid).push().getKey();
+            auth = FirebaseAuth.getInstance();
+            if (auth.getCurrentUser() != null) {
+                uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            }else{
+                uid = "No uid";
+            }
+
+            databaseReference = FirebaseDatabase.getInstance().getReference("quick_log").child(uid);
+            String key = databaseReference.push().getKey();
+
+            databaseReference.child(key).setValue(ql)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), "insert successful", Toast.LENGTH_SHORT).show();
+                            } else { Toast.makeText(getContext(), "insert failed sorry.",
+                                        Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    })
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -294,7 +311,7 @@ public class Quick_Log_Fragment extends Fragment {
 
                                 @Override
                                 public void DataIsInserted() {
-                                    Toast.makeText(getActivity(), "Logbook entry added.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), "Log entry added.", Toast.LENGTH_LONG).show();
                                 }
 
                                 @Override
