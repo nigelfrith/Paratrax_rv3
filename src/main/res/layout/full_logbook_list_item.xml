@@ -41,14 +41,17 @@
                 android:background="@drawable/background_selector_gradient"
                 android:padding="10dp">
 
+
                 <TextView
                     android:id="@+id/fname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="First Name"
+                    android:textAllCaps="true"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    android:paddingTop="20dp"/>
 
                 <TextView
                     android:id="@+id/lname"

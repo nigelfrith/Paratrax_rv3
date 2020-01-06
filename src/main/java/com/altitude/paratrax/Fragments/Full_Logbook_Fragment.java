@@ -32,6 +32,7 @@ import com.altitude.paratrax.Models.Full_Logbook_Model;
 import com.altitude.paratrax.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,7 +63,7 @@ public class Full_Logbook_Fragment extends Fragment {
     private ProgressBar progressBar;
 
     EditText userid, fname, lname, email;
-    private Button button;
+    Button button, btn_Delete;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
@@ -131,7 +132,24 @@ public class Full_Logbook_Fragment extends Fragment {
         // Inflate the layout for this fragment
         mMainView = inflater.inflate(R.layout.fragment_logbook_full, container, false);
 
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            uid = auth.getCurrentUser().getUid();
+        }
+
         progressBar = mMainView.findViewById(R.id.progressBar);
+        btn_Delete = mMainView.findViewById(R.id.btn_Delete);
+
+        if (btn_Delete != null) {
+            btn_Delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // invoke  delete taking two parameters 1) String key 2) DataStatus dataStatus
+                    // deleteEntry()
+                }
+            });
+        }
 
         final View l1 = mMainView.findViewById(R.id.l1);
         final View l2 = mMainView.findViewById(R.id.LinearLayout);
@@ -153,7 +171,7 @@ public class Full_Logbook_Fragment extends Fragment {
         });
 
         //reversing the layout so in descending order when viewed
-         linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         //rv
@@ -161,10 +179,7 @@ public class Full_Logbook_Fragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         //firebase////
-        auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            uid = auth.getCurrentUser().getUid();
-        }
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("quick_log").child(uid);
         mDatabase.keepSynced(true);
@@ -202,6 +217,7 @@ public class Full_Logbook_Fragment extends Fragment {
 
         };
 
+
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -237,6 +253,17 @@ public class Full_Logbook_Fragment extends Fragment {
         return mMainView;
     }
 
+    public void deleteEntry(String key, final Quick_Log_Fragment.DataStatus dataStatus) {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("quick_log").child(uid);
+        mDatabase.child(key).setValue(null)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        dataStatus.DataIsDeleted();
+                    }
+                });
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         public LinearLayout root;
@@ -258,6 +285,7 @@ public class Full_Logbook_Fragment extends Fragment {
 
             root.setOnClickListener(this);
         }
+
 
         @Override
         public void onClick(View view) {
@@ -307,7 +335,6 @@ public class Full_Logbook_Fragment extends Fragment {
         mToastText.setText(message);
         mToastText.show();
     }
-
 
 
 }

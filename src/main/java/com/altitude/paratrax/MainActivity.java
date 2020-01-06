@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ResideMenu resideMenu;
     private ResideMenuItem itemHome;
     private ResideMenuItem itemProfile;
-    private ResideMenuItem itemCalendar;
+    private ResideMenuItem itemPayments;
     private ResideMenuItem itemSettings;
     private ResideMenuItem itemMessage;
     private ResideMenuItem itemFriends;
@@ -96,7 +96,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         EditText et = (EditText) searchView.findViewById(searchEditId);
         et.setTextColor(Color.BLACK);
         et.setHintTextColor(Color.BLACK);
-        //////////////////////////////////
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -113,6 +112,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 return false;
             }
         });
+
+
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -271,18 +272,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         resideMenu.attachToActivity(this);
         resideMenu.setMenuListener(menuListener);
         // create menu items;
+        itemLogbook = new ResideMenuItem(this, R.drawable.ic_dark_events, "Log flight");
+        itemLogbookFull = new ResideMenuItem(this, R.drawable.ic_dark_events, "Log book");
         itemHome = new ResideMenuItem(this, R.drawable.ic_home_dark, "Notices");
-        itemCalendar = new ResideMenuItem(this, R.drawable.icon_calendar, "Calendar");
+        itemPayments = new ResideMenuItem(this, R.drawable.icon_calendar, "Payments");
         itemSettings = new ResideMenuItem(this, R.drawable.icon_settings, "Settings");
         itemProfile = new ResideMenuItem(this, R.drawable.ic_dark_profile, "Profile");
         itemMessage = new ResideMenuItem(this, R.drawable.ic_dark_message, "Message");
         itemFriends = new ResideMenuItem(this, R.drawable.ic_dark_friends, "Friends");
-        itemLogbookFull = new ResideMenuItem(this, R.drawable.ic_dark_events, "Log book");
-        itemLogbook = new ResideMenuItem(this, R.drawable.ic_dark_events, "Log flight");
+
 
         itemHome.setOnClickListener(this);
         itemProfile.setOnClickListener(this);
-        itemCalendar.setOnClickListener(this);
+        itemPayments.setOnClickListener(this);
         itemSettings.setOnClickListener(this);
         itemMessage.setOnClickListener(this);
         itemFriends.setOnClickListener(this);
@@ -291,18 +293,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         itemLogbook.setOnClickListener(this);
 
         //Add or remove fragments from main menu here
+        resideMenu.addMenuItem(itemLogbook, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemLogbookFull, ResideMenu.DIRECTION_LEFT);        
         resideMenu.addMenuItem(itemHome, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemPayments, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemSettings, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemProfile, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemMessage, ResideMenu.DIRECTION_LEFT);
-        resideMenu.addMenuItem(itemFriends, ResideMenu.DIRECTION_LEFT);
-        resideMenu.addMenuItem(itemLogbookFull, ResideMenu.DIRECTION_LEFT);
-        //my new addition
-        resideMenu.addMenuItem(itemSettings, ResideMenu.DIRECTION_LEFT);
-        ///
-        resideMenu.addMenuItem(itemLogbook, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemFriends, ResideMenu.DIRECTION_LEFT);       
 
         resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
-
     }
 
 
@@ -315,15 +315,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //            startActivity(intent);
         } else if (view == itemProfile) {
             changeFragment(new Profile_Fragment());
-//        }else if (view == itemMessage){
-//            changeFragment(new MessageFragment());
-//        }else if (view == itemFriends){
-//            changeFragment(new FriendsFragment());
         } else if (view == itemLogbookFull) {
             changeFragment(new Full_Logbook_Fragment());
         } else if (view == itemHome) {
             changeFragment(new Home_Fragment());
-
+        }
+        else if (view == itemPayments) {
+            changeFragment(new Home_Fragment());
         }
 
         resideMenu.closeMenu();

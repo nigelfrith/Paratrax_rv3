@@ -276,6 +276,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="auto"
+                android:checked="true"
                 android:hint="Pictures">
             </com.google.android.material.checkbox.MaterialCheckBox>
 
