@@ -45,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.firebase.ui.auth.AuthUI.TAG;
@@ -267,7 +268,7 @@ public class Quick_Log_Fragment extends Fragment {
         boolean hasSDGiven = chk_sd_given.isChecked();
 
 
-        Long tsLong = System.currentTimeMillis() / 1000;
+        Date tsLong = new Date(); //System.currentTimeMillis() / 1000;
         String dateTime = tsLong.toString();
 
         Quick_Log ql = new Quick_Log(fname, lname, weight, age, email, phone, lastFlight, additional,

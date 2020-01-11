@@ -120,10 +120,10 @@ public class Quick_Log {
     }
 
     public String getDateTime() {
-        return dateTime;
+        return String.format(dateTime, "yyyy-MM-dd HH:mm:ss");
     }
     public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+        this.dateTime = String.format(dateTime, "yyyy-MM-dd HH:mm:ss");
     }
 
 

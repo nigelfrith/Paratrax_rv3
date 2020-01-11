@@ -2,32 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:orderInCategory="1"
-        android:id="@+id/title_bar_left_menu_item"
-        android:layout_gravity="start"
-        android:layout_marginStart="5dp"
-        app:showAsAction="ifRoom"
-        android:title="Back">
-    </item>
-    <item
         android:orderInCategory="4"
         android:id="@+id/miCompose"
-        android:icon="@drawable/ic_group"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         android:title="Compose">
     </item>
     <item
         android:orderInCategory="3"
         android:id="@+id/miProfile"
-        android:icon="@drawable/paralog"
-        app:showAsAction="ifRoom|withText"
+        app:showAsAction="never"
         android:title="Profile">
     </item>
     <item
         android:orderInCategory="2"
         android:id="@+id/milogin"
-        app:showAsAction="ifRoom"
-        android:title="Login">
+        app:showAsAction="never"
+        android:title="Status">
     </item>
     <item android:id="@+id/action_search"
         android:orderInCategory="5"

@@ -33,6 +33,7 @@ import com.altitude.paratrax.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,12 +43,18 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 public class Full_Logbook_Fragment extends Fragment {
 
+
+
+    public String refKey;
     private String mUserId;
     String uid;
     private boolean mSignedIn = false;
@@ -62,8 +69,8 @@ public class Full_Logbook_Fragment extends Fragment {
 
     private ProgressBar progressBar;
 
-    EditText userid, fname, lname, email;
-    Button button, btn_Delete;
+    EditText userid, fname, lname, email, date;
+    Button button, btn_Delete,btn_Edit;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
@@ -128,7 +135,7 @@ public class Full_Logbook_Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mMainView = inflater.inflate(R.layout.fragment_logbook_full, container, false);
 
@@ -138,18 +145,7 @@ public class Full_Logbook_Fragment extends Fragment {
         }
 
         progressBar = mMainView.findViewById(R.id.progressBar);
-        btn_Delete = mMainView.findViewById(R.id.btn_Delete);
 
-        if (btn_Delete != null) {
-            btn_Delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    // invoke  delete taking two parameters 1) String key 2) DataStatus dataStatus
-                    // deleteEntry()
-                }
-            });
-        }
 
         final View l1 = mMainView.findViewById(R.id.l1);
         final View l2 = mMainView.findViewById(R.id.LinearLayout);
@@ -180,7 +176,6 @@ public class Full_Logbook_Fragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         //firebase////
 
-
         mDatabase = FirebaseDatabase.getInstance().getReference().child("quick_log").child(uid);
         mDatabase.keepSynced(true);
 
@@ -193,12 +188,21 @@ public class Full_Logbook_Fragment extends Fragment {
         adapter = new FirebaseRecyclerAdapter<Quick_Log, ViewHolder>(options) {
 
             @Override
-            protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Quick_Log model) {
+            protected void onBindViewHolder(@NonNull final ViewHolder holder, final int position, @NonNull Quick_Log model) {
 
                 holder.settxtEmail(model.getEmail());
                 holder.settxtfName(model.getFname());
                 holder.settxtlName(model.getLname());
                 holder.setPhone(model.getPhone());
+                holder.settxtDate(model.getDateTime());
+
+
+                holder.rvD.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteEntry(refKey, null);
+                    }
+                });
 
             }
 
@@ -223,6 +227,7 @@ public class Full_Logbook_Fragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                     refKey = snapshot.getKey();
                 }
                 //animation
                 fadeOut.setAnimationListener(new Animation.AnimationListener() {
@@ -255,7 +260,7 @@ public class Full_Logbook_Fragment extends Fragment {
 
     public void deleteEntry(String key, final Quick_Log_Fragment.DataStatus dataStatus) {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("quick_log").child(uid);
-        mDatabase.child(key).setValue(null)
+        mDatabase.child(key).setValue(null)//not letting set to null
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -270,6 +275,8 @@ public class Full_Logbook_Fragment extends Fragment {
         public TextView txtfName;
         public TextView txtlName;
         public TextView txtEmail;
+        public TextView txtDate;
+        public Button rvD;
 
         private String key;
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
@@ -282,6 +289,8 @@ public class Full_Logbook_Fragment extends Fragment {
             txtfName = itemView.findViewById(R.id.fname);
             txtlName = itemView.findViewById(R.id.lname);
             txtEmail = itemView.findViewById(R.id.email);
+            txtDate = itemView.findViewById(R.id.txt_date);
+            rvD = itemView.findViewById(R.id.btn_Delete);
 
             root.setOnClickListener(this);
         }
@@ -297,8 +306,8 @@ public class Full_Logbook_Fragment extends Fragment {
                 selectedItems.put(getAdapterPosition(), true);
                 view.setSelected(true);
                 String text = "Selected log entry = " + getPosition();
-                customToast(getPosition(), text);
-                // Toast.makeText(view.getContext(), "Selected log entry = " + getPosition(), Toast.LENGTH_SHORT).show();
+               // customToast(getPosition(), text);
+                 Toast.makeText(view.getContext(), "Selected log entry = " + getPosition(), Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -314,11 +323,12 @@ public class Full_Logbook_Fragment extends Fragment {
         public void settxtEmail(String string) {
             txtEmail.setText(string);
         }
-
         public void setPhone(String phone) {
-
             TextView txtPhone = (TextView) itemView.findViewById(R.id.phone);
             txtPhone.setText(phone);
+        }
+        public void settxtDate(String date) {
+            txtDate.setText(String.format(date, "yyyy-MM-dd HH:mm:ss"));
         }
     }
 

@@ -84,9 +84,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+//
+//        MenuItem hamburger = menu.getItem(R.id.app_bar);
+//        hamburger.setOnMenuItemClickListener((MenuItem.OnMenuItemClickListener) this)
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         ////////section customizing search view///////////////////////////
         int searchImgId = androidx.appcompat.R.id.search_button;
         ImageView v = (ImageView) searchView.findViewById(searchImgId);
@@ -114,7 +117,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
 
 
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -132,12 +134,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.milogin:
                 Intent intent = new Intent(mContext, EmailPasswordActivity.class);//NB: MainActivity.this
                 startActivity(intent);
-                return true;
-//            case R.id.title_bar_left_menu_item:
-//                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
-//                return true;
-            case R.id.app_bar:
-                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -173,6 +169,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         Toolbar toolbar = this.findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);   //.setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         accelerometer = new Accelerometer(this);
         gyroscope = new Gyroscope(this);
@@ -228,7 +230,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (mLastKnownRelativeHumidity != 0) {
                     float temp = tc;
                     float absoluteHumidity = calculateAbsoluteHumidity(temp, mLastKnownRelativeHumidity);
-                    mAbsoluteHumidityValue.setText("aH: " + Math.round(absoluteHumidity * 10) / 10.0 + " | ");
+                    mAbsoluteHumidityValue.setText("");  //("aH: " + Math.round(absoluteHumidity * 10) / 10.0 + " | ");
                     float dewPoint = calculateDewPoint(temp, mLastKnownRelativeHumidity);
                     mDewPointValue.setText("cB: " + Math.round(dewPoint * 10) / 10.0);
 
@@ -294,13 +296,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         //Add or remove fragments from main menu here
         resideMenu.addMenuItem(itemLogbook, ResideMenu.DIRECTION_LEFT);
-        resideMenu.addMenuItem(itemLogbookFull, ResideMenu.DIRECTION_LEFT);        
+        resideMenu.addMenuItem(itemLogbookFull, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemHome, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemPayments, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemSettings, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemProfile, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemMessage, ResideMenu.DIRECTION_LEFT);
-        resideMenu.addMenuItem(itemFriends, ResideMenu.DIRECTION_LEFT);       
+        resideMenu.addMenuItem(itemFriends, ResideMenu.DIRECTION_LEFT);
 
         resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
     }
@@ -319,8 +321,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             changeFragment(new Full_Logbook_Fragment());
         } else if (view == itemHome) {
             changeFragment(new Home_Fragment());
-        }
-        else if (view == itemPayments) {
+        } else if (view == itemPayments) {
             changeFragment(new Home_Fragment());
         }
 
@@ -342,15 +343,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
         // from the stack we can get the latest fragment
-        androidx.fragment.app.Fragment fragment = getSupportFragmentManager().findFragmentByTag(mFragmentStack.peek());
+        //  androidx.fragment.app.Fragment fragment = getSupportFragmentManager().findFragmentByTag(mFragmentStack.peek());
         // If its an instance of Fragment1 I don't want to finish my activity, so I launch a Toast instead.
-        if (fragment instanceof Home_Fragment) {
-            Toast.makeText(getApplicationContext(), "Swipe right to view / left to close menu", Toast.LENGTH_SHORT).show();
-        } else {
-          //  finish();
-          //  removeFragment();
-            super.onBackPressed();
-        }
+//        if (fragment instanceof Home_Fragment) {
+//            Toast.makeText(getApplicationContext(), "Swipe right to view / left to close menu", Toast.LENGTH_SHORT).show();
+//        } else {
+        //  finish();
+        //  removeFragment();
+        resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+        //  super.onBackPressed();
+        //   }
     }
 
     private void removeFragment() {
