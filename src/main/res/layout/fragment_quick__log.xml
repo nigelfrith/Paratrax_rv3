@@ -65,6 +65,33 @@
             </LinearLayout>
 
 
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="2dp"
+                android:hint="@string/txt_brief"
+                android:nextFocusDown="@+id/txt_fname"
+                android:nextFocusForward="@+id/txt_fname">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_brief"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="50dp"
+                    android:fadingEdge="horizontal|vertical"
+                    android:fontFamily="Roboto-LightItalic"
+                    android:inputType="textShortMessage"
+                    android:maxLines="1"
+                    android:textSize="26dp"
+                    android:textStyle="bold|italic"
+                    android:typeface="monospace" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"

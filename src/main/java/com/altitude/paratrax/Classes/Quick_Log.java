@@ -5,6 +5,7 @@ import com.google.type.Date;
 import java.sql.Timestamp;
 
 public class Quick_Log {
+    private String brief;
     private String fname;
     private String lname;
     private String weight;
@@ -27,6 +28,7 @@ public class Quick_Log {
     public Quick_Log(){}
 
     public Quick_Log(
+            String brief,
             String fname,
             String lname,
             String weight,
@@ -45,7 +47,10 @@ public class Quick_Log {
             boolean hasSDGiven,
             String mUserId,
             String dateTime)
-    {      this.fname = fname;
+
+    {
+        this.brief = brief;
+        this.fname = fname;
         this.lname = lname;
         this.weight = weight;
         this.age = age;
@@ -63,6 +68,22 @@ public class Quick_Log {
         this.hasSDGiven = hasSDGiven;
         this.mUserId = mUserId;
         this.dateTime = dateTime;
+    }
+
+    public String getBrief() {
+        return brief;
+    }
+
+    public void setBrief(String brief) {
+        this.brief = brief;
+    }
+
+    public String getLastFlight() {
+        return lastFlight;
+    }
+
+    public void setLastFlight(String lastFlight) {
+        this.lastFlight = lastFlight;
     }
 
     public boolean isHasTransport() {
@@ -177,8 +198,6 @@ public class Quick_Log {
         this.additional = additional;
     }
 
-    public String lastFlight(){return lastFlight;}
-    public void setlastFlight(String lastFlight){this.lastFlight  = lastFlight;}
 
     public String getmUserId(){
         return mUserId;
@@ -187,25 +206,6 @@ public class Quick_Log {
         this.mUserId = mUserId;
     }
 
-//    public Quick_Log(String fname, String lname, String weight, String age,
-//                     String email, String phone, String additional,
-//                     boolean hasMedical, boolean hasDisability,boolean hasBaggage,boolean hasTransport,boolean hasPics,boolean hasSherpa,
-//                     boolean hasPacking,boolean hasSDGiven,String mUserId, String dateTime) {
-//        this.fname = fname;
-//        this.lname = lname;
-//        this.weight = weight;
-//        this.age = age;
-//        this.email = email;
-//        this.phone = phone;
-//        this.additional = additional;
-//        this.hasMedical = hasMedical;
-//        this.hasDisability = hasDisability;
-//        this.hasBaggage = hasBaggage;
-//
-//
-//        this.mUserId = mUserId;
-//        this.dateTime = dateTime;
-//    }
 
 
 }

@@ -52,7 +52,26 @@ import java.util.List;
 
 public class Full_Logbook_Fragment extends Fragment {
 
+    //TODO: Offline firebase data required. firebase offline
+    //TODO: Day/Date divider lines
+    //TODO: Add company|weather stamp|location
+    //TODO:
 
+    public interface DataStatus {
+        void DataIsLoaded(List<Full_Logbook_Fragment> logs, List<String> keys);
+
+        void DataIsInserted();
+
+        void DataIsUpdated();
+
+        void DataIsDeleted();
+    }
+
+    private Quick_Log_Fragment.DataStatus iiDataStatus;
+
+    public void setiDataStatus(Quick_Log_Fragment.DataStatus iiDataStatus) {
+        this.iiDataStatus = iiDataStatus;
+    }
 
     public String refKey;
     private String mUserId;
@@ -70,7 +89,7 @@ public class Full_Logbook_Fragment extends Fragment {
     private ProgressBar progressBar;
 
     EditText userid, fname, lname, email, date;
-    Button button, btn_Delete,btn_Edit;
+    Button new_button, btn_Edit;    //btn_Delete,
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
@@ -154,13 +173,13 @@ public class Full_Logbook_Fragment extends Fragment {
         final Animation fadeIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
 
 
-        button = (Button) mMainView.findViewById(R.id.btn_new);
-        button.setOnClickListener(new View.OnClickListener() {
+        new_button = (Button) mMainView.findViewById(R.id.btn_new);
+        new_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.main_fragment, new Quick_Log_Fragment(), newInstance().toString());
+                fragmentTransaction.replace(R.id.main_fragment, new Quick_Log_Update_Fragment(), newInstance().toString());
                 fragmentTransaction.addToBackStack(newInstance().toString());
                 fragmentTransaction.commit();
             }
@@ -187,25 +206,6 @@ public class Full_Logbook_Fragment extends Fragment {
 
         adapter = new FirebaseRecyclerAdapter<Quick_Log, ViewHolder>(options) {
 
-            @Override
-            protected void onBindViewHolder(@NonNull final ViewHolder holder, final int position, @NonNull Quick_Log model) {
-
-                holder.settxtEmail(model.getEmail());
-                holder.settxtfName(model.getFname());
-                holder.settxtlName(model.getLname());
-                holder.setPhone(model.getPhone());
-                holder.settxtDate(model.getDateTime());
-
-
-                holder.rvD.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteEntry(refKey, null);
-                    }
-                });
-
-            }
-
             @NonNull
             @Override
             public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -214,10 +214,52 @@ public class Full_Logbook_Fragment extends Fragment {
                 return new ViewHolder(view);
             }
 
+            @Override
+            protected void onBindViewHolder(@NonNull final ViewHolder holder, final int position, @NonNull final Quick_Log model) {
+
+                holder.settxtEmail(model.getEmail());
+                holder.settxtfName(model.getFname());
+                holder.settxtlName(model.getLname());
+                holder.setPhone(model.getPhone());
+                holder.settxtDate(model.getDateTime());
+
+
+
+                holder.rvD.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //holder.rvD;
+                        boolean pos;
+                        pos = holder.selectedItems.get(position);
+
+                        // holder.selectedItems.delete(position);//key;     // v.findViewById(position).toString();//  adapter.getItem(position).toString();
+//                        String key = mDatabase.child(chKid).getKey();//
+//                        deleteEntry(key, iiDataStatus);
+
+                    }
+                });
+
+                holder.rvEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction fragmentTransaction = getActivity()
+                                .getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.main_fragment, new Quick_Log_Fragment(), newInstance().toString());
+                        fragmentTransaction.addToBackStack(newInstance().toString());
+                        fragmentTransaction.commit();
+                    }
+                });
+
+
+            }
+
+
+
 //            @Override
 //            public int getItemCount() {
 //                return this.model.size();
 //            }
+
 
         };
 
@@ -277,6 +319,7 @@ public class Full_Logbook_Fragment extends Fragment {
         public TextView txtEmail;
         public TextView txtDate;
         public Button rvD;
+        private Button rvEdit;
 
         private String key;
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
@@ -291,6 +334,7 @@ public class Full_Logbook_Fragment extends Fragment {
             txtEmail = itemView.findViewById(R.id.email);
             txtDate = itemView.findViewById(R.id.txt_date);
             rvD = itemView.findViewById(R.id.btn_Delete);
+            rvEdit = itemView.findViewById(R.id.btn_Edit);
 
             root.setOnClickListener(this);
         }

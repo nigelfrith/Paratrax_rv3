@@ -97,7 +97,7 @@ public class Quick_Log_Fragment extends Fragment {
     ArrayAdapter<String> adapter;
 //    ArrayAdapter<CharSequence> adapter;
 
-    private EditText txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional, txt_last_flight;
+    private EditText txt_brief,txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional, txt_last_flight;
     private CheckBox chk_medical, chk_disability, chk_baggage, chk_pics, chk_sherpa, chk_transport, chk_sd_given, chk_packing;
     //  private Switch chk_pics, chk_sherpa, chk_transport, chk_sd_given;
     private Button btn_Quick_Log_Post;
@@ -160,6 +160,7 @@ public class Quick_Log_Fragment extends Fragment {
 
         //  comp_spinner = (Spinner) view.findViewById(R.id.mv_spinner_company);
         //  loc_spinner = (Spinner) view.findViewById(R.id.spinner_locations_array);
+        txt_brief = (EditText)view.findViewById(R.id.txt_brief);
         txt_fname = (EditText) view.findViewById(R.id.txt_fname);
         txt_lname = (EditText) view.findViewById(R.id.txt_lname);
         txt_weight = (EditText) view.findViewById(R.id.txt_weight);
@@ -248,6 +249,7 @@ public class Quick_Log_Fragment extends Fragment {
 
 
         //data fields to upload to db
+        String brief = txt_brief.getText().toString();
         String fname = txt_fname.getText().toString();
         String lname = txt_lname.getText().toString();
         String weight = txt_weight.getText().toString();
@@ -271,11 +273,11 @@ public class Quick_Log_Fragment extends Fragment {
         Date tsLong = new Date(); //System.currentTimeMillis() / 1000;
         String dateTime = tsLong.toString();
 
-        Quick_Log ql = new Quick_Log(fname, lname, weight, age, email, phone, lastFlight, additional,
+        Quick_Log ql = new Quick_Log(brief, fname, lname, weight, age, email, phone, lastFlight, additional,
                 hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
                 uid, dateTime);
 
-        if (fname.length() != 0 && lname.length() != 0) {
+        if (brief.length() != 0) {
 //TODO: i think .getkey here has to be the uid . or uid is nested above it
             //String key = databaseReference.child("Quick_Log").push().getKey();
           //String key = databaseReference.child("quick_log").child(uid).push().getKey();
