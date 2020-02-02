@@ -288,7 +288,7 @@ public class Quick_Log_Fragment extends Fragment {
             }else{
                 uid = "No uid";
             }
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             databaseReference = FirebaseDatabase.getInstance().getReference("quick_log").child(uid);
             String key = databaseReference.push().getKey();
 

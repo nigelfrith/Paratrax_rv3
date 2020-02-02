@@ -47,6 +47,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -140,6 +141,15 @@ public class Full_Logbook_Fragment extends Fragment {
     public static Full_Logbook_Fragment newInstance(String param1, String param2) {
         Full_Logbook_Fragment fragment = new Full_Logbook_Fragment();
         Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1); //key, value pairs
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static Quick_Log_Update_Fragment newInstanceQLU(String param1, String param2) {
+        Quick_Log_Update_Fragment fragment = new Quick_Log_Update_Fragment();
+        Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
@@ -185,10 +195,12 @@ public class Full_Logbook_Fragment extends Fragment {
         new_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.addToBackStack(newInstance(mParam1, mParam2).toString());
-                fragmentTransaction.commit();
+                getFragmentManager().beginTransaction().addToBackStack(newInstance("1","2").toString()).replace(R.id.main_fragment, new Quick_Log_Fragment()).commit();
+//
+//                FragmentTransaction fragmentTransaction = getActivity()
+//                        .getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.addToBackStack(newInstance(mParam1, mParam2).toString());
+//                fragmentTransaction.commit();
             }
         });
 
@@ -202,9 +214,12 @@ public class Full_Logbook_Fragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         //firebase////
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("quick_log").child(uid);
         mDatabase.keepSynced(true);
+
+        //set persistance for offline?
+       // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
 
         Query query = mDatabase.orderByKey();
 
@@ -232,6 +247,7 @@ public class Full_Logbook_Fragment extends Fragment {
                 holder.settxtBrief(model.getBrief());
 
 
+
                 holder.settxtDate(model.getDateTime());
 
 
@@ -242,7 +258,7 @@ public class Full_Logbook_Fragment extends Fragment {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("Confirm logbook entry delete!");
-                        builder.setMessage("You are about to delete this entry Do you really want to proceed?");
+                        builder.setMessage("You are about to delete this entry. Do you really want to proceed?");
                         builder.setCancelable(false);
                         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
@@ -273,12 +289,31 @@ public class Full_Logbook_Fragment extends Fragment {
                 holder.rvEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int pos = (int) v.getTag(position);
-                        FragmentTransaction fragmentTransaction = getActivity()
-                                .getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment, new Quick_Log_Update_Fragment(), newInstance(Integer.toString(pos), mParam2).toString());
-                       // fragmentTransaction.addToBackStack(newInstance(mParam1, mParam2).toString());
-                        fragmentTransaction.commit();
+                        String pos = adapter.getRef(position).getKey();
+
+                        Fragment fragment = new Quick_Log_Update_Fragment();
+
+
+//                        fragment.setArguments();
+                        String tag = fragment.toString();
+
+                        getFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_fragment,newInstanceQLU(pos,"") ,tag)
+                                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .addToBackStack(tag)
+                                .commit();
+
+
+//
+//
+//                        int pos = (int) v.getTag(position);
+//                        FragmentTransaction fragmentTransaction = getActivity()
+//                                .getSupportFragmentManager().beginTransaction();
+//                        fragmentTransaction.replace(R.id., new Quick_Log_Update_Fragment(), newInstance(pos, mParam2).toString());
+//                        //main_fragment
+//                       // fragmentTransaction.addToBackStack(newInstance(mParam1, mParam2).toString());
+//                        fragmentTransaction.commit();
                     }
                 });
 
@@ -329,17 +364,6 @@ public class Full_Logbook_Fragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
         return mMainView;
-    }
-
-    public void deleteEntry(String key, final Quick_Log_Fragment.DataStatus dataStatus) {
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("quick_log").child(uid);
-        mDatabase.child(key).setValue(null)//not letting set to null
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        dataStatus.DataIsDeleted();
-                    }
-                });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
