@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.altitude.paratrax.R;
 
@@ -21,6 +22,11 @@ import com.altitude.paratrax.R;
  * create an instance of this fragment.
  */
 public class Quick_Log_Update_Fragment extends Fragment {
+
+
+    TextView tvUpd;
+    View mMainView;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,8 +73,14 @@ public class Quick_Log_Update_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quick__log__update_, container, false);
-    }
+        mMainView = inflater.inflate(R.layout.fragment_quick__log__update_, container, false);
+
+        tvUpd = mMainView.findViewById(R.id.txt_updateEntry);
+        tvUpd.setText("Update Card param 1  " + mParam1 + " param2 " + mParam2 );
+
+
+         return mMainView;
+        }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

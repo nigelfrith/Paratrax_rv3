@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,17 +31,25 @@ import com.altitude.paratrax.Fragments.Full_Logbook_Fragment;
 import com.altitude.paratrax.Fragments.Home_Fragment;
 import com.altitude.paratrax.Fragments.Profile_Fragment;
 import com.altitude.paratrax.Fragments.Quick_Log_Fragment;
+import com.altitude.paratrax.Fragments.Quick_Log_Update_Fragment;
 import com.altitude.paratrax.ResideMenu.ResideMenu;
 import com.altitude.paratrax.ResideMenu.ResideMenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Stack;
 
 import static android.os.Build.VERSION_CODES.M;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener,
+                                                            Quick_Log_Update_Fragment.OnFragmentInteractionListener,
+                                                            Full_Logbook_Fragment.OnFragmentInteractionListener{
 
+    @Override
+    public void onFragmentInteraction(Uri uri){
+        //you can leave it empty
+    }
 
     //TODO: SensorManager
     private Accelerometer accelerometer;
@@ -50,6 +59,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     FirebaseUser user;
     private FirebaseAuth mAuth;
+    private void enablePersistence() {
+        // [START rtdb_enable_persistence]
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        // [END rtdb_enable_persistence]
+    }
 
     private boolean isHumiditySensorPresent;
     private boolean isTemperatureSensorPresent;

@@ -295,6 +295,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="auto"
+                android:checked="true"
                 android:hint="Transportation included">
             </com.google.android.material.checkbox.MaterialCheckBox>
 
@@ -312,6 +313,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="auto"
+                android:checked="true"
                 android:hint="Sherpa">
             </com.google.android.material.checkbox.MaterialCheckBox>
             <com.google.android.material.checkbox.MaterialCheckBox
@@ -319,6 +321,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="auto"
+                android:checked="true"
                 android:hint="Packing included">
             </com.google.android.material.checkbox.MaterialCheckBox>
             <com.google.android.material.checkbox.MaterialCheckBox

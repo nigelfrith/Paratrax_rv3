@@ -76,7 +76,7 @@
                     android:padding="2dp">
 
                     <TextView
-                        android:id="@+id/brief"
+                        android:id="@+id/txt_brief"
                         android:layout_width="186dp"
                         android:layout_height="13dp"
                         android:text="Brief"
@@ -141,8 +141,8 @@
                         app:layout_constraintTop_toBottomOf="@+id/lname" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="135dp"
-                        android:layout_height="41dp"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent">
@@ -150,23 +150,22 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_Edit"
                             style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:layout_width="60dp"
-                            android:layout_height="26dp"
-
                             android:text="Edit"
+                            android:textSize="14dp"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_Delete"
                             style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:layout_width="60dp"
-                            android:layout_height="26dp"
-
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
                             android:text="Delete"
+                            android:textSize="14dp"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/btn_Edit"
-                            app:layout_constraintHorizontal_bias="0.92"
                             app:layout_constraintStart_toStartOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

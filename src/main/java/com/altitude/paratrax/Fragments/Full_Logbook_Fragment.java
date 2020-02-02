@@ -1,8 +1,12 @@
 package com.altitude.paratrax.Fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -49,6 +53,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
 
 public class Full_Logbook_Fragment extends Fragment {
 
@@ -85,6 +91,7 @@ public class Full_Logbook_Fragment extends Fragment {
     //firebase//
     DatabaseReference mDatabase;
     FirebaseAuth auth;
+
 
     private ProgressBar progressBar;
 
@@ -139,9 +146,10 @@ public class Full_Logbook_Fragment extends Fragment {
         return fragment;
     }
 
-    public static Full_Logbook_Fragment newInstance() {
-        return new Full_Logbook_Fragment();
-    }
+    //update 23 jan 20. The below should be a factory method
+//    public static Full_Logbook_Fragment newInstance() {
+//        return new Full_Logbook_Fragment();
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -179,8 +187,7 @@ public class Full_Logbook_Fragment extends Fragment {
             public void onClick(View view) {
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.main_fragment, new Quick_Log_Update_Fragment(), newInstance().toString());
-                fragmentTransaction.addToBackStack(newInstance().toString());
+                fragmentTransaction.addToBackStack(newInstance(mParam1, mParam2).toString());
                 fragmentTransaction.commit();
             }
         });
@@ -195,6 +202,7 @@ public class Full_Logbook_Fragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         //firebase////
 
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("quick_log").child(uid);
         mDatabase.keepSynced(true);
 
@@ -221,6 +229,9 @@ public class Full_Logbook_Fragment extends Fragment {
                 holder.settxtfName(model.getFname());
                 holder.settxtlName(model.getLname());
                 holder.setPhone(model.getPhone());
+                holder.settxtBrief(model.getBrief());
+
+
                 holder.settxtDate(model.getDateTime());
 
 
@@ -228,13 +239,33 @@ public class Full_Logbook_Fragment extends Fragment {
                 holder.rvD.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //holder.rvD;
-                        boolean pos;
-                        pos = holder.selectedItems.get(position);
 
-                        // holder.selectedItems.delete(position);//key;     // v.findViewById(position).toString();//  adapter.getItem(position).toString();
-//                        String key = mDatabase.child(chKid).getKey();//
-//                        deleteEntry(key, iiDataStatus);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Confirm logbook entry delete!");
+                        builder.setMessage("You are about to delete this entry Do you really want to proceed?");
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                adapter.getRef(position).removeValue();
+
+                                Toast.makeText(getContext(), "Record deleted", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        });
+
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getContext(), "Deletion cancelled", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        builder.show();
+
+
+
 
                     }
                 });
@@ -242,10 +273,11 @@ public class Full_Logbook_Fragment extends Fragment {
                 holder.rvEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        int pos = (int) v.getTag(position);
                         FragmentTransaction fragmentTransaction = getActivity()
                                 .getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.main_fragment, new Quick_Log_Fragment(), newInstance().toString());
-                        fragmentTransaction.addToBackStack(newInstance().toString());
+                        fragmentTransaction.replace(R.id.main_fragment, new Quick_Log_Update_Fragment(), newInstance(Integer.toString(pos), mParam2).toString());
+                       // fragmentTransaction.addToBackStack(newInstance(mParam1, mParam2).toString());
                         fragmentTransaction.commit();
                     }
                 });
@@ -263,8 +295,7 @@ public class Full_Logbook_Fragment extends Fragment {
 
         };
 
-
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+              mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -318,6 +349,7 @@ public class Full_Logbook_Fragment extends Fragment {
         public TextView txtlName;
         public TextView txtEmail;
         public TextView txtDate;
+        public TextView txtBrief;
         public Button rvD;
         private Button rvEdit;
 
@@ -335,6 +367,7 @@ public class Full_Logbook_Fragment extends Fragment {
             txtDate = itemView.findViewById(R.id.txt_date);
             rvD = itemView.findViewById(R.id.btn_Delete);
             rvEdit = itemView.findViewById(R.id.btn_Edit);
+            txtBrief = itemView.findViewById(R.id.txt_brief);
 
             root.setOnClickListener(this);
         }
@@ -355,6 +388,7 @@ public class Full_Logbook_Fragment extends Fragment {
 
             }
         }
+        public void settxtBrief(String brief){ txtBrief.setText(brief);}
 
         public void settxtfName(String fname) {
             txtfName.setText(fname);
@@ -390,5 +424,8 @@ public class Full_Logbook_Fragment extends Fragment {
         mToastText.show();
     }
 
-
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
 }
