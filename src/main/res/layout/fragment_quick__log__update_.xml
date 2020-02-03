@@ -1,14 +1,392 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragments.Quick_Log_Update_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/txt_updateEntry"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@drawable/background_selector_gradient"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        tools:context=".Fragments.Quick_Log_Fragment">
 
-</FrameLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".Fragments.Quick_Log_Fragment">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="@android:color/black">
+
+                        <com.jaredrummler.materialspinner.MaterialSpinner
+                            android:id="@+id/mv_spinner_company"
+                            android:layout_width="250dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:backgroundTint="@android:color/black"
+                            android:textColor="@android:color/holo_red_light"
+                            android:fontFamily="Roboto-LightItalic"
+                            android:textSize="16dp"
+                            android:textStyle="bold|italic"
+                            android:typeface="monospace"
+
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.jaredrummler.materialspinner.MaterialSpinner
+                            android:id="@+id/mv_spinner_location"
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="5dp"
+                            android:backgroundTint="@android:color/black"
+                            android:textColor="@android:color/holo_red_light"
+                            android:fontFamily="Roboto-LightItalic"
+                            android:textSize="16dp"
+                            android:textStyle="bold|italic"
+                            android:typeface="monospace"
+
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/txt_brief"
+                    android:nextFocusDown="@+id/txt_fname"
+                    android:nextFocusForward="@+id/txt_fname">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_brief"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="50dp"
+                        android:fadingEdge="horizontal|vertical"
+                        android:fontFamily="Roboto-LightItalic"
+                        android:inputType="textShortMessage"
+                        android:maxLines="1"
+                        android:textSize="26dp"
+                        android:textStyle="bold|italic"
+                        android:typeface="monospace" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/txt_fname"
+                    android:nextFocusDown="@+id/txt_lname2"
+                    android:nextFocusForward="@+id/txt_lname">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_fname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="50dp"
+                        android:fadingEdge="horizontal|vertical"
+                        android:fontFamily="Roboto-LightItalic"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:textSize="26dp"
+                        android:textStyle="bold|italic"
+                        android:typeface="monospace" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/txt_lname"
+                    android:nextFocusDown="@+id/txt_email"
+                    android:nextFocusForward="@+id/txt_email">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_lname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="50dp"
+                        android:fadingEdge="horizontal|vertical"
+                        android:fontFamily="Roboto-LightItalic"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:textSize="26dp"
+                        android:textStyle="bold|italic"
+                        android:typeface="monospace" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/txt_email"
+                    android:nextFocusDown="@+id/txt_phone"
+                    android:nextFocusForward="@+id/txt_phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="50dp"
+                        android:fadingEdge="horizontal|vertical"
+                        android:fontFamily="Roboto-LightItalic"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:textSize="26dp"
+                        android:textStyle="bold|italic"
+                        android:typeface="monospace" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/txt_phone"
+                    android:nextFocusDown="@+id/txt_pax_age"
+                    android:nextFocusForward="@+id/txt_pax_age">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="50dp"
+                        android:fadingEdge="horizontal|vertical"
+                        android:fontFamily="Roboto-LightItalic"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textSize="26dp"
+                        android:textStyle="bold|italic"
+                        android:typeface="monospace" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="1dp"
+                        android:hint="@string/txt_age"
+                        android:nextFocusDown="@+id/txt_weight"
+                        android:nextFocusForward="@+id/txt_weight"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textInputLayout2"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_pax_age"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:autoSizeMaxTextSize="50dp"
+                            android:fadingEdge="horizontal|vertical"
+                            android:fontFamily="Roboto-LightItalic"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:maxLines="1"
+                            android:textSize="26dp"
+                            android:textStyle="bold|italic"
+                            android:typeface="monospace" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout2"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:hint="@string/txt_weight"
+                        android:nextFocusDown="@+id/txt_additional"
+                        android:nextFocusForward="@+id/txt_additional"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_weight"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:autoSizeMaxTextSize="50dp"
+                            android:fadingEdge="horizontal|vertical"
+                            android:fontFamily="Roboto-LightItalic"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:maxLines="1"
+                            android:textSize="26dp"
+                            android:textStyle="bold|italic"
+                            android:typeface="monospace" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chk_medical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="Medical condition"></com.google.android.material.checkbox.MaterialCheckBox>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chk_disability"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="Disability"></com.google.android.material.checkbox.MaterialCheckBox>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chk_baggage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="Baggage"></com.google.android.material.checkbox.MaterialCheckBox>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chk_transport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="Transportation included"></com.google.android.material.checkbox.MaterialCheckBox>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chk_pics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="Pictures"></com.google.android.material.checkbox.MaterialCheckBox>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chk_sherpa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="Sherpa"></com.google.android.material.checkbox.MaterialCheckBox>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chk_packing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="Packing included"></com.google.android.material.checkbox.MaterialCheckBox>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chk_sd_given"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="Sd card given"></com.google.android.material.checkbox.MaterialCheckBox>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="flight pace / round info"
+                    android:nextFocusDown="@+id/txt_additional"
+                    android:nextFocusForward="@+id/txt_additional">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_last_flight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="50dp"
+                        android:fadingEdge="horizontal|vertical"
+                        android:fontFamily="Roboto-LightItalic"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="26sp"
+                        android:textStyle="bold|italic"
+                        android:typeface="monospace" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="Additional Information"
+                    android:nextFocusDown="@+id/btn_Quick_Log_Post"
+                    android:nextFocusForward="@+id/btn_Quick_Log_Post">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_additional"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:height="150dp"
+                        android:autoSizeMaxTextSize="50dp"
+                        android:fadingEdge="horizontal|vertical"
+                        android:fontFamily="Roboto-LightItalic"
+                        android:inputType="textMultiLine"
+                        android:textSize="26dp"
+                        android:textStyle="bold|italic"
+                        android:typeface="monospace" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/btn_Quick_Log_Post"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Update" />
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"></androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+    </LinearLayout>

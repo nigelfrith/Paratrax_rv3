@@ -83,6 +83,7 @@ public class Full_Logbook_Fragment extends Fragment {
     public String refKey;
     private String mUserId;
     String uid;
+    String pos;
     private boolean mSignedIn = false;
 
     private View mMainView;
@@ -195,12 +196,8 @@ public class Full_Logbook_Fragment extends Fragment {
         new_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().beginTransaction().addToBackStack(newInstance("1","2").toString()).replace(R.id.main_fragment, new Quick_Log_Fragment()).commit();
-//
-//                FragmentTransaction fragmentTransaction = getActivity()
-//                        .getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.addToBackStack(newInstance(mParam1, mParam2).toString());
-//                fragmentTransaction.commit();
+                getFragmentManager().beginTransaction().addToBackStack(newInstance(pos, "2").toString()).replace(R.id.main_fragment, new Quick_Log_Fragment()).commit();
+
             }
         });
 
@@ -218,7 +215,7 @@ public class Full_Logbook_Fragment extends Fragment {
         mDatabase.keepSynced(true);
 
         //set persistance for offline?
-       // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
 
         Query query = mDatabase.orderByKey();
@@ -245,11 +242,10 @@ public class Full_Logbook_Fragment extends Fragment {
                 holder.settxtlName(model.getLname());
                 holder.setPhone(model.getPhone());
                 holder.settxtBrief(model.getBrief());
-
-
-
                 holder.settxtDate(model.getDateTime());
-
+               // holder.setTxtLocation((model.getLocation()));
+                holder.setTxtCompany(model.getCompany() + "  | " + model.getLocation());
+                //
 
 
                 holder.rvD.setOnClickListener(new View.OnClickListener() {
@@ -281,45 +277,28 @@ public class Full_Logbook_Fragment extends Fragment {
                         builder.show();
 
 
-
-
                     }
                 });
 
                 holder.rvEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String pos = adapter.getRef(position).getKey();
+                        pos = adapter.getRef(position).getKey();
 
                         Fragment fragment = new Quick_Log_Update_Fragment();
 
-
-//                        fragment.setArguments();
                         String tag = fragment.toString();
 
                         getFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.main_fragment,newInstanceQLU(pos,"") ,tag)
+                                .replace(R.id.main_fragment, newInstanceQLU(pos, ""), tag)
                                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .addToBackStack(tag)
                                 .commit();
-
-
-//
-//
-//                        int pos = (int) v.getTag(position);
-//                        FragmentTransaction fragmentTransaction = getActivity()
-//                                .getSupportFragmentManager().beginTransaction();
-//                        fragmentTransaction.replace(R.id., new Quick_Log_Update_Fragment(), newInstance(pos, mParam2).toString());
-//                        //main_fragment
-//                       // fragmentTransaction.addToBackStack(newInstance(mParam1, mParam2).toString());
-//                        fragmentTransaction.commit();
                     }
                 });
 
-
             }
-
 
 
 //            @Override
@@ -330,12 +309,12 @@ public class Full_Logbook_Fragment extends Fragment {
 
         };
 
-              mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                     refKey = snapshot.getKey();
+                    refKey = snapshot.getKey();
                 }
                 //animation
                 fadeOut.setAnimationListener(new Animation.AnimationListener() {
@@ -380,6 +359,9 @@ public class Full_Logbook_Fragment extends Fragment {
         private String key;
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
+        public TextView txtCompany;
+        public TextView txtLocation;
+
         public ViewHolder(View itemView) {
             super(itemView);
             //itemView.setOnClickListener(this);
@@ -393,26 +375,23 @@ public class Full_Logbook_Fragment extends Fragment {
             rvEdit = itemView.findViewById(R.id.btn_Edit);
             txtBrief = itemView.findViewById(R.id.txt_brief);
 
+            txtCompany= itemView.findViewById(R.id.txt_co);
+           // txtLocation = itemView.findViewById(R.id.txt_loc);
+
             root.setOnClickListener(this);
         }
 
-
-        @Override
-        public void onClick(View view) {
-            if (selectedItems.get(getAdapterPosition(), false)) {
-                selectedItems.delete(getAdapterPosition());
-                view.setSelected(false);
-                Toast.makeText(view.getContext(), "De-Selected log entry = " + getPosition(), Toast.LENGTH_SHORT).show();
-            } else {
-                selectedItems.put(getAdapterPosition(), true);
-                view.setSelected(true);
-                String text = "Selected log entry = " + getPosition();
-               // customToast(getPosition(), text);
-                 Toast.makeText(view.getContext(), "Selected log entry = " + getPosition(), Toast.LENGTH_SHORT).show();
-
-            }
+        public void setTxtCompany(String company){
+            txtCompany.setText(company);
         }
-        public void settxtBrief(String brief){ txtBrief.setText(brief);}
+
+        public void setTxtLocation(String location){
+            txtLocation.setText(location);
+        }
+
+        public void settxtBrief(String brief) {
+            txtBrief.setText(brief);
+        }
 
         public void settxtfName(String fname) {
             txtfName.setText(fname);
@@ -425,12 +404,29 @@ public class Full_Logbook_Fragment extends Fragment {
         public void settxtEmail(String string) {
             txtEmail.setText(string);
         }
+
         public void setPhone(String phone) {
             TextView txtPhone = (TextView) itemView.findViewById(R.id.phone);
             txtPhone.setText(phone);
         }
         public void settxtDate(String date) {
             txtDate.setText(String.format(date, "yyyy-MM-dd HH:mm:ss"));
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (selectedItems.get(getAdapterPosition(), false)) {
+                selectedItems.delete(getAdapterPosition());
+                view.setSelected(false);
+                Toast.makeText(view.getContext(), "De-Selected log entry = " + getPosition(), Toast.LENGTH_SHORT).show();
+            } else {
+                selectedItems.put(getAdapterPosition(), true);
+                view.setSelected(true);
+                String text = "Selected log entry = " + getPosition();
+                // customToast(getPosition(), text);
+                Toast.makeText(view.getContext(), "Selected log entry = " + getPosition(), Toast.LENGTH_SHORT).show();
+
+            }
         }
     }
 

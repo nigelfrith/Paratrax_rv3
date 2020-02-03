@@ -44,6 +44,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import java.text.DateFormat;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -89,7 +91,6 @@ public class Quick_Log_Fragment extends Fragment {
     FirebaseRecyclerAdapter<Quick_Log, Quick_Log_RecyclerViewHolder> fb_adapter;
 
 
-
     //view//
     private View rootView;
     private boolean mSignedIn = false;
@@ -98,11 +99,11 @@ public class Quick_Log_Fragment extends Fragment {
     ArrayAdapter<String> adapter;
 //    ArrayAdapter<CharSequence> adapter;
 
-    private EditText txt_brief,txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional, txt_last_flight;
+    private EditText txt_brief, txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional, txt_last_flight;
     private CheckBox chk_medical, chk_disability, chk_baggage, chk_pics, chk_sherpa, chk_transport, chk_sd_given, chk_packing;
     //  private Switch chk_pics, chk_sherpa, chk_transport, chk_sd_given;
     private Button btn_Quick_Log_Post;
-    private Spinner comp_spinner, loc_spinner;
+    private MaterialSpinner spin_company, spin_location;
 
 
     Quick_Log selectedQuick_Log_;
@@ -159,9 +160,7 @@ public class Quick_Log_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //  comp_spinner = (Spinner) view.findViewById(R.id.mv_spinner_company);
-        //  loc_spinner = (Spinner) view.findViewById(R.id.spinner_locations_array);
-        txt_brief = (EditText)view.findViewById(R.id.txt_brief);
+        txt_brief = (EditText) view.findViewById(R.id.txt_brief);
         txt_fname = (EditText) view.findViewById(R.id.txt_fname);
         txt_lname = (EditText) view.findViewById(R.id.txt_lname);
         txt_weight = (EditText) view.findViewById(R.id.txt_weight);
@@ -181,65 +180,30 @@ public class Quick_Log_Fragment extends Fragment {
         txt_last_flight = (EditText) view.findViewById(R.id.txt_last_flight);
 
 
+        spin_company = (MaterialSpinner) view.findViewById(R.id.mv_spinner_company);
+        spin_company.setItems("Parapax", "CTTP", "Fly Cape Town", "CTTA", "Tandem Flight Company", "Hi-5", "Paraglide South Africa", "SkyWings", "TITS",
+                "Para Taxi", "Icarus");
+        spin_company.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                Snackbar.make(view, " " + item + " selected", Snackbar.LENGTH_LONG).show();
+            }
+        });
+        spin_location = (MaterialSpinner) view.findViewById(R.id.mv_spinner_location);
+        spin_location.setItems("Signal Hill", "Lions Head", "Other");
+        spin_location.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
-        //TODO: want to get a (new) reference to the child Quick_l/Log there we write the new data with the
-        //                      uid of the logged on user
-        //NB this is re-generating/creating the reference list to view
-        //Going to add a ref to "Quick_Log"   ...needs to be written to first to see anyhting. TODO: check for null errors
-      //  databaseReference = FirebaseDatabase.getInstance().getReference("Quick_Log");
-        // databaseReference = FirebaseDatabase.getInstance().getReference();
-
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                logs.clear();
-//                List<String> keys = new ArrayList<>();
-//                for (DataSnapshot keyNode : dataSnapshot.getChildren()) {
-//                    keys.add(keyNode.getKey());
-//                    Quick_Log quick_log = keyNode.getValue(Quick_Log.class);
-//                    logs.add(quick_log);
-//                }
-//                if (iiDataStatus != null) {
-//                    iiDataStatus.DataIsLoaded(logs, keys);
-//                }
-//                //TODO:
-//                //adapter.notifyDataSetChanged();
-//
-//                // String value = dataSnapshot.getValue(String.class);
-//                // Log.d(TAG, "Value is: " + value);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//
-//        });
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                Snackbar.make(view, " " + item + " selected", Snackbar.LENGTH_LONG).show();
+            }
+        });
 
         btn_Quick_Log_Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Quick_Log_Post_Entry();
-            }
-        });
-
-        MaterialSpinner co_spinner = (MaterialSpinner) view.findViewById(R.id.mv_spinner_company);
-        co_spinner.setItems("Parapax", "CTTP", "Fly Cape Town", "CTTA", "Tandem Flight Company", "Hi-5", "Paraglide South Africa", "SkyWings", "TITS",
-                "Para Taxi", "Icarus");
-        co_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-
-            @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                Snackbar.make(view, " " + item + " selected", Snackbar.LENGTH_LONG).show();
-            }
-        });
-        MaterialSpinner loc_spinner = (MaterialSpinner) view.findViewById(R.id.mv_spinner_location);
-        loc_spinner.setItems("Signal Hill", "Lions Head", "Other");
-        loc_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-
-            @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                Snackbar.make(view, " " + item + " selected", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -270,24 +234,28 @@ public class Quick_Log_Fragment extends Fragment {
         boolean hasPacking = chk_packing.isChecked();
         boolean hasSDGiven = chk_sd_given.isChecked();
 
+        String company = spin_company.getText().toString();
+        String location = spin_location.getText().toString();
+
 
         Date tsLong = new Date(); //System.currentTimeMillis() / 1000;
-        String dateTime = tsLong.toString();
+        String dateTime =  tsLong.toString();     //DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
 
         Quick_Log ql = new Quick_Log(brief, fname, lname, weight, age, email, phone, lastFlight, additional,
                 hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
-                uid, dateTime);
+                uid, dateTime, company, location);
 
         if (brief.length() != 0) {
 //TODO: i think .getkey here has to be the uid . or uid is nested above it
             //String key = databaseReference.child("Quick_Log").push().getKey();
-          //String key = databaseReference.child("quick_log").child(uid).push().getKey();
+            //String key = databaseReference.child("quick_log").child(uid).push().getKey();
             auth = FirebaseAuth.getInstance();
             if (auth.getCurrentUser() != null) {
                 uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            }else{
+            } else {
                 uid = "No uid";
             }
+            //TODO:persistance
             //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             databaseReference = FirebaseDatabase.getInstance().getReference("quick_log").child(uid);
             String key = databaseReference.push().getKey();
@@ -298,7 +266,8 @@ public class Quick_Log_Fragment extends Fragment {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getContext(), "insert successful", Toast.LENGTH_SHORT).show();
-                            } else { Toast.makeText(getContext(), "insert failed sorry.",
+                            } else {
+                                Toast.makeText(getContext(), "insert failed sorry.",
                                         Toast.LENGTH_SHORT).show();
 
                             }
@@ -340,10 +309,6 @@ public class Quick_Log_Fragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.companys_array, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        comp_spinner.setAdapter(adapter);
-
         mViewModel = ViewModelProviders.of(this).get(Quick_Log_ViewModel.class);
         // TODO: Use the ViewModel`1
         //TODO:/populate from/to viewmodel and firebase
