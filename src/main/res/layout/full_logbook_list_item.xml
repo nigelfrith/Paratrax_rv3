@@ -42,144 +42,152 @@
 
                 <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/txt_co"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_column="2"
-                            android:text="company"
-                            android:textAppearance="?attr/textAppearanceSubtitle2"
-                            android:textColor="@android:color/black"
-                            android:textSize="11sp"
-                            android:textStyle="normal"
-                            />
-
-                    </TableRow>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="10dp"
+                    android:padding="2dp">
 
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-
 
                         <TextView
                             android:id="@+id/txt_brief"
-                            android:layout_width="200dp"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_column="1"
-                            android:paddingTop="5dp"
+
                             android:text="Brief"
-                            android:textAlignment="viewStart"
                             android:textAllCaps="true"
                             android:textAppearance="?attr/textAppearanceSubtitle2"
                             android:textColor="@android:color/black"
                             android:textSize="12sp"
                             android:textStyle="normal" />
 
+                        <TextView
+                            android:id="@+id/txt_co"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_column="2"
+                            android:text="company"
+                            android:textAlignment="viewEnd"
+                            android:textAppearance="?attr/textAppearanceSubtitle2"
+                            android:textColor="@android:color/black"
+                            android:textSize="11sp"
+                            android:textStyle="normal" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/fname"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:text="First Name"
+                            android:textAllCaps="true"
+                            android:textAppearance="?attr/textAppearanceSubtitle2"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/txt_date"
                             android:layout_width="150dp"
-                            android:layout_height="50dp"
+                            android:layout_height="wrap_content"
                             android:layout_column="2"
                             android:text="Date"
+                            android:textAlignment="viewEnd"
                             android:textAppearance="?attr/textAppearanceSubtitle2"
                             android:textColor="@android:color/black"
                             android:textSize="11sp"
-                            android:textStyle="normal"
-                            />
+                            android:textStyle="normal" />
+
                     </TableRow>
 
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/lname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:text="Last Name"
+                            android:textAllCaps="true"
+                            android:textAppearance="?attr/textAppearanceSubtitle2"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:text="Email"
+                            android:textAllCaps="true"
+                            android:textAppearance="?attr/textAppearanceSubtitle2"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:text="Phone"
+                            android:textAllCaps="true"
+                            android:textAppearance="?attr/textAppearanceSubtitle2"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
+
+                        <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_weight="5"
+                            android:alpha="1"
+                            android:gravity="end"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:id="@+id/btn_Delete"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:padding="2dp"
+                                android:text="Delete"
+                                android:textSize="10sp" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:id="@+id/btn_Edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="2dp"
+                                android:text="Edit"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                    </TableRow>
                 </TableLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="top|start"
-                    android:orientation="horizontal"
-                    android:padding="2dp">
-
-
-                    <TextView
-                        android:id="@+id/fname"
-                        android:layout_width="110dp"
-                        android:layout_height="19dp"
-                        android:text="First Name"
-                        android:textAllCaps="true"
-                        android:textAppearance="?attr/textAppearanceSubtitle2"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:textStyle="normal"
-
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/lname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Last Name"
-                        android:textAllCaps="true"
-                        android:textAppearance="?attr/textAppearanceSubtitle2"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:textStyle="normal"
-                        app:layout_constraintStart_toStartOf="@+id/fname"
-                        app:layout_constraintTop_toBottomOf="@+id/fname" />
-
-
-                    <TextView
-                        android:id="@+id/email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Email"
-                        android:textAlignment="textStart"
-                        android:textAppearance="?attr/textAppearanceSubtitle2"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/phone" />
-
-                    <TextView
-                        android:id="@+id/phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Phone"
-                        android:textAlignment="textStart"
-                        android:textAppearance="?attr/textAppearanceSubtitle2"
-                        app:layout_constraintStart_toStartOf="@+id/lname"
-                        app:layout_constraintTop_toBottomOf="@+id/lname" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_Delete"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="Delete"
-                            android:textSize="12dp"
-                            app:layout_constraintEnd_toStartOf="@+id/btn_Edit"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_Edit"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="Edit"
-                            android:textSize="12dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
 
@@ -195,6 +203,7 @@
         android:layout_marginStart="20sp"
         android:layout_marginTop="10dp"
         android:background="#7AF2F2F7"
+        android:contentDescription="bird"
         android:elevation="20dp"
         android:fadingEdgeLength="5dp"
         app:srcCompat="@drawable/thzepczr8y" />

@@ -1,7 +1,5 @@
 package com.altitude.paratrax.Fragments;
 
-//import com.altitude.paratrax.Firebase.FirebaseDatabaseHelper.DataStatus;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -210,7 +208,7 @@ public class Quick_Log_Fragment extends Fragment {
     }
 
 
-    private void Quick_Log_Post_Entry() {
+    public void Quick_Log_Post_Entry() {
 
 
         //data fields to upload to db
@@ -222,7 +220,6 @@ public class Quick_Log_Fragment extends Fragment {
         String email = txt_email.getText().toString();
         String phone = txt_phone.getText().toString();
         String additional = txt_additional.getText().toString();
-
         String lastFlight = txt_last_flight.getText().toString();
 
         boolean hasMedical = chk_medical.isChecked();
@@ -236,7 +233,6 @@ public class Quick_Log_Fragment extends Fragment {
 
         String company = spin_company.getText().toString();
         String location = spin_location.getText().toString();
-
 
         Date tsLong = new Date(); //System.currentTimeMillis() / 1000;
         String dateTime =  tsLong.toString();     //DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);

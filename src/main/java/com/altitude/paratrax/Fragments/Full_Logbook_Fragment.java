@@ -284,9 +284,7 @@ public class Full_Logbook_Fragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         pos = adapter.getRef(position).getKey();
-
-                        Fragment fragment = new Quick_Log_Update_Fragment();
-
+                        Fragment fragment = new Quick_Log_Fragment();
                         String tag = fragment.toString();
 
                         getFragmentManager()
