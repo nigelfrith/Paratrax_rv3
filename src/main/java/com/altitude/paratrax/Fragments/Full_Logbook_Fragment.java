@@ -97,7 +97,7 @@ public class Full_Logbook_Fragment extends Fragment {
 
     private ProgressBar progressBar;
 
-    EditText userid, fname, lname, email, date;
+    EditText userid, fname, lname, email,  date;
     Button new_button, btn_Edit;    //btn_Delete,
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -156,11 +156,6 @@ public class Full_Logbook_Fragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-    //update 23 jan 20. The below should be a factory method
-//    public static Full_Logbook_Fragment newInstance() {
-//        return new Full_Logbook_Fragment();
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -238,14 +233,13 @@ public class Full_Logbook_Fragment extends Fragment {
             protected void onBindViewHolder(@NonNull final ViewHolder holder, final int position, @NonNull final Quick_Log model) {
 
                 holder.settxtEmail(model.getEmail());
-                holder.settxtfName(model.getFname());
-                holder.settxtlName(model.getLname());
+                holder.settxtfName(model.getFname() + " " + model.getLname());
+               // holder.settxtlName(model.getLname());
                 holder.setPhone(model.getPhone());
                 holder.settxtBrief(model.getBrief());
                 holder.settxtDate(model.getDateTime());
-               // holder.setTxtLocation((model.getLocation()));
-                holder.setTxtCompany(model.getCompany() + "  | " + model.getLocation());
-                //
+                holder.setTxtCompany(model.getCompany() + "  |  " + model.getLocation());
+                holder.setTxtAge(model.getAge()+"yrs" + "  |  " + model.getWeight()+"kgs");
 
 
                 holder.rvD.setOnClickListener(new View.OnClickListener() {
@@ -351,6 +345,10 @@ public class Full_Logbook_Fragment extends Fragment {
         public TextView txtEmail;
         public TextView txtDate;
         public TextView txtBrief;
+        public TextView txtAge;
+        public TextView txtWeight;
+
+
         public Button rvD;
         private Button rvEdit;
 
@@ -366,7 +364,7 @@ public class Full_Logbook_Fragment extends Fragment {
 
             root = itemView.findViewById(R.id.list_root);
             txtfName = itemView.findViewById(R.id.fname);
-            txtlName = itemView.findViewById(R.id.lname);
+           // txtlName = itemView.findViewById(R.id.lname);
             txtEmail = itemView.findViewById(R.id.email);
             txtDate = itemView.findViewById(R.id.txt_date);
             rvD = itemView.findViewById(R.id.btn_Delete);
@@ -375,8 +373,13 @@ public class Full_Logbook_Fragment extends Fragment {
 
             txtCompany= itemView.findViewById(R.id.txt_co);
            // txtLocation = itemView.findViewById(R.id.txt_loc);
+            txtAge = itemView.findViewById(R.id.txt_age);
+
 
             root.setOnClickListener(this);
+        }
+        public void setTxtAge(String age){
+            txtAge.setText(age);
         }
 
         public void setTxtCompany(String company){

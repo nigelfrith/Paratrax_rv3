@@ -3,18 +3,18 @@
     <!-- Base application theme. -->
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">#2962FF</item>
-        <item name="colorPrimaryVariant">#2962FF</item>
+        <item name="colorPrimary">#FFFF5722</item>
+        <item name="colorPrimaryVariant">#FFFF5722</item>
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#2962FF</item>
-        <item name="colorSecondaryVariant">#0039CB</item>
+        <item name="colorSecondary">#FFFF5722</item>
+        <item name="colorSecondaryVariant">#FFFF5722</item>
         <item name="colorOnSecondary">#FFFFFF</item>
         <item name="colorError">#F44336</item>
         <item name="colorOnError">#FFFFFF</item>
         <item name="colorSurface">#FFFFFF</item>
-        <item name="colorOnSurface">#2962FF</item>
+        <item name="colorOnSurface">#FFFF5722</item>
         <item name="android:colorBackground">@color/background</item>
-        <item name="colorOnBackground">#2962FF</item>
+        <item name="colorOnBackground">#FFFF5722</item>
     </style><color name="background">#FAFAFA</color>
 
 
@@ -83,16 +83,16 @@
 
     <style name="Widget.Shrine.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="hintTextAppearance">@style/TextAppearance.Shrine.TextInputLayout.HintText</item>
-        <item name="hintTextColor">@color/textColorPrimary</item>
+        <item name="hintTextColor">@color/ptrax_black1</item>
         <item name="android:paddingBottom">8dp</item>
-        <item name="boxStrokeColor">@color/textInputOutlineColor</item>
+        <item name="boxStrokeColor">@color/ptrax_black1</item>
     </style>
     <style name="TextAppearance.Shrine.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textColor">@color/ptrax_black1</item>
     </style>
 
     <style name="Widget.Shrine.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textColor">@color/ptrax_black1</item>
         <item name="backgroundTint">?attr/colorPrimaryDark</item>
         <item name="android:stateListAnimator" tools:ignore="NewApi">
             @animator/shr_next_button_state_list_anim
@@ -100,7 +100,7 @@
     </style>
 
     <style name="Widget.Shrine.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textColor">@color/ptrax_black1</item>
     </style>
 
     <style name="Widget.Shrine.Toolbar" parent="Widget.AppCompat.Toolbar">

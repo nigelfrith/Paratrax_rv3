@@ -32,7 +32,9 @@
         <activity android:name=".BaseActivity" />
         <activity android:name=".Firebase.Auth.EmailPasswordActivity" />
         <activity android:name=".Firebase.Auth.FirebaseUIActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />

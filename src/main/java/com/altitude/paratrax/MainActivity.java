@@ -189,6 +189,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 onBackPressed();
             }
         });
+        hideSystemUI();
 
         accelerometer = new Accelerometer(this);
         gyroscope = new Gyroscope(this);
@@ -276,6 +277,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
 
     }
+
+
 
     private void setUpMenu() {
 
