@@ -177,19 +177,21 @@ public class Quick_Log_Fragment extends Fragment {
         btn_Quick_Log_Post = (Button) view.findViewById(R.id.btn_Quick_Log_Post);
         txt_last_flight = (EditText) view.findViewById(R.id.txt_last_flight);
 
-
-        spin_company = (MaterialSpinner) view.findViewById(R.id.mv_spinner_company);
-        spin_company.setItems("Parapax", "CTTP", "Fly Cape Town", "CTTA", "Tandem Flight Company", "Hi-5", "Paraglide South Africa", "SkyWings", "TITS",
-                "Para Taxi", "Icarus");
+        spin_company = view.findViewById(R.id.mv_spinner_company);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(), R.array.companys_array, android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin_company.setAdapter(adapter);
         spin_company.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 Snackbar.make(view, " " + item + " selected", Snackbar.LENGTH_LONG).show();
             }
         });
-        spin_location = (MaterialSpinner) view.findViewById(R.id.mv_spinner_location);
-        spin_location.setItems("Signal Hill", "Lions Head", "Other");
+        spin_location = view.findViewById(R.id.mv_spinner_location);
+        ArrayAdapter<CharSequence> adapterP = ArrayAdapter.createFromResource(view.getContext(), R.array.locations_array, android.R.layout.simple_spinner_dropdown_item);
+        adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin_location.setAdapter(adapterP);
+
         spin_location.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
             @Override

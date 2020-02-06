@@ -137,7 +137,7 @@
     <string-array name="companys_array">
         <item>Parapax</item>
         <item>CTTP</item>
-        <item>CTTA</item>
+        <item>CTA</item>
         <item>FCT</item>
         <item>TFC</item>
         <item>Hi5</item>
@@ -150,6 +150,7 @@
     <string-array name="locations_array">
         <item>Signal Hill</item>
         <item>Lions Head</item>
+        <item>Other</item>
     </string-array>
 
     ////quick_log ////

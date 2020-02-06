@@ -3,18 +3,23 @@
     <!-- Base application theme. -->
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">#FFFF5722</item>
-        <item name="colorPrimaryVariant">#FFFF5722</item>
+        <!-- Customize your theme here. -->
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="colorPrimary">#000000</item>
+        <item name="colorPrimaryVariant">#000000</item>
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#FFFF5722</item>
+        <item name="colorSecondary">#000000</item>
         <item name="colorSecondaryVariant">#FFFF5722</item>
         <item name="colorOnSecondary">#FFFFFF</item>
         <item name="colorError">#F44336</item>
         <item name="colorOnError">#FFFFFF</item>
         <item name="colorSurface">#FFFFFF</item>
-        <item name="colorOnSurface">#FFFF5722</item>
+        <item name="colorOnSurface">#000000</item>
         <item name="android:colorBackground">@color/background</item>
-        <item name="colorOnBackground">#FFFF5722</item>
+        <item name="colorOnBackground">#665550</item>
     </style><color name="background">#FAFAFA</color>
 
 
@@ -40,7 +45,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:layout_marginRight">4dp</item>
         <item name="android:layout_marginLeft">4dp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <!-- Light EditTexts -->

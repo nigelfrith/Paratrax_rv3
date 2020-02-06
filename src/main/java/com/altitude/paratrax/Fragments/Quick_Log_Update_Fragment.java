@@ -7,42 +7,37 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.altitude.paratrax.Classes.Quick_Log;
 import com.altitude.paratrax.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
+import java.util.Objects;
 
-import static com.firebase.ui.auth.AuthUI.TAG;
+import static com.altitude.paratrax.BaseActivity.hideKeyboardFrom;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,11 +55,14 @@ public class Quick_Log_Update_Fragment extends Fragment {
     View mMainView;
     String uid;
     Quick_Log ql;
+    ArrayAdapter<CharSequence> adapter;
+    ArrayAdapter<CharSequence> adapterP;
+
 
     private EditText txt_brief, txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional, txt_last_flight;
     private CheckBox chk_medical, chk_disability, chk_baggage, chk_pics, chk_sherpa, chk_transport, chk_sd_given, chk_packing;
     //  private Switch chk_pics, chk_sherpa, chk_transport, chk_sd_given;
-    private Button btn_Quick_Log_Update;
+    //  private Button btn_Quick_Log_Update;
     private MaterialSpinner spin_company, spin_location;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -106,6 +104,8 @@ public class Quick_Log_Update_Fragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
+
         }
     }
 
@@ -114,13 +114,19 @@ public class Quick_Log_Update_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mMainView = inflater.inflate(R.layout.fragment_quick__log__update_, container, false);
+        //TODO: keyboard appearance needs some work
+        hideKeyboardFrom(Objects.requireNonNull(getContext()), mMainView);
+        return mMainView;
+
+    }
+
+    @Override
+    public void onViewCreated(@NotNull @NonNull View mMainView, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(mMainView, savedInstanceState);
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             uid = auth.getCurrentUser().getUid();
         }
-//        tvUpd = mMainView.findViewById(R.id.txt_updateEntry);
-//        tvUpd.setText("Update Card param 1  " + mParam1 + " param2 " + mParam2 );
-
         txt_brief = (EditText) mMainView.findViewById(R.id.txt_brief);
         txt_fname = (EditText) mMainView.findViewById(R.id.txt_fname);
         txt_lname = (EditText) mMainView.findViewById(R.id.txt_lname);
@@ -128,6 +134,7 @@ public class Quick_Log_Update_Fragment extends Fragment {
         txt_pax_age = (EditText) mMainView.findViewById(R.id.txt_pax_age);
         txt_email = (EditText) mMainView.findViewById(R.id.txt_email);
         txt_phone = (EditText) mMainView.findViewById(R.id.txt_phone);
+
         chk_medical = (CheckBox) mMainView.findViewById(R.id.chk_medical);
         chk_disability = (CheckBox) mMainView.findViewById(R.id.chk_disability);
         chk_baggage = (CheckBox) mMainView.findViewById(R.id.chk_baggage);
@@ -138,26 +145,29 @@ public class Quick_Log_Update_Fragment extends Fragment {
         chk_sd_given = (CheckBox) mMainView.findViewById(R.id.chk_sd_given);
         txt_last_flight = (EditText) mMainView.findViewById(R.id.txt_last_flight);
         txt_additional = (EditText) mMainView.findViewById(R.id.txt_additional);
-        btn_Quick_Log_Update = (Button) mMainView.findViewById(R.id.btn_Quick_Log_Update);
+
+        spin_company = mMainView.findViewById(R.id.mv_spinner_company);
+
+        spin_location = mMainView.findViewById(R.id.mv_spinner_location);
+
+
+        FloatingActionButton fab = (FloatingActionButton) mMainView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Quick_Log_Update();
+            }
+        });
 
         //use mParam1 to load the firebase live content
-
-
-        spin_company = (MaterialSpinner) mMainView.findViewById(R.id.mv_spinner_company);
-        spin_company.setItems("Parapax", "CTTP", "Fly Cape Town", "CTA", "Tandem Flight Company", "Hi-5", "Paraglide South Africa", "SkyWings", "TITS",
-                "Para Taxi", "Icarus");
-        spin_location = (MaterialSpinner) mMainView.findViewById(R.id.mv_spinner_location);
-        spin_location.setItems("Signal Hill", "Lions Head", "Other");
-
-
         mDatabase = FirebaseDatabase.getInstance().getReference().child("quick_log").child(uid);//.child(mParam1);
 
         Query query = mDatabase.orderByKey();
-
         mDatabase.child(mParam1).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ql = dataSnapshot.getValue(Quick_Log.class);
+                assert ql != null;
                 txt_brief.setText(ql.getBrief());
                 txt_fname.setText(ql.getFname());
                 txt_lname.setText(ql.getLname());
@@ -168,66 +178,49 @@ public class Quick_Log_Update_Fragment extends Fragment {
                 txt_last_flight.setText((ql.getLastFlight()));
                 txt_additional.setText(ql.getAdditional());
 
-                if(spin_location.length() > 0 && spin_company.length() >0) {
-                    String compareValue = "some value";
-                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.companys_array, android.R.layout.simple_spinner_dropdown_item);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spin_company.setAdapter(adapter);
-                    if (compareValue != null) {
-                        int spinnerPosition = adapter.getPosition(ql.getCompany());
-                        spin_company.setSelectedIndex(spinnerPosition);
-                    }
-                    ArrayAdapter<CharSequence> adapterP = ArrayAdapter.createFromResource(getContext(), R.array.locations_array, android.R.layout.simple_spinner_dropdown_item);
-                    adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spin_location.setAdapter(adapterP);
-                    if (compareValue != null) {
-                        int spinnerPosition = adapterP.getPosition(ql.getLocation());
-                        spin_location.setSelectedIndex(spinnerPosition);
-                    }
-                }
+                adapter = ArrayAdapter.createFromResource(getContext(), R.array.companys_array, android.R.layout.simple_spinner_dropdown_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spin_company.setAdapter(adapter);
+                int spinnerPosition = adapter.getPosition(ql.getCompany());
+                spin_company.setSelectedIndex(spinnerPosition);
 
-                if (ql.isHasMedical() == true) {
+                adapterP = ArrayAdapter.createFromResource(getContext(), R.array.locations_array, android.R.layout.simple_spinner_dropdown_item);
+                adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spin_location.setAdapter(adapterP);
+                int spinnerPositionP = adapterP.getPosition(ql.getLocation());
+                spin_location.setSelectedIndex(spinnerPositionP);
+
+                if (ql.isHasMedical()) {
                     chk_medical.setChecked(true);
                 } else chk_medical.setChecked(false);
 
-                if (ql.isHasDisability() == true) {
+                if (ql.isHasDisability()) {
                     chk_disability.setChecked(true);
                 } else chk_disability.setChecked(false);
 
-                if (ql.isHasBaggage() == true) {
+                if (ql.isHasBaggage()) {
                     chk_baggage.setChecked(true);
                 } else chk_baggage.setChecked(false);
 
-                if (ql.isHasTransport() == true) {
+                if (ql.isHasTransport()) {
                     chk_transport.setChecked(true);
                 } else chk_transport.setChecked(false);
 
-                if (ql.isHasPics() == true) {
+                if (ql.isHasPics()) {
                     chk_pics.setChecked(true);
                 } else chk_pics.setChecked(false);
 
-                if (ql.isHasSherpa() == true) {
+                if (ql.isHasSherpa()) {
                     chk_sherpa.setChecked(true);
                 } else chk_sherpa.setChecked(false);
 
-                if (ql.isHasPacking() == true) {
+                if (ql.isHasPacking()) {
                     chk_packing.setChecked(true);
                 } else chk_packing.setChecked(false);
 
-                if (ql.isHasSDGiven() == true) {
+                if (ql.isHasSDGiven()) {
                     chk_sd_given.setChecked(true);
                 } else chk_sd_given.setChecked(false);
-
-                btn_Quick_Log_Update.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        Quick_Log_Update();
-
-
-                    }
-                });
-
             }
 
             @Override
@@ -235,65 +228,65 @@ public class Quick_Log_Update_Fragment extends Fragment {
 
             }
         });
-        return mMainView;
     }
 
     private void Quick_Log_Update() {
 
 
+        String brief = txt_brief.getText().toString();
+        String fname = txt_fname.getText().toString();
+        String lname = txt_lname.getText().toString();
+        String weight = txt_weight.getText().toString();
+        String age = txt_pax_age.getText().toString();
+        String email = txt_email.getText().toString();
+        String phone = txt_phone.getText().toString();
+        String additional = txt_additional.getText().toString();
+        String lastFlight = txt_last_flight.getText().toString();
 
-                String brief = txt_brief.getText().toString();
-                String fname = txt_fname.getText().toString();
-                String lname = txt_lname.getText().toString();
-                String weight = txt_weight.getText().toString();
-                String age = txt_pax_age.getText().toString();
-                String email = txt_email.getText().toString();
-                String phone = txt_phone.getText().toString();
-                String additional = txt_additional.getText().toString();
-                String lastFlight = txt_last_flight.getText().toString();
+        boolean hasMedical = chk_medical.isChecked();
+        boolean hasDisability = chk_disability.isChecked();
+        boolean hasTransport = chk_transport.isChecked();
+        boolean hasBaggage = chk_baggage.isChecked();
+        boolean hasPics = chk_pics.isChecked();
+        boolean hasSherpa = chk_sherpa.isChecked();
+        boolean hasPacking = chk_packing.isChecked();
+        boolean hasSDGiven = chk_sd_given.isChecked();
 
-                boolean hasMedical = chk_medical.isChecked();
-                boolean hasDisability = chk_disability.isChecked();
-                boolean hasTransport = chk_transport.isChecked();
-                boolean hasBaggage = chk_baggage.isChecked();
-                boolean hasPics = chk_pics.isChecked();
-                boolean hasSherpa = chk_sherpa.isChecked();
-                boolean hasPacking = chk_packing.isChecked();
-                boolean hasSDGiven = chk_sd_given.isChecked();
+        String company = spin_company.getText().toString();
+        String location = spin_location.getText().toString();
 
-                String company = spin_company.getText().toString();
-                String location = spin_location.getText().toString();
+        Date tsLong = new Date(); //System.currentTimeMillis() / 1000;
+        String dateTime = tsLong.toString();     //DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
 
-                Date tsLong = new Date(); //System.currentTimeMillis() / 1000;
-                String dateTime =  tsLong.toString();     //DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
+        Quick_Log pql = new Quick_Log(brief, fname, lname, weight, age, email, phone, additional, lastFlight,
+                hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
+                uid, dateTime, company, location);
 
-                Quick_Log pql = new Quick_Log(brief, fname, lname, weight, age, email, phone, lastFlight, additional,
-                        hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
-                        uid, dateTime, company, location);
+        mDatabase.child(mParam1).setValue(pql)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getContext(), "Update successful", Toast.LENGTH_SHORT).show();
+                            return;
+//                            Fragment fragment = new Quick_Log_Update_Fragment();
+//                            String tag = fragment.toString();
+//                            getFragmentManager()
+//                                    .beginTransaction()
+//                                    .replace(R.id.main_fragment, new Full_Logbook_Fragment(), tag)
+//                                    .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                                    .addToBackStack(tag)
+//                                    .commit();
+                        } else {
+                            Toast.makeText(getContext(), "Update failed sorry.",
+                                    Toast.LENGTH_SHORT).show();
 
-                mDatabase.child(mParam1).setValue(pql)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Update successful", Toast.LENGTH_SHORT).show();
-                                    Fragment fragment = new Quick_Log_Update_Fragment();
-                                    String tag = fragment.toString();
-                                    getFragmentManager()
-                                            .beginTransaction()
-                                            .replace(R.id.main_fragment, new Full_Logbook_Fragment(), tag)
-                                            .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                            .addToBackStack(tag)
-                                            .commit();
-                                } else {
-                                    Toast.makeText(getContext(), "Update failed sorry.",
-                                            Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
-                                }
-                            }
-                        });
+    }
 
-            }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -301,12 +294,6 @@ public class Quick_Log_Update_Fragment extends Fragment {
         }
     }
 
-    @Override
-    public void onViewCreated(@NotNull @NonNull View mMainView, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(mMainView, savedInstanceState);
-
-
-    }
 
     @Override
     public void onAttach(Context context) {

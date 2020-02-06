@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
@@ -38,13 +41,12 @@
                             android:layout_width="250dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="5dp"
-                            android:backgroundTint="@android:color/black"
-                            android:textColor="@android:color/holo_red_light"
+                            android:backgroundTint="@android:color/white"
                             android:fontFamily="Roboto-LightItalic"
-                            android:textSize="16dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
                             android:textStyle="bold|italic"
                             android:typeface="monospace"
-
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -54,10 +56,10 @@
                             android:layout_width="150dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="5dp"
-                            android:backgroundTint="@android:color/black"
-                            android:textColor="@android:color/holo_red_light"
+                            android:backgroundTint="@android:color/white"
                             android:fontFamily="Roboto-LightItalic"
-                            android:textSize="16dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
                             android:textStyle="bold|italic"
                             android:typeface="monospace"
 
@@ -89,8 +91,8 @@
                         android:fontFamily="Roboto-LightItalic"
                         android:inputType="textShortMessage"
                         android:maxLines="1"
-                        android:textSize="26dp"
-                        android:textStyle="bold|italic"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,13 +112,12 @@
                         android:id="@+id/txt_fname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autoSizeMaxTextSize="50dp"
                         android:fadingEdge="horizontal|vertical"
                         android:fontFamily="Roboto-LightItalic"
                         android:inputType="textPersonName"
                         android:maxLines="1"
-                        android:textSize="26dp"
-                        android:textStyle="bold|italic"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,13 +137,12 @@
                         android:id="@+id/txt_lname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autoSizeMaxTextSize="50dp"
                         android:fadingEdge="horizontal|vertical"
                         android:fontFamily="Roboto-LightItalic"
                         android:inputType="textPersonName"
                         android:maxLines="1"
-                        android:textSize="26dp"
-                        android:textStyle="bold|italic"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,13 +162,12 @@
                         android:id="@+id/txt_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autoSizeMaxTextSize="50dp"
                         android:fadingEdge="horizontal|vertical"
                         android:fontFamily="Roboto-LightItalic"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:textSize="26dp"
-                        android:textStyle="bold|italic"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -194,7 +193,7 @@
                         android:inputType="number"
                         android:maxLines="1"
                         android:textSize="26dp"
-                        android:textStyle="bold|italic"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -220,14 +219,13 @@
                             android:id="@+id/txt_pax_age"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
-                            android:autoSizeMaxTextSize="50dp"
                             android:fadingEdge="horizontal|vertical"
                             android:fontFamily="Roboto-LightItalic"
                             android:inputType="number"
                             android:maxLength="3"
                             android:maxLines="1"
-                            android:textSize="26dp"
-                            android:textStyle="bold|italic"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
                             android:typeface="monospace" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -248,14 +246,13 @@
                             android:id="@+id/txt_weight"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
-                            android:autoSizeMaxTextSize="50dp"
                             android:fadingEdge="horizontal|vertical"
                             android:fontFamily="Roboto-LightItalic"
                             android:inputType="number"
                             android:maxLength="3"
                             android:maxLines="1"
-                            android:textSize="26dp"
-                            android:textStyle="bold|italic"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
                             android:typeface="monospace" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -326,7 +323,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="5dp"
-                    android:hint="flight pace / round info"
+                    android:hint="Flight conditions info"
                     android:nextFocusDown="@+id/txt_additional"
                     android:nextFocusForward="@+id/txt_additional">
 
@@ -334,13 +331,12 @@
                         android:id="@+id/txt_last_flight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autoSizeMaxTextSize="50dp"
                         android:fadingEdge="horizontal|vertical"
                         android:fontFamily="Roboto-LightItalic"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="26sp"
-                        android:textStyle="bold|italic"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -361,32 +357,37 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:height="150dp"
-                        android:autoSizeMaxTextSize="50dp"
                         android:fadingEdge="horizontal|vertical"
                         android:fontFamily="Roboto-LightItalic"
                         android:inputType="textMultiLine"
-                        android:textSize="26dp"
-                        android:textStyle="bold|italic"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <Button
-                    android:id="@+id/btn_Quick_Log_Update"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="Update" />
-
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"></androidx.appcompat.widget.LinearLayoutCompat>
-
-
+<!--                <Button-->
+<!--                    android:id="@+id/btn_Quick_Log_Update"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="8dp"-->
+<!--                    android:layout_marginTop="20dp"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:text="Update" />-->
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:srcCompat="@drawable/free_multicoloured_blank_3d_button_iconset" />
+    V
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

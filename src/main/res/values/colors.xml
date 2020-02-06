@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ptrax_black1">#000000</color>
-    <color name="colorPrimary">#FFFF5722</color>
-    <color name="colorPrimary2">#FFFF5722</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimary2">#000000</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorPrimaryDark2">#FFFF5722</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#000000</color>
     <color name="colorAccent2">#673AB7</color>
     <color name="colorBackground">#FFFF5722</color>
-    <color name="grey_100">#F5F5F5</color>
-    <color name="grey_300">#E0E0E0</color>
+    <color name="grey_100">#000000</color>
+    <color name="grey_300">#000000</color>
     <color name="grey_500">#B44420</color>
 
     <color name="ptrax_orange_1">#FFB44420</color>
@@ -21,11 +21,11 @@
 
     <color name="loginPageBackgroundColor">#FFFFFF</color>
 
-    <color name="productGridBackgroundColor">#000000</color>
+    <color name="productGridBackgroundColor">#D81B60</color>
 
     <color name="colorSplashBackground">#FFFF5722</color>
 
-    <color name="textColorPrimary">#000000</color>
+    <color name="textColorPrimary">#D81B60</color>
 
-    <color name="textInputOutlineColor">#FBB8AC</color>
+    <color name="textInputOutlineColor">#000000</color>
 </resources>

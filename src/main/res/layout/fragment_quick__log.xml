@@ -38,13 +38,12 @@
                         android:layout_width="250dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
-                        android:backgroundTint="@android:color/black"
-                        android:textColor="@android:color/holo_red_light"
+                        android:backgroundTint="@android:color/white"
                         android:fontFamily="Roboto-LightItalic"
-                        android:textSize="16dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
                         android:textStyle="bold|italic"
                         android:typeface="monospace"
-
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -54,10 +53,10 @@
                         android:layout_width="150dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="5dp"
-                        android:backgroundTint="@android:color/black"
-                        android:textColor="@android:color/holo_red_light"
+                        android:backgroundTint="@android:color/white"
                         android:fontFamily="Roboto-LightItalic"
-                        android:textSize="16dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
                         android:textStyle="bold|italic"
                         android:typeface="monospace"
 
@@ -78,19 +77,19 @@
                 android:layout_marginEnd="5dp"
                 android:hint="@string/txt_brief"
                 android:nextFocusDown="@+id/txt_fname"
-                android:nextFocusForward="@+id/txt_fname">
+                android:nextFocusForward="@+id/txt_fname"
+                app:hintTextColor="@color/ptrax_black1">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_brief"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoSizeMaxTextSize="50dp"
                     android:fadingEdge="horizontal|vertical"
                     android:fontFamily="Roboto-LightItalic"
                     android:inputType="textShortMessage"
                     android:maxLines="1"
-                    android:textSize="26dp"
-                    android:textStyle="bold|italic"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
                     android:typeface="monospace" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,13 +109,12 @@
                     android:id="@+id/txt_fname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoSizeMaxTextSize="50dp"
                     android:fadingEdge="horizontal|vertical"
                     android:fontFamily="Roboto-LightItalic"
                     android:inputType="textPersonName"
                     android:maxLines="1"
-                    android:textSize="26dp"
-                    android:textStyle="bold|italic"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
                     android:typeface="monospace" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,13 +134,12 @@
                     android:id="@+id/txt_lname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoSizeMaxTextSize="50dp"
                     android:fadingEdge="horizontal|vertical"
                     android:fontFamily="Roboto-LightItalic"
                     android:inputType="textPersonName"
                     android:maxLines="1"
-                    android:textSize="26dp"
-                    android:textStyle="bold|italic"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
                     android:typeface="monospace" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,13 +159,12 @@
                     android:id="@+id/txt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoSizeMaxTextSize="50dp"
                     android:fadingEdge="horizontal|vertical"
                     android:fontFamily="Roboto-LightItalic"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:textSize="26dp"
-                    android:textStyle="bold|italic"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
                     android:typeface="monospace" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -188,13 +184,12 @@
                     android:id="@+id/txt_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoSizeMaxTextSize="50dp"
                     android:fadingEdge="horizontal|vertical"
                     android:fontFamily="Roboto-LightItalic"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textSize="26dp"
-                    android:textStyle="bold|italic"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
                     android:typeface="monospace" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -220,14 +215,13 @@
                         android:id="@+id/txt_pax_age"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:autoSizeMaxTextSize="50dp"
                         android:fadingEdge="horizontal|vertical"
                         android:fontFamily="Roboto-LightItalic"
                         android:inputType="number"
                         android:maxLength="3"
                         android:maxLines="1"
-                        android:textSize="26dp"
-                        android:textStyle="bold|italic"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -248,14 +242,13 @@
                         android:id="@+id/txt_weight"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:autoSizeMaxTextSize="50dp"
                         android:fadingEdge="horizontal|vertical"
                         android:fontFamily="Roboto-LightItalic"
                         android:inputType="number"
                         android:maxLength="3"
                         android:maxLines="1"
-                        android:textSize="26dp"
-                        android:textStyle="bold|italic"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
                         android:typeface="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -338,13 +331,12 @@
                     android:id="@+id/txt_last_flight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoSizeMaxTextSize="50dp"
                     android:fadingEdge="horizontal|vertical"
                     android:fontFamily="Roboto-LightItalic"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textSize="26dp"
-                    android:textStyle="bold|italic"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
                     android:typeface="monospace" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -365,12 +357,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:height="150dp"
-                    android:autoSizeMaxTextSize="50dp"
                     android:fadingEdge="horizontal|vertical"
                     android:fontFamily="Roboto-LightItalic"
                     android:inputType="textMultiLine"
-                    android:textSize="26dp"
-                    android:textStyle="bold|italic"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
                     android:typeface="monospace" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -384,11 +375,6 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="8dp"
                 android:text="Submit" />
-
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="300dp"></androidx.appcompat.widget.LinearLayoutCompat>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

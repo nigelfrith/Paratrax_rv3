@@ -1,5 +1,6 @@
 package com.altitude.paratrax;
 
+import androidx.annotation.ContentView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
@@ -12,13 +13,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +55,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     public void onFragmentInteraction(Uri uri){
         //you can leave it empty
     }
+    //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
     //TODO: SensorManager
     private Accelerometer accelerometer;
@@ -59,11 +65,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     FirebaseUser user;
     private FirebaseAuth mAuth;
-    private void enablePersistence() {
-        // [START rtdb_enable_persistence]
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        // [END rtdb_enable_persistence]
-    }
+//    private void enablePersistence() {
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+//    }
 
     private boolean isHumiditySensorPresent;
     private boolean isTemperatureSensorPresent;
@@ -179,8 +183,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
         setContentView(R.layout.activity_main);
-
+        ((LinearLayout) findViewById(R.id.container)).setPadding(0,0,0,getSoftButtonsBarSizePort(this));
         Toolbar toolbar = this.findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);   //.setDisplayShowTitleEnabled(false);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -269,7 +278,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             mUserId = mAuth.getCurrentUser().getUid();
         }
 
-
         ///Reside menu
         setUpMenu();
         if (savedInstanceState == null)
@@ -277,8 +285,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
 
     }
-
-
 
     private void setUpMenu() {
 
