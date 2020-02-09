@@ -1,29 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
+        android:id="@+id/miRefresh"
         android:orderInCategory="4"
-        android:id="@+id/miCompose"
-        app:showAsAction="never"
-        android:title="Compose">
+        android:title="Refresh"
+        
+        app:showAsAction="never">
     </item>
+<!--        <item-->
+    <!--            android:id="@+id/smallreddot"-->
+    <!--            android:icon="@drawable/smallreddot"-->
+    <!--            android:title="smallreddot"-->
+    <!--            android:visible="true"-->
+    <!--            app:actionViewClass="android.widget.ImageView"-->
+    <!--            app:showAsAction="never"></item>-->
+    <!--        <item-->
+    <!--            android:id="@+id/smallgreendot"-->
+    <!--            android:icon="@drawable/smallgreendot"-->
+    <!--            android:title="smallgreendot"-->
+    <!--            android:visible="true"-->
+    <!--            app:actionViewClass="android.widget.ImageView"-->
+    <!--            app:showAsAction="never"></item>-->
+        <item
+            android:id="@+id/src"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="test"
+            android:visible="true"
+            app:actionViewClass="android.widget.ImageView"
+            app:showAsAction="never"></item>
     <item
-        android:orderInCategory="3"
         android:id="@+id/miProfile"
-        app:showAsAction="never"
-        android:title="Profile">
+        android:orderInCategory="3"
+        android:title="Profile"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/miStatus"
+        android:orderInCategory="2"
+        android:title="Status"
+        app:showAsAction="never">
+        <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+            android:src="@drawable/clouds"
+            android:tileMode="repeat" />
     </item>
     <item
-        android:orderInCategory="2"
-        android:id="@+id/milogin"
-        app:showAsAction="never"
-        android:title="Status">
-    </item>
-    <item android:id="@+id/action_search"
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
         android:orderInCategory="5"
         android:title="Search"
-        android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="always|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
 </menu>

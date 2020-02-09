@@ -8,8 +8,8 @@
     <color name="colorAccent">#000000</color>
     <color name="colorAccent2">#673AB7</color>
     <color name="colorBackground">#FFFF5722</color>
-    <color name="grey_100">#000000</color>
-    <color name="grey_300">#000000</color>
+    <color name="grey_100">#FFFFFF</color>
+    <color name="grey_300">#FFFFFF</color>
     <color name="grey_500">#B44420</color>
 
     <color name="ptrax_orange_1">#FFB44420</color>

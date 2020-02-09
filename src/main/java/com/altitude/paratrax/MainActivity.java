@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.net.Uri;
 import android.os.Build;
@@ -102,11 +103,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-//
-//        MenuItem hamburger = menu.getItem(R.id.app_bar);
-//        hamburger.setOnMenuItemClickListener((MenuItem.OnMenuItemClickListener) this)
-        MenuItem searchItem = menu.findItem(R.id.action_search);
 
+        MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         ////////section customizing search view///////////////////////////
         int searchImgId = androidx.appcompat.R.id.search_button;
@@ -115,8 +113,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         // Customize searchview text and hint colors
         int searchEditId = androidx.appcompat.R.id.search_src_text;
         EditText et = (EditText) searchView.findViewById(searchEditId);
-        et.setTextColor(Color.BLACK);
-        et.setHintTextColor(Color.BLACK);
+        et.setTextColor(Color.WHITE);
+        et.setHintTextColor(Color.WHITE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -143,14 +141,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.miCompose:
+            case R.id.miRefresh:
                 composeMessage();
                 return true;
             case R.id.miProfile:
                 showProfileView();
                 return true;
-            case R.id.milogin:
-                Intent intent = new Intent(mContext, EmailPasswordActivity.class);//NB: MainActivity.this
+            case R.id.miStatus:
+                Intent intent = new Intent(mContext, EmailPasswordActivity.class);
                 startActivity(intent);
                 return true;
             default:
