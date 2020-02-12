@@ -1,8 +1,6 @@
 package com.altitude.paratrax.Classes;
 
-import com.google.type.Date;
-
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Quick_Log {
     private String brief;
@@ -23,7 +21,7 @@ public class Quick_Log {
     private boolean hasPacking;
     private boolean hasSDGiven;
     private String mUserId;
-    private String dateTime;
+    private Date dateTime;
     private String company;
     private String location;
 
@@ -49,7 +47,7 @@ public class Quick_Log {
             boolean hasPacking,
             boolean hasSDGiven,
             String mUserId,
-            String dateTime,
+            Date dateTime,
             String company,
             String location) {
         this.brief = brief;
@@ -174,13 +172,14 @@ public class Quick_Log {
         hasDisability = hasDisability;
     }
 
-    public String getDateTime() {
-        return String.format(dateTime, "yyyy-MM-dd HH:mm:ss");
+    public Date getDateTime() {
+        return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = String.format(dateTime, "yyyy-MM-dd HH:mm:ss");
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;//.format(dateTime, "yyyy-MM-dd HH:mm:ss");
     }
+
 
 
     public String getFname() {

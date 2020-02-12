@@ -32,6 +32,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -165,7 +166,6 @@ public class Quick_Log_Fragment extends Fragment {
         txt_pax_age = (EditText) view.findViewById(R.id.txt_pax_age);
         txt_email = (EditText) view.findViewById(R.id.txt_email);
         txt_phone = (EditText) view.findViewById(R.id.txt_phone);
-        txt_additional = (EditText) view.findViewById(R.id.txt_additional);
         chk_medical = (CheckBox) view.findViewById(R.id.chk_medical);
         chk_disability = (CheckBox) view.findViewById(R.id.chk_disability);
         chk_baggage = (CheckBox) view.findViewById(R.id.chk_baggage);
@@ -174,8 +174,9 @@ public class Quick_Log_Fragment extends Fragment {
         chk_transport = (CheckBox) view.findViewById(R.id.chk_transport);
         chk_packing = (CheckBox) view.findViewById(R.id.chk_packing);
         chk_sd_given = (CheckBox) view.findViewById(R.id.chk_sd_given);
-        btn_Quick_Log_Post = (Button) view.findViewById(R.id.btn_Quick_Log_Post);
+       // btn_Quick_Log_Post = (Button) view.findViewById(R.id.btn_Quick_Log_Post);
         txt_last_flight = (EditText) view.findViewById(R.id.txt_last_flight);
+        txt_additional = (EditText) view.findViewById(R.id.txt_additional);
 
         spin_company = view.findViewById(R.id.mv_spinner_company);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(), R.array.companys_array, android.R.layout.simple_spinner_dropdown_item);
@@ -200,12 +201,19 @@ public class Quick_Log_Fragment extends Fragment {
             }
         });
 
-        btn_Quick_Log_Post.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Quick_Log_Post_Entry();
             }
         });
+//        btn_Quick_Log_Post.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Quick_Log_Post_Entry();
+//            }
+//        });
 
     }
 
@@ -221,8 +229,8 @@ public class Quick_Log_Fragment extends Fragment {
         String age = txt_pax_age.getText().toString();
         String email = txt_email.getText().toString();
         String phone = txt_phone.getText().toString();
-        String additional = txt_additional.getText().toString();
         String lastFlight = txt_last_flight.getText().toString();
+        String additional = txt_additional.getText().toString();
 
         boolean hasMedical = chk_medical.isChecked();
         boolean hasDisability = chk_disability.isChecked();
@@ -236,8 +244,8 @@ public class Quick_Log_Fragment extends Fragment {
         String company = spin_company.getText().toString();
         String location = spin_location.getText().toString();
 
-        Date tsLong = new Date(); //System.currentTimeMillis() / 1000;
-        String dateTime =  tsLong.toString();     //DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
+        Date dateTime = new Date();    //(System.currentTimeMillis() / 1000);
+       // Date dateTime =  new DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
 
         Quick_Log ql = new Quick_Log(brief, fname, lname, weight, age, email, phone, lastFlight, additional,
                 hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,

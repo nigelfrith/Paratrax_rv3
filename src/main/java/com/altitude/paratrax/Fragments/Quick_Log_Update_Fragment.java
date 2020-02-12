@@ -34,6 +34,8 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -57,7 +59,7 @@ public class Quick_Log_Update_Fragment extends Fragment {
     Quick_Log ql;
     ArrayAdapter<CharSequence> adapter;
     ArrayAdapter<CharSequence> adapterP;
-
+    Date mtxt_date;
 
     private EditText txt_brief, txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional, txt_last_flight;
     private CheckBox chk_medical, chk_disability, chk_baggage, chk_pics, chk_sherpa, chk_transport, chk_sd_given, chk_packing;
@@ -68,7 +70,7 @@ public class Quick_Log_Update_Fragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final Date ARG_PARAM2 = new Date();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -93,7 +95,7 @@ public class Quick_Log_Update_Fragment extends Fragment {
         Quick_Log_Update_Fragment fragment = new Quick_Log_Update_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(String.valueOf(ARG_PARAM2), param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -103,7 +105,7 @@ public class Quick_Log_Update_Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam2 = getArguments().getString(String.valueOf(ARG_PARAM2));
 
 
         }
@@ -155,7 +157,11 @@ public class Quick_Log_Update_Fragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Quick_Log_Update();
+                try {
+                    Quick_Log_Update();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -177,7 +183,7 @@ public class Quick_Log_Update_Fragment extends Fragment {
                 txt_pax_age.setText(ql.getAge());
                 txt_last_flight.setText((ql.getLastFlight()));
                 txt_additional.setText(ql.getAdditional());
-
+                 mtxt_date = ql.getDateTime();
                 adapter = ArrayAdapter.createFromResource(getContext(), R.array.companys_array, android.R.layout.simple_spinner_dropdown_item);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spin_company.setAdapter(adapter);
@@ -230,7 +236,7 @@ public class Quick_Log_Update_Fragment extends Fragment {
         });
     }
 
-    private void Quick_Log_Update() {
+    private void Quick_Log_Update() throws ParseException {
 
 
         String brief = txt_brief.getText().toString();
@@ -255,8 +261,11 @@ public class Quick_Log_Update_Fragment extends Fragment {
         String company = spin_company.getText().toString();
         String location = spin_location.getText().toString();
 
-        Date tsLong = new Date(); //System.currentTimeMillis() / 1000;
-        String dateTime = tsLong.toString();     //DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
+        //old
+//        Date tsLong = new Date(); //System.currentTimeMillis() / 1000;
+//        String dateTime = tsLong.toString();     //DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
+        SimpleDateFormat f = new SimpleDateFormat("dd-MMM-yyyy");
+        Date dateTime = mtxt_date;//f.parse(mParam2);
 
         Quick_Log pql = new Quick_Log(brief, fname, lname, weight, age, email, phone, additional, lastFlight,
                 hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,

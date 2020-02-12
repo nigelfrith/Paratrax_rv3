@@ -1,15 +1,11 @@
 package com.altitude.paratrax.Fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.util.SparseBooleanArray;
@@ -20,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -30,14 +27,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.altitude.paratrax.Classes.Helper;
 import com.altitude.paratrax.Classes.Quick_Log;
-import com.altitude.paratrax.Models.Full_Logbook_Model;
 import com.altitude.paratrax.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,15 +39,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
 public class Full_Logbook_Fragment extends Fragment {
@@ -84,6 +72,7 @@ public class Full_Logbook_Fragment extends Fragment {
     private String mUserId;
     String uid;
     String pos;
+    String pos2;
     private boolean mSignedIn = false;
 
     private View mMainView;
@@ -97,11 +86,12 @@ public class Full_Logbook_Fragment extends Fragment {
 
     private ProgressBar progressBar;
 
-    EditText userid, fname, lname, email,  date;
+    EditText userid, fname, lname, email, date;
     Button new_button, btn_Edit;    //btn_Delete,
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FirebaseRecyclerAdapter adapter;
+    long mDays;
 
 
     public Full_Logbook_Fragment() {
@@ -234,12 +224,32 @@ public class Full_Logbook_Fragment extends Fragment {
 
                 holder.settxtEmail(model.getEmail());
                 holder.settxtfName(model.getFname() + " " + model.getLname());
-               // holder.settxtlName(model.getLname());
+                // holder.settxtlName(model.getLname());
                 holder.setPhone(model.getPhone());
                 holder.settxtBrief(model.getBrief());
-                holder.settxtDate(model.getDateTime());
+                holder.settxtDate(model.getDateTime().toString());
+
+
+
+                Date l = model.getDateTime();
+               // String txtDays = String.valueOf(l);
+
+                String string_date = l.toString();//"12-December-2012";
+
+                SimpleDateFormat f = new SimpleDateFormat("dd-MMM-yyyy");
+                try {
+                    Date d = f.parse(string_date);
+                    long milliseconds = d.getTime();
+                    String dt = getDisplayableTime(milliseconds);
+                    holder.setTxtDays(dt);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+
                 holder.setTxtCompany(model.getCompany() + "  |  " + model.getLocation());
-                holder.setTxtAge(model.getAge()+"yrs" + "  |  " + model.getWeight()+"kgs");
+                holder.setTxtAge(model.getAge() + "yrs" + "  |  " + model.getWeight() + "kgs");
 
 
                 holder.rvD.setOnClickListener(new View.OnClickListener() {
@@ -278,12 +288,13 @@ public class Full_Logbook_Fragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         pos = adapter.getRef(position).getKey();
+                        pos2 = adapter.getRef(position).child("dateTime").toString();
                         Fragment fragment = new Quick_Log_Fragment();
                         String tag = fragment.toString();
 
                         getFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.main_fragment, newInstanceQLU(pos, ""), tag)
+                                .replace(R.id.main_fragment, newInstanceQLU(pos, pos2), tag)
                                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .addToBackStack(tag)
                                 .commit();
@@ -344,6 +355,7 @@ public class Full_Logbook_Fragment extends Fragment {
         public TextView txtlName;
         public TextView txtEmail;
         public TextView txtDate;
+        public TextView txtDays;
         public TextView txtBrief;
         public TextView txtAge;
         public TextView txtWeight;
@@ -364,29 +376,30 @@ public class Full_Logbook_Fragment extends Fragment {
 
             root = itemView.findViewById(R.id.list_root);
             txtfName = itemView.findViewById(R.id.fname);
-           // txtlName = itemView.findViewById(R.id.lname);
+            // txtlName = itemView.findViewById(R.id.lname);
             txtEmail = itemView.findViewById(R.id.email);
             txtDate = itemView.findViewById(R.id.txt_date);
             rvD = itemView.findViewById(R.id.btn_Delete);
             rvEdit = itemView.findViewById(R.id.btn_Edit);
             txtBrief = itemView.findViewById(R.id.txt_brief);
 
-            txtCompany= itemView.findViewById(R.id.txt_co);
-           // txtLocation = itemView.findViewById(R.id.txt_loc);
+            txtCompany = itemView.findViewById(R.id.txt_co);
+            // txtLocation = itemView.findViewById(R.id.txt_loc);
             txtAge = itemView.findViewById(R.id.txt_age);
 
 
             root.setOnClickListener(this);
         }
-        public void setTxtAge(String age){
+
+        public void setTxtAge(String age) {
             txtAge.setText(age);
         }
 
-        public void setTxtCompany(String company){
+        public void setTxtCompany(String company) {
             txtCompany.setText(company);
         }
 
-        public void setTxtLocation(String location){
+        public void setTxtLocation(String location) {
             txtLocation.setText(location);
         }
 
@@ -410,11 +423,19 @@ public class Full_Logbook_Fragment extends Fragment {
             TextView txtPhone = (TextView) itemView.findViewById(R.id.phone);
             txtPhone.setText(phone);
         }
+
         public void settxtDate(String date) {
             txtDate.setText(String.format(date, "yyyy-MM-dd HH:mm:ss"));
         }
 
-        @Override
+
+        public void setTxtDays(String days) {
+
+            txtDays = itemView.findViewById(R.id.txt_days);
+            txtDays.setText(days);
+        }
+
+            @Override
         public void onClick(View view) {
             if (selectedItems.get(getAdapterPosition(), false)) {
                 selectedItems.delete(getAdapterPosition());
@@ -448,5 +469,66 @@ public class Full_Logbook_Fragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public static String getDisplayableTime(long delta)
+    {
+        long difference=0;
+        Long mDate = java.lang.System.currentTimeMillis();
+
+        if(mDate > delta)
+        {
+            difference= mDate - delta;
+            final long seconds = difference/1000;
+            final long minutes = seconds/60;
+            final long hours = minutes/60;
+            final long days = hours/24;
+            final long months = days/31;
+            final long years = days/365;
+
+            if (seconds < 0)
+            {
+                return "not yet";
+            }
+            else if (seconds < 60)
+            {
+                return seconds == 1 ? "one second ago" : seconds + " seconds ago";
+            }
+            else if (seconds < 120)
+            {
+                return "a minute ago";
+            }
+            else if (seconds < 2700) // 45 * 60
+            {
+                return minutes + " minutes ago";
+            }
+            else if (seconds < 5400) // 90 * 60
+            {
+                return "an hour ago";
+            }
+            else if (seconds < 86400) // 24 * 60 * 60
+            {
+                return hours + " hours ago";
+            }
+            else if (seconds < 172800) // 48 * 60 * 60
+            {
+                return "yesterday";
+            }
+            else if (seconds < 2592000) // 30 * 24 * 60 * 60
+            {
+                return days + " days ago";
+            }
+            else if (seconds < 31104000) // 12 * 30 * 24 * 60 * 60
+            {
+
+                return months <= 1 ? "one month ago" : days + " months ago";
+            }
+            else
+            {
+
+                return years <= 1 ? "one year ago" : years + " years ago";
+            }
+        }
+        return null;
     }
 }

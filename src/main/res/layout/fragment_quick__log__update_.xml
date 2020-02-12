@@ -389,5 +389,5 @@
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         app:srcCompat="@drawable/free_multicoloured_blank_3d_button_iconset" />
-    V
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -187,7 +187,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         setContentView(R.layout.activity_main);
-        ((LinearLayout) findViewById(R.id.container)).setPadding(0,0,0,getSoftButtonsBarSizePort(this));
+      //  ((LinearLayout) findViewById(R.id.container)).setPadding(0,0,0,getSoftButtonsBarSizePort(this));
         Toolbar toolbar = this.findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);   //.setDisplayShowTitleEnabled(false);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
