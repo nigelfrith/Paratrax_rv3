@@ -246,8 +246,9 @@ public class Quick_Log_Update_Fragment extends Fragment {
         String age = txt_pax_age.getText().toString();
         String email = txt_email.getText().toString();
         String phone = txt_phone.getText().toString();
-        String additional = txt_additional.getText().toString();
         String lastFlight = txt_last_flight.getText().toString();
+        String additional = txt_additional.getText().toString();
+
 
         boolean hasMedical = chk_medical.isChecked();
         boolean hasDisability = chk_disability.isChecked();
@@ -261,15 +262,11 @@ public class Quick_Log_Update_Fragment extends Fragment {
         String company = spin_company.getText().toString();
         String location = spin_location.getText().toString();
 
-        //old
-//        Date tsLong = new Date(); //System.currentTimeMillis() / 1000;
-//        String dateTime = tsLong.toString();     //DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
-        SimpleDateFormat f = new SimpleDateFormat("dd-MMM-yyyy");
         Date dateTime = mtxt_date;//f.parse(mParam2);
-
-        Quick_Log pql = new Quick_Log(brief, fname, lname, weight, age, email, phone, additional, lastFlight,
+        Long dateTimeL = mtxt_date.getTime();
+        Quick_Log pql = new Quick_Log(brief, fname, lname, weight, age, email, phone, lastFlight,additional,
                 hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
-                uid, dateTime, company, location);
+                uid, dateTime, dateTimeL, company, location);
 
         mDatabase.child(mParam1).setValue(pql)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

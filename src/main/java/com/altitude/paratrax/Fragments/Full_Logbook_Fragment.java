@@ -229,23 +229,9 @@ public class Full_Logbook_Fragment extends Fragment {
                 holder.settxtBrief(model.getBrief());
                 holder.settxtDate(model.getDateTime().toString());
 
-
-
-                Date l = model.getDateTime();
-               // String txtDays = String.valueOf(l);
-
-                String string_date = l.toString();//"12-December-2012";
-
-                SimpleDateFormat f = new SimpleDateFormat("dd-MMM-yyyy");
-                try {
-                    Date d = f.parse(string_date);
-                    long milliseconds = d.getTime();
-                    String dt = getDisplayableTime(milliseconds);
-                    holder.setTxtDays(dt);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
+                Long l = model.getDateTimeL();
+                String dt = getDisplayableTime(l);
+                holder.setTxtDays(dt);
 
 
                 holder.setTxtCompany(model.getCompany() + "  |  " + model.getLocation());
@@ -435,7 +421,7 @@ public class Full_Logbook_Fragment extends Fragment {
             txtDays.setText(days);
         }
 
-            @Override
+        @Override
         public void onClick(View view) {
             if (selectedItems.get(getAdapterPosition(), false)) {
                 selectedItems.delete(getAdapterPosition());
@@ -471,60 +457,45 @@ public class Full_Logbook_Fragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public static String getDisplayableTime(long delta)
-    {
-        long difference=0;
+    public static String getDisplayableTime(long delta) {
+        long difference = 0;
         Long mDate = java.lang.System.currentTimeMillis();
 
-        if(mDate > delta)
-        {
-            difference= mDate - delta;
-            final long seconds = difference/1000;
-            final long minutes = seconds/60;
-            final long hours = minutes/60;
-            final long days = hours/24;
-            final long months = days/31;
-            final long years = days/365;
+        if (mDate > delta) {
+            difference = mDate - delta;
+            final long seconds = difference / 1000;
+            final long minutes = seconds / 60;
+            final long hours = minutes / 60;
+            final long days = hours / 24;
+            final long months = days / 31;
+            final long years = days / 365;
 
-            if (seconds < 0)
-            {
+            if (seconds < 0) {
                 return "not yet";
-            }
-            else if (seconds < 60)
-            {
+            } else if (seconds < 60) {
                 return seconds == 1 ? "one second ago" : seconds + " seconds ago";
-            }
-            else if (seconds < 120)
-            {
+            } else if (seconds < 120) {
                 return "a minute ago";
-            }
-            else if (seconds < 2700) // 45 * 60
+            } else if (seconds < 2700) // 45 * 60
             {
                 return minutes + " minutes ago";
-            }
-            else if (seconds < 5400) // 90 * 60
+            } else if (seconds < 5400) // 90 * 60
             {
                 return "an hour ago";
-            }
-            else if (seconds < 86400) // 24 * 60 * 60
+            } else if (seconds < 86400) // 24 * 60 * 60
             {
                 return hours + " hours ago";
-            }
-            else if (seconds < 172800) // 48 * 60 * 60
+            } else if (seconds < 172800) // 48 * 60 * 60
             {
                 return "yesterday";
-            }
-            else if (seconds < 2592000) // 30 * 24 * 60 * 60
+            } else if (seconds < 2592000) // 30 * 24 * 60 * 60
             {
                 return days + " days ago";
-            }
-            else if (seconds < 31104000) // 12 * 30 * 24 * 60 * 60
+            } else if (seconds < 31104000) // 12 * 30 * 24 * 60 * 60
             {
 
                 return months <= 1 ? "one month ago" : days + " months ago";
-            }
-            else
-            {
+            } else {
 
                 return years <= 1 ? "one year ago" : years + " years ago";
             }

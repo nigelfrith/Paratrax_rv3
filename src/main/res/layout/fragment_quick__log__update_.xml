@@ -348,9 +348,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="5dp"
-                    android:hint="Additional Information"
-                    android:nextFocusDown="@+id/btn_Quick_Log_Post"
-                    android:nextFocusForward="@+id/btn_Quick_Log_Post">
+                    android:hint="Additional Information">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_additional"

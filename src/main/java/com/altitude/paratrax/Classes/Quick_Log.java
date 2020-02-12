@@ -22,6 +22,7 @@ public class Quick_Log {
     private boolean hasSDGiven;
     private String mUserId;
     private Date dateTime;
+    private long dateTimeL;
     private String company;
     private String location;
 
@@ -48,6 +49,7 @@ public class Quick_Log {
             boolean hasSDGiven,
             String mUserId,
             Date dateTime,
+            Long dateTimeL,
             String company,
             String location) {
         this.brief = brief;
@@ -69,6 +71,7 @@ public class Quick_Log {
         this.hasSDGiven = hasSDGiven;
         this.mUserId = mUserId;
         this.dateTime = dateTime;
+        this.dateTimeL = dateTimeL;
         this.company = company;
         this.location = location;
     }
@@ -170,6 +173,15 @@ public class Quick_Log {
 
     public void setHasDisability(boolean hasDisability) {
         hasDisability = hasDisability;
+    }
+
+
+    public Long getDateTimeL() {
+        return dateTimeL;
+    }
+
+    public void setDateTimeL(Long dateTimeL) {
+        this.dateTimeL = dateTimeL;//.format(dateTime, "yyyy-MM-dd HH:mm:ss");
     }
 
     public Date getDateTime() {

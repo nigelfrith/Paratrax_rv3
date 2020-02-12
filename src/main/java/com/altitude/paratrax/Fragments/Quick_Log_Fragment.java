@@ -244,12 +244,12 @@ public class Quick_Log_Fragment extends Fragment {
         String company = spin_company.getText().toString();
         String location = spin_location.getText().toString();
 
-        Date dateTime = new Date();    //(System.currentTimeMillis() / 1000);
-       // Date dateTime =  new DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
+        Date dateTime = new Date();
+        Long dateTimeL = new Date().getTime();      // Date dateTime =  new DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
 
         Quick_Log ql = new Quick_Log(brief, fname, lname, weight, age, email, phone, lastFlight, additional,
                 hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
-                uid, dateTime, company, location);
+                uid, dateTime,dateTimeL, company, location);
 
         if (brief.length() != 0) {
 //TODO: i think .getkey here has to be the uid . or uid is nested above it
