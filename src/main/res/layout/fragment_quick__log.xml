@@ -201,7 +201,6 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -234,8 +233,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:hint="@string/txt_weight"
-                    android:nextFocusDown="@+id/txt_additional"
-                    android:nextFocusForward="@+id/txt_additional"
+                    android:nextFocusDown="@+id/txt_last_flight"
+                    android:nextFocusForward="@+id/txt_last_flight"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -325,7 +324,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="5dp"
-                android:hint="Time since last flight"
+                android:hint="Flight conditions info"
                 android:nextFocusDown="@+id/txt_additional"
                 android:nextFocusForward="@+id/txt_additional">
 
@@ -375,6 +374,9 @@
 <!--                android:layout_marginTop="20dp"-->
 <!--                android:layout_marginEnd="8dp"-->
 <!--                android:text="Submit" />-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"></RelativeLayout>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -382,13 +384,13 @@
 </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="clip_horizontal|center|right"
         android:layout_margin="16dp"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/free_multicoloured_blank_3d_button_iconset" />
+        app:srcCompat="@drawable/icons_390"
+        android:src="@drawable/icons_390"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

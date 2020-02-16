@@ -2,11 +2,14 @@ package com.altitude.paratrax.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +64,7 @@ public class Quick_Log_Update_Fragment extends Fragment {
     ArrayAdapter<CharSequence> adapterP;
     Date mtxt_date;
 
-    private EditText txt_brief, txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional, txt_last_flight;
+    private EditText txt_brief, txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_last_flight, txt_additional;
     private CheckBox chk_medical, chk_disability, chk_baggage, chk_pics, chk_sherpa, chk_transport, chk_sd_given, chk_packing;
     //  private Switch chk_pics, chk_sherpa, chk_transport, chk_sd_given;
     //  private Button btn_Quick_Log_Update;
@@ -136,13 +139,12 @@ public class Quick_Log_Update_Fragment extends Fragment {
         txt_pax_age = (EditText) mMainView.findViewById(R.id.txt_pax_age);
         txt_email = (EditText) mMainView.findViewById(R.id.txt_email);
         txt_phone = (EditText) mMainView.findViewById(R.id.txt_phone);
-
         chk_medical = (CheckBox) mMainView.findViewById(R.id.chk_medical);
         chk_disability = (CheckBox) mMainView.findViewById(R.id.chk_disability);
         chk_baggage = (CheckBox) mMainView.findViewById(R.id.chk_baggage);
+        chk_transport = (CheckBox) mMainView.findViewById(R.id.chk_transport);
         chk_pics = (CheckBox) mMainView.findViewById(R.id.chk_pics);
         chk_sherpa = (CheckBox) mMainView.findViewById(R.id.chk_sherpa);
-        chk_transport = (CheckBox) mMainView.findViewById(R.id.chk_transport);
         chk_packing = (CheckBox) mMainView.findViewById(R.id.chk_packing);
         chk_sd_given = (CheckBox) mMainView.findViewById(R.id.chk_sd_given);
         txt_last_flight = (EditText) mMainView.findViewById(R.id.txt_last_flight);
@@ -183,7 +185,7 @@ public class Quick_Log_Update_Fragment extends Fragment {
                 txt_pax_age.setText(ql.getAge());
                 txt_last_flight.setText((ql.getLastFlight()));
                 txt_additional.setText(ql.getAdditional());
-                 mtxt_date = ql.getDateTime();
+                mtxt_date = ql.getDateTime();
                 adapter = ArrayAdapter.createFromResource(getContext(), R.array.companys_array, android.R.layout.simple_spinner_dropdown_item);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spin_company.setAdapter(adapter);
@@ -252,8 +254,8 @@ public class Quick_Log_Update_Fragment extends Fragment {
 
         boolean hasMedical = chk_medical.isChecked();
         boolean hasDisability = chk_disability.isChecked();
-        boolean hasTransport = chk_transport.isChecked();
         boolean hasBaggage = chk_baggage.isChecked();
+        boolean hasTransport = chk_transport.isChecked();
         boolean hasPics = chk_pics.isChecked();
         boolean hasSherpa = chk_sherpa.isChecked();
         boolean hasPacking = chk_packing.isChecked();
@@ -264,8 +266,8 @@ public class Quick_Log_Update_Fragment extends Fragment {
 
         Date dateTime = mtxt_date;//f.parse(mParam2);
         Long dateTimeL = mtxt_date.getTime();
-        Quick_Log pql = new Quick_Log(brief, fname, lname, weight, age, email, phone, lastFlight,additional,
-                hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
+        Quick_Log pql = new Quick_Log(brief, fname, lname, weight, age, email, phone, lastFlight, additional,
+                hasMedical, hasDisability, hasBaggage, hasTransport, hasPics, hasSherpa, hasPacking, hasSDGiven,
                 uid, dateTime, dateTimeL, company, location);
 
         mDatabase.child(mParam1).setValue(pql)
@@ -274,7 +276,8 @@ public class Quick_Log_Update_Fragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getContext(), "Update successful", Toast.LENGTH_SHORT).show();
-                            return;
+                            ReplaceCurrentFragment();
+                            //return;
 //                            Fragment fragment = new Quick_Log_Update_Fragment();
 //                            String tag = fragment.toString();
 //                            getFragmentManager()
@@ -288,7 +291,10 @@ public class Quick_Log_Update_Fragment extends Fragment {
                                     Toast.LENGTH_SHORT).show();
 
                         }
+
                     }
+
+
                 });
 
     }
@@ -332,5 +338,18 @@ public class Quick_Log_Update_Fragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void ReplaceCurrentFragment() {
+        Fragment fragment = new Full_Logbook_Fragment();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            ft.setReorderingAllowed(false);
+        }
+        ft.replace(R.id.main_fragment, fragment, newInstance(this.mParam1, this.mParam2).toString());
+        // ft.addToBackStack(newInstance().toString());//TODO: backstack not working
+        ft.commit();
     }
 }

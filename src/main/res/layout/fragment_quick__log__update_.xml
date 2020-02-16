@@ -236,8 +236,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:hint="@string/txt_weight"
-                        android:nextFocusDown="@+id/txt_additional"
-                        android:nextFocusForward="@+id/txt_additional"
+                        android:nextFocusDown="@+id/txt_last_flight"
+                        android:nextFocusForward="@+id/txt_last_flight"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -373,6 +373,12 @@
 <!--                    android:layout_marginTop="20dp"-->
 <!--                    android:layout_marginEnd="8dp"-->
 <!--                    android:text="Update" />-->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"></RelativeLayout>
+
+
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
     </LinearLayout>
@@ -382,7 +388,7 @@
         style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="clip_horizontal|center|right"
         android:layout_margin="16dp"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"

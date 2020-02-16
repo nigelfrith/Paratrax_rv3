@@ -34,7 +34,9 @@
         <activity android:name=".Firebase.Auth.FirebaseUIActivity" />
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden">
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -45,5 +47,5 @@
 
 </manifest>
 
-
+<!--    android:configChanges="orientation|keyboardHidden"-->
 <!--google sheets api key: AIzaSyDZKJMsWi5_fifnLcI1NFX_OTd0mGlfHQ0-->

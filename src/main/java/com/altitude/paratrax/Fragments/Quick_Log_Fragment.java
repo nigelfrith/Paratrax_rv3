@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -45,6 +46,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.text.DateFormat;
 import java.text.Format;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -98,7 +100,7 @@ public class Quick_Log_Fragment extends Fragment {
     ArrayAdapter<String> adapter;
 //    ArrayAdapter<CharSequence> adapter;
 
-    private EditText txt_brief, txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_additional, txt_last_flight;
+    private EditText txt_brief, txt_fname, txt_lname, txt_weight, txt_pax_age, txt_email, txt_phone, txt_last_flight,txt_additional;
     private CheckBox chk_medical, chk_disability, chk_baggage, chk_pics, chk_sherpa, chk_transport, chk_sd_given, chk_packing;
     //  private Switch chk_pics, chk_sherpa, chk_transport, chk_sd_given;
     private Button btn_Quick_Log_Post;
@@ -150,7 +152,7 @@ public class Quick_Log_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_quick__log, container, false);
-
+      //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         return view;
     }
 
@@ -208,18 +210,10 @@ public class Quick_Log_Fragment extends Fragment {
                 Quick_Log_Post_Entry();
             }
         });
-//        btn_Quick_Log_Post.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Quick_Log_Post_Entry();
-//            }
-//        });
 
     }
 
-
     public void Quick_Log_Post_Entry() {
-
 
         //data fields to upload to db
         String brief = txt_brief.getText().toString();
@@ -234,8 +228,8 @@ public class Quick_Log_Fragment extends Fragment {
 
         boolean hasMedical = chk_medical.isChecked();
         boolean hasDisability = chk_disability.isChecked();
-        boolean hasTransport = chk_transport.isChecked();
         boolean hasBaggage = chk_baggage.isChecked();
+        boolean hasTransport = chk_transport.isChecked();
         boolean hasPics = chk_pics.isChecked();
         boolean hasSherpa = chk_sherpa.isChecked();
         boolean hasPacking = chk_packing.isChecked();
@@ -248,11 +242,11 @@ public class Quick_Log_Fragment extends Fragment {
         Long dateTimeL = new Date().getTime();      // Date dateTime =  new DateFormat.getDateInstance(DateFormat.LONG).format(tsLong);
 
         Quick_Log ql = new Quick_Log(brief, fname, lname, weight, age, email, phone, lastFlight, additional,
-                hasMedical, hasDisability, hasTransport, hasBaggage, hasPics, hasSherpa, hasPacking, hasSDGiven,
+                hasMedical, hasDisability, hasBaggage, hasTransport, hasPics, hasSherpa, hasPacking, hasSDGiven,
                 uid, dateTime,dateTimeL, company, location);
 
         if (brief.length() != 0) {
-//TODO: i think .getkey here has to be the uid . or uid is nested above it
+            //TODO: i think .getkey here has to be the uid . or uid is nested above it
             //String key = databaseReference.child("Quick_Log").push().getKey();
             //String key = databaseReference.child("quick_log").child(uid).push().getKey();
             auth = FirebaseAuth.getInstance();

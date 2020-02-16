@@ -79,7 +79,7 @@
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:id="@+id/imageView"
-            app:srcCompat="@drawable/joshinlines"
+            app:srcCompat="@drawable/background_selector_gradient"
             android:layout_gravity="center"/>
     </FrameLayout>
 
